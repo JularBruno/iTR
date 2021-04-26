@@ -1,0 +1,26 @@
+<div class="card p-3">
+
+  
+      <div class="row"> 
+        <div class="form-group col-12">
+          <input class="form-control mb-3 d-inline col-6 mr-3" placeholder="Ingrese direccion aqui..." [(ngModel)]="addressUser" (keyup.enter)="findAddressUser()">
+          <button type="button" name="button" class="btn btn-outline-primary col-1 offset-7 d-inline ml-1 mr-1" (click)="findAddressUser()"><i class="fa fa-search" aria-hidden="true"></i></button>
+          <!-- <button type="button" name="button" class="btn btn-outline-primary col-4 d-inline ml-1 mr-1 " (click)="setCurrentPosition()">Posición actual</button> -->
+        </div>
+      </div>
+  
+
+  <div #map id="map" class="map"></div>
+
+  <br>
+
+  <table>
+    <tr>
+      <!-- <td *ngIf="!edit" disabled>{{address}}</td> -->
+      <td *ngIf="edit"><label>Direccion:</label><input class="form-control disabled" *ngIf="edit" disabled [(ngModel)]="address" (change)="changeAddress($event)"></td>
+<!--       <td>{{latitude}}</td>
+      <td>{{longitude}}</td> -->
+    </tr>
+  </table>
+
+</div>

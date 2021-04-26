@@ -1,0 +1,37 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-toolbar mat-list-item><img src="assets/imgs/logoDuzy.png" class="img-fluid"></mat-toolbar>
+    <mat-nav-list [hidden]="!logged">
+      <a mat-list-item *ngIf="this.pageService.auth('/administrators') && user?.type == 'admin'"
+        [routerLink]="['/administrators']" routerLinkActive="router-link-active">Administradores</a>
+      <!-- <a mat-list-item [routerLink]="['/banners']" routerLinkActive="router-link-active" *ngIf="user?.type == 'admin'">Banner Inicio</a>
+      <a mat-list-item [routerLink]="['/categories']" routerLinkActive="router-link-active" *ngIf="user?.type == 'admin'">Categorias</a>
+      <a mat-list-item [routerLink]="['/coupons']" routerLinkActive="router-link-active">Cupones</a>
+      <a mat-list-item [routerLink]="['/companies']" routerLinkActive="router-link-active"*ngIf="user?.type == 'admin'">Empresas</a>
+      <a mat-list-item [routerLink]="['/orders']" routerLinkActive="router-link-active" *ngIf="user?.type == 'admin'">Pedidos</a> -->
+      <a mat-list-item [routerLink]="['/products']" routerLinkActive="router-link-active">Productos</a>
+      <a mat-list-item [routerLink]="['/subproducts']" routerLinkActive="router-link-active">SubProductos</a>
+      <a mat-list-item [routerLink]="['/suppliers']" routerLinkActive="router-link-active">Proveedores</a>
+      <a mat-list-item [routerLink]="['/customers']" routerLinkActive="router-link-active">Clientes</a>
+
+      <!-- <a mat-list-item [routerLink]="['/riders']" routerLinkActive="router-link-active"*ngIf="user?.type == 'admin'">Riders</a>
+      <a mat-list-item [routerLink]="['/users']" routerLinkActive="router-link-active" *ngIf="user?.type == 'admin'">Usuarios</a> -->
+
+      <a mat-list-item *ngIf="logged" class="nav-link text-danger" (click)="logout()"><i class="fa fa-sign-out"></i>
+        Cerrar
+        Sesión</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="menubar invisible">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button> Gestión de Contenidos App
+
+    </mat-toolbar>
+    <!--The content below is only a placeholder and can be replaced.-->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

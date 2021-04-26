@@ -1,0 +1,21 @@
+.section-header {
+  margin-top: 1em;
+  div {
+    display: flex;
+    align-items: center;
+
+    &:last-child {
+      justify-content: flex-end;
+    }
+  }
+
+  .section-title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 1.5em;
+  }
+}
+
+td {
+  vertical-align: middle !important;
+}

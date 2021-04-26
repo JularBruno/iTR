@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="row section-header">
+    <div class="col-sm-6">
+      <h2 class="section-title text-primary">Usuarios</h2>
+    </div>
+    <div class="col-sm-6">
+      <button class="btn btn-info" (click)="create()"><i class="fa fa-plus"></i> Agregar</button>
+    </div>
+  </div>
+  <div class="row section-filters my-2">
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="textSearch">Buscar</label>
+        <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
+          placeholder="Buscar por nombre..." [(ngModel)]="textSearch"
+          [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
+
+    <div class="col-md-1">
+      <div class="form-group">
+        <label class="invisible">.</label>
+        <button class="btn btn-outline-primary btn-block" (click)="getItems()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row p-3">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th>
+              <button type="button" class="btn btn-light" (click)="sort('firstName')">
+                Nombres
+                <i class="fa"
+                  [ngClass]="{'fa-arrow-down': sortField.firstName == 1,'fa-arrow-up': sortField.firstName == -1}"
+                  aria-hidden="true"></i>
+              </button>
+            </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light" (click)="sort('lastName')">
+               Apellidos <i class="fa" [ngClass]="{'fa-arrow-down': sortField.lastName == 1,'fa-arrow-up': sortField.lastName == -1}" aria-hidden="true"></i>
+              </button>
+            </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light" (click)="sort('emailAddress')">
+               E-mail <i class="fa" [ngClass]="{'fa-arrow-down': sortField.emailAddress == 1,'fa-arrow-up': sortField.emailAddress == -1}" aria-hidden="true"></i>
+              </button>
+            </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light"  (click)="sort('enabled')">
+                Habilitado
+                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.enabled == 1,'fa-arrow-up': sortField.enabled == -1}" aria-hidden="true"></i>
+              </button>
+            </th>
+            <th width="20%" class="text-right">
+              {{count}} Resultados
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Cargador -->
+          <tr *ngIf="loading" class="text-center">
+            <td colspan="6">
+              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando...
+            </td>
+          </tr>
+          <!-- Texto cuando no hay resultados  -->
+          <tr *ngIf="!loading && items.length == 0" class="text-center">
+            <td colspan="6">
+              <span class="text-muted">
+                <i class="fa fa-close" aria-hidden="true"></i>
+                No hay resultados para mostrar
+              </span>
+            </td>
+          </tr>
+          <tr *ngFor="let item of items">
+            <td class="px-4">
+              {{ item.firstName }}
+            </td>
+            <td class="px-4 text-center">
+              {{ item.lastName }}
+            </td>
+            <td class="px-4 text-center">
+              {{ item.emailAddress }}
+            </td>
+            <td class="px-4 text-center">
+              <i class="fa fa-square-o fa-2x" *ngIf="!item.enabled" (click)="handleEnable(item)" role="button"></i>
+              <i class="fa fa-check-square-o fa-2x" *ngIf="item.enabled" (click)="handleEnable(item)" role="button"></i>
+            </td>
+            <td class="text-right">
+              <button class="btn btn-sm border btn-secondary mr-2" type="button" (click)="toRider(item)">{{ isRider(item) ? 'Ver Rider' : 'Hacer Rider' }}</button>
+              <button class="btn btn-primary btn-sm" type="button" (click)="edit(item)">Editar</button>
+                <!-- [ngClass]="isRider(item) ? 'btn-light' : 'btn-dark'" -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 offset-4 d-flex justify-content-center">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item" [ngClass]="{'disabled': page <= 1}" ><a class="page-link" (click)="previousPage()">Anterior</a></li>
+          <li class="page-item "><a class="page-link">{{page}}</a></li>
+          <li class="page-item" [ngClass]="{'disabled': pages <= page}"><a class="page-link" (click)="nextPage()">Siguiente</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="col-4 text-right pt-2">
+      <span class="text-muted">
+        Total de páginas {{pages}}
+      </span>
+    </div>
+  </div>
+</div>

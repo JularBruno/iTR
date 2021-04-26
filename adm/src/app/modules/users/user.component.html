@@ -1,0 +1,123 @@
+<div class="container">
+  <nav aria-label="breadcrumb" class="mt-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/users']" routerLinkActive="router-link-active">Usuarios</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Gestionar Usuario</li>
+    </ol>
+  </nav>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col-md-5">
+        <div class="form-group">
+          <label> Nombre</label>
+          <input type="text" class="form-control" formControlName="firstName">
+          <small *ngIf="isFieldValid('firstName')" class="form-text text-danger">
+            {{getFieldError('firstName')}}
+          </small>
+        </div>
+        <label>Apellido</label>
+        <input type="text" class="form-control"  formControlName="lastName">
+        <small *ngIf="isFieldValid('lastName')" class="form-text text-danger">
+          {{getFieldError('lastName')}}
+        </small>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-5">
+        <div class="form-group upload-container">
+          <label>Foto de perfil</label>
+          <div class="row">
+            <div class="col-3">
+              <img class="img-fluid" onError="this.src='../../../assets/imgs/Default_Image_Thumbnail.png'"
+                [src]="filesUrl + form?.value?.picture" />
+            </div>
+            <div class="col my-auto">
+              <button type="button" class="btn btn-danger text-center" (click)="changeImage()" >Subir Archivo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-5">
+        <label>E-Mail</label>
+        <input type="email" class="form-control" formControlName="emailAddress">
+        <small *ngIf="isFieldValid('emailAddress')" class="form-text text-danger">
+          {{getFieldError('emailAddress')}}
+        </small>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="form-group col-md-5">
+        <label>Género</label>
+        <select class="form-control" formControlName="gender">
+          <option value=null disabled>--Seleccione genero--</option>
+          <option value="male">Masculino</option>
+          <option value="female">Femenino</option>
+        </select>
+        <small *ngIf="isFieldValid('gender')" class="form-text text-danger">
+          {{getFieldError('gender')}}
+        </small>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-5">
+        <label>Telefono</label>
+        <input type="number" class="form-control"  formControlName="phoneNumber">
+        <small *ngIf="isFieldValid('phoneNumber')" class="form-text text-danger">
+          {{getFieldError('phoneNumber')}}
+        </small>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="form-group col-md-5">
+        
+      </div>
+    </div>
+
+
+    <div class="form-row" *ngIf="creating">
+      <div class="form-group col-md-6" >
+        <label>Contraseña</label>
+        <input type="password" class="form-control" formControlName="password" *ngIf="creating">
+        <small *ngIf="isFieldValid('password')" class="form-text text-danger">
+          {{getFieldError('password')}}
+        </small>
+      </div>
+
+        <div class="form-group col-md-6" *ngIf="creating">
+          <label>Confirmar Contraseña</label>
+          <input type="password" class="form-control" formControlName="passwordVerify" >
+          <small *ngIf="isFieldValid('passwordVerify')" class="form-text text-danger">
+            {{getFieldError('passwordVerify')}}
+          </small>
+      </div>
+    </div>
+    <!-- <div class="form-row">
+      
+    </div> -->
+
+    <hr>
+    
+    <div class="row mb-5" *ngIf="!creating">
+      <div class="col-md-6" >
+        <button class="btn btn-primary" (click)="changePassword()">
+          <i class="fa fa-lock" aria-hidden="true"></i>
+          Cambiar password
+        </button>
+        <button class="btn btn-secondary float-right mr-5" type="submit" [disabled]="!form.valid" >
+          <i class="fa fa-check" aria-hidden="true"></i> GUARDAR
+        </button>
+      </div>
+    </div>
+
+    <div class="row mb-5" *ngIf="creating">
+      <div class="col-md-7">
+        <button class="btn btn-secondary float-right mr-5" type="submit" [disabled]="!form.valid" >
+          <i class="fa fa-check" aria-hidden="true"></i> GUARDAR
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

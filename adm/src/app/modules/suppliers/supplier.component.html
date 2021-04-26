@@ -1,0 +1,60 @@
+<div class="container">
+  <nav aria-label="breadcrumb" class="mt-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/suppliers']" routerLinkActive="router-link-active">Proveedores</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Detalle del proveedor</li>
+    </ol>
+  </nav>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>Nombre</label>
+            <input type="text" class="form-control" formControlName="name">
+            <small *ngIf="isFieldValid('name')" class="form-text text-danger">
+              {{getFieldError('name')}}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>Telefono</label>
+            <input type="text" class="form-control" formControlName="phone">
+            <small *ngIf="isFieldValid('phone')" class="form-text text-danger">
+              {{getFieldError('phone')}}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>Correo Electronico</label>
+            <input type="text" class="form-control" formControlName="emailAddress">
+            <small *ngIf="isFieldValid('emailAddress')" class="form-text text-danger">
+              {{getFieldError('emailAddress')}}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <button class="btn btn-primary float-right mr-5" type="submit" [disabled]="!form.valid">
+          <i class="fa fa-check" aria-hidden="true"></i> GUARDAR
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

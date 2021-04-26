@@ -1,0 +1,31 @@
+<div class="container">
+  <nav aria-label="breadcrumb" class="mt-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/categories']" routerLinkActive="router-link-active">
+          Categorías</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Gestionar Categoría</li>
+    </ol>
+  </nav>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Nombre</label>
+        <input type="text" class="form-control" formControlName="name">
+        <small *ngIf="isFieldValid('name')" class="form-text text-danger">
+          {{getFieldError('name')}}
+        </small>
+      </div>
+    </div>
+    <hr>
+    <div class="row justify-content-start">
+      <div class="col-md-6 ">
+        <button class="btn btn-secondary float-right btn-sm"  type="submit" [disabled]="!form.valid">
+          <i class="fa fa-check" aria-hidden="true"></i> GUARDAR
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

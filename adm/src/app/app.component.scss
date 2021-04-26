@@ -1,0 +1,44 @@
+@import "../assets/styles/_variables";
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+
+  .router-link-active {
+    border-left: 5px solid $primary;
+    color: $primary;
+  }
+}
+
+.mat-toolbar {
+  background: #ffffff !important;
+
+  &.menubar {
+    //background: rgb(54, 54, 54) !important;
+    //background: rgb(124, 124, 124) !important;
+    // background: $gray-700 !important;
+    color: $primary;
+  }
+
+  .img-fluid {
+    margin-top: 150px;
+  }
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mat-nav-list {
+  margin-top: 150px;
+
+  a {
+    font-size: 0.9em;
+    height: 4em;
+  }
+}

@@ -1,0 +1,34 @@
+<div class="container-fluid d-flex align-items-center h-100 custom-bg">
+  <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <form class="w-100 pt-3 container" [formGroup]="form" (ngSubmit)="login(form.value)">
+          <div class="col-6 offset-3">
+            <img src="assets/imgs/logoDuzy.png" alt="" class="img-fluid">
+          </div>
+          <hr>
+          <div class="form-group mb-3">
+            <label>Tipo</label>
+            <select class="form-control" formControlName="type" >
+              <option value=null>--Seleccione tipo--</option>
+              <option value="admin">Administrador</option>
+              <option value="company">Empresa</option>
+            </select>
+            
+          </div>
+          <div class="form-group mb-3">
+            <label>Usuario</label>
+            <input type="text" class="form-control" formControlName="username">
+          </div>
+          <div class="form-group mb-3">
+            <label>Contraseña</label>
+            <input type="password" class="form-control" formControlName="password">
+          </div>
+          <button class="btn btn-success btn-block mb-4 mt-4" block [disabled]="!form.valid" type="submit">
+            <i class="fa fa-check" aria-hidden="true"></i> INGRESAR
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

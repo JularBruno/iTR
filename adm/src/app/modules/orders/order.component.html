@@ -1,0 +1,94 @@
+<div class="container">
+  <nav aria-label="breadcrumb" class="mt-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/orders']" routerLinkActive="router-link-active">
+          Pedidos</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Detalle del pedido</li>
+    </ol>
+  </nav>
+
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <h4 class="text-primary">Información del pedido</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <p>Pedido número: #{{ item?.number }}</p>
+        </div>
+        <div class="col-md-6">
+          <p>Estado: <label [ngClass]="'text-' + settings.orders.statusObj[item?.status]?.color">{{ settings.orders.statusObj[item?.status]?.label }}</label></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row p-3">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th>
+              <button type="button" class="btn btn-light">
+                Empresa
+              </button>
+            </th>
+            <th>
+              <button type="button" class="btn btn-light">
+                Cantidad
+              </button>
+            </th>
+            <th>
+              <button type="button" class="btn btn-light">
+                Nombre
+              </button>
+            </th>
+
+            <th>
+              <button type="button" class="btn btn-light">
+                Precio
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <!-- <tbody>
+          <tr *ngIf="loading" class="text-center">
+            <td colspan="6">
+              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando...
+            </td>
+          </tr>
+          <tr *ngIf="!loading && orderItems.length == 0" class="text-center">
+            <td colspan="6">
+              <span class="text-muted">
+                <i class="fa fa-close" aria-hidden="true"></i>
+                No hay resultados para mostrar
+              </span>
+            </td>
+          </tr>
+          <tr *ngFor="let product of orderItems">
+
+            <td class="px-4">
+              #{{ product.company }}
+            </td>
+
+            <td class="px-4">
+              {{ item.paymentDate | date: 'dd/MM/yy' }}
+            </td>
+
+            <td class="px-4">
+              <ng-container *ngFor="let status of settings.orders.status">
+                <span *ngIf="item.status === status.code" class="badge" [ngClass]="'bg-' + status.color">{{ status.label }}</span>
+              </ng-container>
+            </td>
+
+            <td class="text-right">
+              <button class="btn btn-info btn-sm mr-2" type="button" (click)="edit(item)">
+                Detalle
+              </button>
+            </td>
+          </tr>
+        </tbody> -->
+      </table>
+    </div>
+  </div>
+</div>

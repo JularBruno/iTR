@@ -1,0 +1,142 @@
+<div class="container">
+  <div class="row section-header">
+    <div class="col-sm-6">
+      <h2 class="section-title text-primary">Imagenes del banner</h2>
+    </div>
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-info ml-2" (click)="openModal(bannerModal)">
+        <i class="fa fa-plus"></i> Agregar
+      </button>
+    </div>
+  </div>
+  <div class="row section-filters mt-2">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="textSearch">Buscar</label>
+        <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
+          placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
+    <div class="col-md-1">
+      <div class="form-group">
+        <label class="invisible">.</label>
+        <button class="btn btn-outline-primary btn-block" (click)="getItems()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row p-3">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th>
+              <button type="button" class="btn btn-light" (click)="sort('name')">
+                Nombre
+                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.name == 1,'fa-arrow-up': sortField.name == -1}"
+                  aria-hidden="true"></i>
+              </button>
+            </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light" (click)="sort('enabled')">
+                Habilitación
+                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.enabled == 1,'fa-arrow-up': sortField.enabled == -1}"
+                  aria-hidden="true"></i>
+              </button>
+            </th>
+
+            <th class="text-right">
+              {{count}} Resultados
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Cargador -->
+          <tr *ngIf="loading" class="text-center">
+            <td colspan="6">
+              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando...
+            </td>
+          </tr>
+          <!-- Texto cuando no hay resultados  -->
+          <tr *ngIf="!loading && items.length == 0" class="text-center">
+            <td colspan="6">
+              <span class="text-muted">
+                <i class="fa fa-close" aria-hidden="true"></i>
+                No hay resultados para mostrar
+              </span>
+            </td>
+          </tr>
+          <tr *ngFor="let item of items">
+
+            <td class="px-4">
+              {{item.name}}
+            </td>
+
+            <td class="px-4 text-center">
+              <i class="fa fa-square-o fa-2x" *ngIf="!item.enabled" (click)="handleEnable(item)" role="button"></i>
+              <i class="fa fa-check-square-o fa-2x" *ngIf="item.enabled" (click)="handleEnable(item)" role="button"></i>
+            </td>
+
+            <td class="text-right">
+              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(bannerModal, item)">
+                Editar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 offset-4 d-flex justify-content-center">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item" [ngClass]="{'disabled': page <= 1}" ><a class="page-link" (click)="previousPage()">Anterior</a></li>
+          <li class="page-item "><a class="page-link">{{page}}</a></li>
+          <li class="page-item" [ngClass]="{'disabled': pages <= page}"><a class="page-link" (click)="nextPage()">Siguiente</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="col-4 text-right pt-2">
+      <span class="text-muted">
+        Total de páginas {{pages}}
+      </span>
+    </div>
+  </div>
+
+  <ng-template #bannerModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title m-0" id="modal-basic-title">{{ creating ? 'Nuevo banner' : 'Editar banner' }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="height: auto;">
+      <div class="form-row">
+        <div class="form-group col-md-9 mx-auto">
+          <label>Nombre: </label>
+          <input type="text" class="form-control" [(ngModel)]="name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-12">
+          <div class="form-group upload-container m-0">
+            <div class="row align-items-center">
+              <div class="col-3 ml-auto text-center">
+                <img class="img-thumbnail mx-auto" onError="this.src='../../../assets/imgs/Default_Image_Thumbnail.png'"
+                  [src]="filesUrl + picture" />
+              </div>
+              <div class="col-6 mr-auto text-center">
+                <button type="button" class="btn btn-danger text-center" (click)="changeImage()" >Subir Archivo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-success" [disabled]="modalSaveDisabled()" (click)="saveItemModal()">Guardar</button>
+    </div>
+  </ng-template>
+</div>

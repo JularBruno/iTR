@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="row section-header">
+    <div class="col-sm-6">
+      <h2 class="section-title text-primary">Administradores</h2>
+    </div>
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-primary ml-2" (click)="create()">
+        <i class="fa fa-plus"></i> Agregar
+      </button>
+    </div>
+  </div>
+  <div class="row section-filters mt-2">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="textSearch">Buscar</label>
+        <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
+          placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}">
+      </div>
+    </div>
+    <div class="col-md-1">
+      <div class="form-group">
+        <label class="invisible">.</label>
+        <button class="btn btn-outline-primary btn-block" (click)="getItems()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row p-3">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th>
+              <button type="button" class="btn btn-light" (click)="sort('username')">
+                Nombre
+                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.username == 1,'fa-arrow-up': sortField.username == -1}"
+                  aria-hidden="true"></i>
+              </button>
+            </th>
+            <th width="20%" class="text-right">
+              {{count}} Resultados
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Cargador -->
+          <tr *ngIf="loading" class="text-center">
+            <td colspan="6">
+              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando...
+            </td>
+          </tr>
+          <!-- Texto cuando no hay resultados  -->
+          <tr *ngIf="!loading && items.length == 0" class="text-center">
+            <td colspan="6">
+              <span class="text-muted">
+                <i class="fa fa-close" aria-hidden="true"></i>
+                No hay resultados para mostrar
+              </span>
+            </td>
+          </tr>
+          <tr *ngFor="let item of items">
+            <td class="px-4">
+              {{ item.username }}
+            </td>
+            <td class="text-right">
+              <button class="btn btn-secondary btn-sm mr-2" type="button" (click)="edit(item)">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
+              <!-- <button class="btn btn-danger btn-sm" type="button" (click)="remove(item)">
+                <i class="fa fa-close" aria-hidden="true"></i>
+              </button> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4 offset-4 d-flex justify-content-center">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item" [ngClass]="{'disabled': page <= 1}" ><a class="page-link" (click)="previousPage()">Anterior</a></li>
+          <li class="page-item "><a class="page-link">{{page}}</a></li>
+          <li class="page-item" [ngClass]="{'disabled': pages <= page}"><a class="page-link" (click)="nextPage()">Siguiente</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="col-4 text-right pt-2">
+      <span class="text-muted">
+        Total de páginas {{pages}}
+      </span>
+    </div>
+  </div>
+</div>
