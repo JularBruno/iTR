@@ -64,21 +64,11 @@ import { AdministratorComponent } from './modules/administrators/administrator.c
 import { AdministratorChangePasswordComponent } from './modules/administrators/administrator.change.password.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
-import { RiderComponent } from './modules/riders/rider.component';
-import { RidersComponent } from './modules/riders/riders.component';
+
 import { MapComponent } from './core/components/map/map.component';
-import { BannerComponent } from './modules/banners/banner.component';
-import { BannersComponent } from './modules/banners/banners.component';
 import { ProductsComponent } from './modules/products/products.component';
 import { ProductComponent } from './modules/products/product.component';
-import { CouponComponent } from './modules/coupons/coupon.component';
-import { CouponsComponent } from './modules/coupons/coupons.component';
-import { CompaniesComponent } from './modules/companies/companies.component';
-import { CompanyComponent } from './modules/companies/company.component';
-import { CategoriesComponent } from './modules/categories/categories.component';
-import { CategoryComponent } from './modules/categories/category.component';
-import { OrderComponent } from './modules/orders/order.component';
-import { OrdersComponent } from './modules/orders/orders.component';
+
 import { SuppliersComponent } from './modules/suppliers/suppliers.component'
 import { SupplierComponent } from './modules/suppliers/supplier.component'
 import { CustomersComponent } from './modules/customers/customers.component'
@@ -89,8 +79,7 @@ import { SubproductsComponent } from './modules/subproducts/subproducts.componen
 @NgModule({
   declarations: [
     AppComponent,
-    RiderComponent,
-    RidersComponent,
+
     UsersComponent,
     UserComponent,
     UserChangePasswordComponent,
@@ -100,18 +89,8 @@ import { SubproductsComponent } from './modules/subproducts/subproducts.componen
     AdministratorChangePasswordComponent,
     AdministratorsComponent,
     MapComponent,
-    BannerComponent,
-    BannersComponent,
     ProductComponent,
     ProductsComponent,
-    CouponComponent,
-    CouponsComponent,
-    CategoriesComponent,
-    CategoryComponent,
-    CompaniesComponent,
-    CompanyComponent,
-    OrderComponent,
-    OrdersComponent,
     SuppliersComponent,
     SupplierComponent,
     CustomersComponent,
