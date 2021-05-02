@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
-    <mat-toolbar mat-list-item><img src="assets/imgs/logoDuzy.png" class="img-fluid"></mat-toolbar>
+    <mat-toolbar mat-list-item><img src="assets/imgs/logo.jpeg" class="img-fluid"></mat-toolbar>
     <mat-nav-list [hidden]="!logged">
       <a mat-list-item *ngIf="this.pageService.auth('/administrators') && user?.type == 'admin'"
         [routerLink]="['/administrators']" routerLinkActive="router-link-active">Administradores</a>
