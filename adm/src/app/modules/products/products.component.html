@@ -1,31 +1,51 @@
 <div class="container">
   <div class="row section-header">
-    <div class="col-sm-6">
+    <div class="col-sm-3">
       <h2 class="section-title text-primary">Productos</h2>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-9">
       <button type="button" class="btn btn-info ml-2" (click)="create()">
         <i class="fa fa-plus"></i> Agregar
       </button>
+      <button type="button" class="btn btn-info ml-2" (click)="showPriceChangeFunct()">
+        <i class="fa fa-plus"></i> Actualizar precios
+      </button>
     </div>
   </div>
-  <!-- <div class="row section-filters mt-2">
-    <div class="col-md-4">
+  <div class="row section-filters mt-2">
+    <div class="col-md-8 form-row">
       <div class="form-group">
         <label for="textSearch">Buscar</label>
         <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
           placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}">
       </div>
-    </div>
-    <div class="col-md-1">
       <div class="form-group">
         <label class="invisible">.</label>
         <button class="btn btn-outline-primary btn-block" (click)="getItems()">
           <i class="fa fa-search" aria-hidden="true"></i>
         </button>
       </div>
+      <div *ngIf="showPriceChange" class="form-group">
+        <label for="labelPrice">Precio a cambiar</label>
+        <input type="text" class="form-control" id="labelPrice" placeholder="Ingrese el precio..." [(ngModel)]="price"
+          [ngModelOptions]="{standalone: true}">
+      </div>
+      <div *ngIf="showPriceChange" class="form-group">
+        <label class="invisible">.</label>
+        <button class="btn btn-outline-primary btn-block" (click)="updatePrice()">
+          <i class="fa fa-check-square" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
-  </div> -->
+    <!-- <div class="col-md-1">
+      <div class="form-group">
+        <label class="invisible">.</label>
+        <button class="btn btn-outline-primary btn-block" (click)="getItems()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div> -->
+  </div>
   <div class="row p-3">
     <div class="table-responsive">
       <table class="table table-striped">
@@ -46,6 +66,7 @@
                   aria-hidden="true"></i>
               </button>
             </th>
+
             <th class="text-right">
               {{count}} Resultados
             </th>
@@ -78,6 +99,7 @@
             </td>
 
             <td class="text-right">
+              <input  class="mr-4" type="checkbox" [(checked)]="item.selected" *ngIf="showPriceChange" (change)="selectProduct(item, $event.target.checked)">
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="edit(item)">
                 Editar
               </button>

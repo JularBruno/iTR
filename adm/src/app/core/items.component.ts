@@ -107,12 +107,12 @@ export class ItemsComponent implements OnInit {
   getItems() {
     this.loading = true;
     console.log(this.getEndPoint())
-    this.pageService.httpGetAll(this.getAllFilters(), this.getSort(), this.getPopulates(), this.getPage(),this.getSortPopulated(), this.getEndPoint())
+    this.pageService.httpGetAll(this.getAllFilters(), this.getSort(), this.getPopulates(), this.getPage(), this.getSortPopulated(), this.getEndPoint())
       .then(result => {
         this.items = result.data;
         this.pages = result.pages;
         this.count = result.count;
-        this.itemsPerPage = result.itemsPerPage;        
+        this.itemsPerPage = result.itemsPerPage;
         this.getItemSuccess();
         console.log(result)
       })
@@ -128,7 +128,7 @@ export class ItemsComponent implements OnInit {
 
   }
 
-  getEndPoint(){
+  getEndPoint() {
     return this.endPoint;
   }
 
@@ -200,6 +200,9 @@ export class ItemsComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+  closeModal() {
+    this.modalService.dismissAll()
+  }
   sortPopulated(populated, field) {
     let order = this.SORT_ASC_POPULATES;
     this.sortField = {};
@@ -207,7 +210,7 @@ export class ItemsComponent implements OnInit {
     //this.sortPopulates.orderBy = field
     this.sortPopulates['populated'] = populated;
     this.sortPopulates['orderby'] = field;
-    if (this.sortPopulates['order'] == order){
+    if (this.sortPopulates['order'] == order) {
       this.sortPopulates.order = this.SORT_DESC_POPULATES;
     } else {
       this.sortPopulates.order = this.SORT_ASC_POPULATES;

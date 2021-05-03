@@ -7,8 +7,8 @@ import { ItemsComponent } from '../../core/items.component';
   styleUrls: ['../../core/items.component.scss']
 })
 export class ProductsComponent extends ItemsComponent {
-
-
+  showPriceChange: Boolean = false
+  price: any
   getFilters() {
     let _filters = {};
     return _filters;
@@ -23,6 +23,30 @@ export class ProductsComponent extends ItemsComponent {
     };
 
     return filtersSearch;
+  }
+
+  showPriceChangeFunct() {
+    this.showPriceChange = !this.showPriceChange
+  }
+  selectProduct(product, event) {
+    let index = this.items.findIndex((item) => item == product)
+    this.items[index].selected = event
+  }
+  updatePrice() {
+    if(!this.price) return this.pageService.showError("Ingrese un porcentaje")
+    let toupdate = this.items.filter(item => (item.selected == true))
+    console.log(toupdate)
+    let products = []
+    for (let index = 0; index < toupdate.length; index++) {
+      const element = toupdate[index];
+      products.push(element.id)
+    }
+    // let endpoint = this.settings.endPoints.suppliers
+    let method = this.settings.endPointsMethods.updatePrice
+    let item = { products: products, amount: this.price }
+    this.pageService.httpPost(item, method).then(res => {
+      this.showPriceChange = false
+    })
   }
   getEndPoint() {
     return this.settings.endPoints.products + this.settings.endPointsMethods.subproducts

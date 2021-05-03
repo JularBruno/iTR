@@ -52,6 +52,7 @@ export class SubproductsComponent extends ItemsComponent {
 
     this.pageService.httpPost(item, this.settings.endPointsMethods.addStock, endPoint).then(res => {
       this.getItems()
+      this.closeModal()
     })
   }
   loadTransactionsOpenModal(content, item) {

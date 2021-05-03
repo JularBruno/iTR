@@ -8,7 +8,7 @@ import { ItemsComponent } from '../../core/items.component';
 })
 export class SuppliersComponent extends ItemsComponent {
 
-
+  price: any
   getFilters() {
     let _filters = {};
     return _filters;
@@ -23,5 +23,19 @@ export class SuppliersComponent extends ItemsComponent {
     };
 
     return filtersSearch;
+  }
+  applyDebt() {
+    if (!this.price) return this.pageService.showError("Ingrese un monto")
+    console.log(-Math.abs(this.price))
+    let item = {
+      id: this.itemSelected.id,
+      $inc: { debt: -Math.abs(this.price) }
+    }
+    let endpoint = this.settings.endPoints.suppliers
+    this.pageService.httpUpdate(item, endpoint).then(res => {
+      this.pageService.showSuccess("Se ha impactado con exito")
+      this.getItems()
+      this.closeModal()
+    })
   }
 }

@@ -72,6 +72,34 @@ module.exports = (module) => {
   });
 
   /**
+   * Upate price of subproducts
+   *
+   * @param {Object} req - Request
+   * @param {Object} res - Response
+   * @param {Object} next - Next
+   * @return {void}
+   */
+  module.router.post('/updatePrice',async  (req, res, next) => {
+
+    const products = req.body.products
+    const amount = req.body.amount
+    let percentageToIncrement = 0;
+
+    if(amount > 0) {
+      let pre = '1.' + amount;
+      percentageToIncrement = parseFloat(pre); //// TODO round this number
+    } else {
+      let pre = '0.' + (100 + parseInt(amount));
+      percentageToIncrement = parseFloat(pre);
+    }
+    for (let index = 0; index < products.length; index++) {
+      const element = products[index];
+      await global.modules.subproducts.model.updateMany({ product: element }, { $mul: { price: percentageToIncrement } }).exec()
+    }
+    res.send({})
+  });
+
+  /**
    * Update
    *
    * @param {Object} req - Request

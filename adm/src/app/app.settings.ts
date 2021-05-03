@@ -20,7 +20,8 @@ export class Settings {
   };
   public static endPointsMethods = {
     addStock: "/addstock",
-    subproducts:"/subproducts"
+    subproducts: "/subproducts",
+    updatePrice:"/updatePrice"
   };
   public static storage = {
     user: 'user'
