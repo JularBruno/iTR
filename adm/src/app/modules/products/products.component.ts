@@ -24,4 +24,7 @@ export class ProductsComponent extends ItemsComponent {
 
     return filtersSearch;
   }
+  getEndPoint() {
+    return this.settings.endPoints.products + this.settings.endPointsMethods.subproducts
+  }
 }

@@ -14,6 +14,7 @@ module.exports = (helper) => {
   return (req, res, model) => {
     return new Promise( (resolve, reject) => {
       try {
+        console.log(req.body, "BODY EN CREATE")
         model.create(req.body)
           .then((data) => {
             resolve({data});

@@ -28,15 +28,15 @@ export class HttpService {
 
   // (+) Items
 
-  getAll(filters, sort, populates, page, endPoint = '/' + this.getServiceName(),sortpopulates?) {
+  getAll(filters, sort, populates, page, endPoint = '/' + this.getServiceName(), sortpopulates?) {
     let action = '/?_filters=' + encodeURI(JSON.stringify(filters))
       + '&_sort=' + encodeURI(JSON.stringify(sort))
       + '&_populates=' + encodeURI(JSON.stringify(populates))
       + '&_page=' + encodeURI(page);
-      
-      if(sortpopulates){
-        action = action + '&_sortPopulates=' + encodeURI(JSON.stringify(sortpopulates)); 
-      }
+
+    if (sortpopulates) {
+      action = action + '&_sortPopulates=' + encodeURI(JSON.stringify(sortpopulates));
+    }
     return this.get(action, endPoint);
   }
 
@@ -51,7 +51,7 @@ export class HttpService {
   }
 
   update(value, endPoint = '/' + this.getServiceName()) {
-    return this.put(value, '/' + value.id, endPoint); 
+    return this.put(value, '/' + value.id, endPoint);
   }
 
   remove(value, endPoint = '/' + this.getServiceName()) {
@@ -74,7 +74,7 @@ export class HttpService {
       .catch(this.handleError.bind(this));
   }
 
-  put(value, action, endPoint = '/' + this.getServiceName()) {    
+  put(value, action, endPoint = '/' + this.getServiceName()) {
     const url = environment.serverUrl + endPoint + action;
     return this.http.put(url, value, this.getHeaders())
       .toPromise()

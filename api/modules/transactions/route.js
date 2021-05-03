@@ -49,33 +49,6 @@ module.exports = (module) => {
   });
 
   /**
-  * add Stock and update supplier
-  *
-  * @param {Object} req - Request
-  * @param {Object} res - Response
-  * @param {Object} next - Next
-  * @return {void}
-  */
-  //receives 
-  //Stock
-  //  amount
-  //  supplier
-  //  subproduct
-  module.router.post('/addStock', (req, res, next) => {
-    global.helpers.database.create(req, res, global.modules.transactions.model).then(async response => {
-      console.log(response, "respuesta")
-      let updateSubproduct = {
-        $inc: { stock: response.data.stock }
-      }
-      await module.model.findByIdAndUpdate(response.data.subproduct, updateSubproduct).exec()
-      let updateSupplier = {
-        $inc: { spent: response.data.price }
-      }
-      await global.modules.suppliers.model.findByIdAndUpdate(response.data.supplier, updateSupplier).exec()
-      res.send({})
-    })
-  });
-  /**
    * Update
    *
    * @param {Object} req - Request

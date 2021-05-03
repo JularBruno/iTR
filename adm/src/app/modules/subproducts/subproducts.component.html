@@ -105,6 +105,12 @@
               {{ item.stock }}
             </td>
             <td class="text-right">
+              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="loadTransactionsOpenModal(transactions, item)">
+                Historial
+              </button>
+              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(stock, item)">
+                Agregar Stock
+              </button>
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="edit(item)">
                 Editar
               </button>
@@ -133,3 +139,87 @@
     </div>
   </div>
 </div>
+<ng-template id="stock" #stock class="modal fade" aria-hidden="true">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Agregar Stock</h3>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm 4">
+          <label>Proveedor</label>
+          <select class="form-control custom-select" [(ngModel)]="supplier">
+            <option *ngFor="let item of suppliers" [value]="item.id">{{ item.name }}</option>
+          </select>
+        </div>
+        <div class="col-sm 3">
+          <label>Cantidad</label>
+          <input type="number" [(ngModel)]="amount" class="form-control">
+        </div>
+        <div class="col-sm 3">
+          <label>Monto</label>
+          <input type="number" [(ngModel)]="price" class="form-control">
+        </div>
+        <div class="col-sm 2">
+          <button (click)="addStock()" class="btn btn-primary btn-sm mr-2" type="button">
+            <i class="fa fa-check"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="modal-footer">
+
+    </div>
+  </div>
+</ng-template>
+<ng-template id="transactions" #transactions class="modal fade" aria-hidden="true">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">Historial de Transacciones</h3>
+    </div>
+    <div class="modal-body">
+
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th>
+              <button type="button" class="btn btn-light">
+                Proveedor
+              </button>
+            </th>
+            <th>
+              <button type="button" class="btn btn-light" >
+                Cantidad
+   
+              </button>
+            </th>
+            <th>
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of transactionsArray" >
+
+            <td class="px-4">
+              {{ item.supplier.name }}
+            </td>
+            <td class="px-4">
+              {{ item.stock }}
+            </td>
+
+            <!-- <td class="text-right">
+              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(stock, item)">
+                Agregar Stock
+              </button>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

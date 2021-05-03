@@ -13,7 +13,6 @@ module.exports = (module) => {
 		price: { type: Number },
 		stock: { type: Number, default: 0 },
 		product: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'products', required: true },
-
 	}, { timestamps: true });
 
 };

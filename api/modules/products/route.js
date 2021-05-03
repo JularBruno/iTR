@@ -16,7 +16,31 @@ module.exports = (module) => {
       .then(result => res.send(result))
       .catch(next);
   });
+  /**
+   * Find
+   *
+   * @param {Object} req - Request
+   * @param {Object} res - Response
+   * @param {Object} next - Next
+   * @return {void}
+   */
+  module.router.get('/subproducts', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
+    global.helpers.database.find(req, res, module.model)
+      .then(async result => {
 
+        for (let index = 0; index < result.data.length; index++) {
+          var element = result.data[index];
+          let subproducts = await global.modules.subproducts.model.find({ product: element._id })
+          for (let index = 0; index < subproducts.length; index++) {
+            const subproduct = subproducts[index];
+            element.stock = element.stock + subproduct.stock
+          }
+        }
+        console.log(result, "rsultado")
+        res.send(result)
+      })
+      .catch(next);
+  });
   /**
    * FindById
    *
@@ -74,5 +98,5 @@ module.exports = (module) => {
       .then(result => res.send(result))
       .catch(next);
   });
-  
+
 };

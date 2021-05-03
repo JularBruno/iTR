@@ -12,12 +12,16 @@ export class Settings {
     orderItems: '/orderItems',
     toRider: '/toRider',
     users: '/users',
-    
-    
-    
-    products: '/products',
-  };
 
+
+    suppliers: "/suppliers",
+    products: '/products',
+    transactions:"/transactions"
+  };
+  public static endPointsMethods = {
+    addStock: "/addstock",
+    subproducts:"/subproducts"
+  };
   public static storage = {
     user: 'user'
   };
