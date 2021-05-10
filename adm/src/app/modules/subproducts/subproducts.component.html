@@ -105,7 +105,8 @@
               {{ item.stock }}
             </td>
             <td class="text-right">
-              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="loadTransactionsOpenModal(transactions, item)">
+              <button class="btn btn-primary btn-sm mr-2" type="button"
+                (click)="loadTransactionsOpenModal(transactions, item)">
                 Historial
               </button>
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(stock, item)">
@@ -192,9 +193,9 @@
               </button>
             </th>
             <th>
-              <button type="button" class="btn btn-light" >
+              <button type="button" class="btn btn-light">
                 Cantidad
-   
+
               </button>
             </th>
             <th>
@@ -203,7 +204,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of transactionsArray" >
+          <tr *ngFor="let item of transactionsArray">
 
             <td class="px-4">
               {{ item.supplier.name }}
@@ -212,11 +213,11 @@
               {{ item.stock }}
             </td>
 
-            <!-- <td class="text-right">
-              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(stock, item)">
-                Agregar Stock
+            <td class="text-right">
+              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="deleteTransaction(item)">
+                <i class="fa fa-trash"></i>
               </button>
-            </td> -->
+            </td>
           </tr>
         </tbody>
       </table>

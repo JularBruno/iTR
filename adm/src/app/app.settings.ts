@@ -16,12 +16,13 @@ export class Settings {
 
     suppliers: "/suppliers",
     products: '/products',
-    transactions:"/transactions"
+    transactions: "/transactions"
   };
   public static endPointsMethods = {
     addStock: "/addstock",
     subproducts: "/subproducts",
-    updatePrice:"/updatePrice"
+    updatePrice: "/updatePrice",
+    substractStock: "/substractStock"
   };
   public static storage = {
     user: 'user'

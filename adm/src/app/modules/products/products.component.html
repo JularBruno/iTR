@@ -19,18 +19,18 @@
         <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
           placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}">
       </div>
-      <div class="form-group">
+      <div class="form-group ml-1">
         <label class="invisible">.</label>
         <button class="btn btn-outline-primary btn-block" (click)="getItems()">
           <i class="fa fa-search" aria-hidden="true"></i>
         </button>
       </div>
-      <div *ngIf="showPriceChange" class="form-group">
-        <label for="labelPrice">Precio a cambiar</label>
-        <input type="text" class="form-control" id="labelPrice" placeholder="Ingrese el precio..." [(ngModel)]="price"
+      <div *ngIf="showPriceChange" class="form-group ml-4">
+        <label for="labelPrice">Ingrese un porcentaje</label>
+        <input type="text" class="form-control" id="labelPrice" placeholder="Ingrese el porcentaje..." [(ngModel)]="price"
           [ngModelOptions]="{standalone: true}">
       </div>
-      <div *ngIf="showPriceChange" class="form-group">
+      <div *ngIf="showPriceChange" class="form-group ml-1">
         <label class="invisible">.</label>
         <button class="btn btn-outline-primary btn-block" (click)="updatePrice()">
           <i class="fa fa-check-square" aria-hidden="true"></i>
@@ -66,7 +66,9 @@
                   aria-hidden="true"></i>
               </button>
             </th>
-
+            <th *ngIf="showPriceChange" class="px-4 text-center">
+              Seleccione el producto
+            </th>
             <th class="text-right">
               {{count}} Resultados
             </th>
@@ -97,9 +99,12 @@
               {{ item.stock }}
 
             </td>
-
+            <td *ngIf="showPriceChange" class="px-4 text-center">
+              <input class="mr-4" type="checkbox" [(checked)]="item.selected"
+                (change)="selectProduct(item, $event.target.checked)">
+            </td>
             <td class="text-right">
-              <input  class="mr-4" type="checkbox" [(checked)]="item.selected" *ngIf="showPriceChange" (change)="selectProduct(item, $event.target.checked)">
+
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="edit(item)">
                 Editar
               </button>

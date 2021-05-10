@@ -53,14 +53,23 @@ export class SubproductsComponent extends ItemsComponent {
     this.pageService.httpPost(item, this.settings.endPointsMethods.addStock, endPoint).then(res => {
       this.getItems()
       this.closeModal()
+    }).catch(e => {
+      this.pageService.showError("Ha ocurrido un error, intente mas tarde")
+    })
+  }
+  deleteTransaction(item) {
+    let endPoint = this.settings.endPoints.subproducts;
+    let method = this.settings.endPointsMethods.substractStock + "/" + item.id;
+    item.type = "substract"
+    item.supplier = item.supplier.id
+    this.pageService.httpPost(item, method, endPoint).then(res => {
+      console.log("done")
     })
   }
   loadTransactionsOpenModal(content, item) {
     let endPoint = this.settings.endPoints.transactions;
-    this.pageService.httpSimpleGetAll(endPoint, false, {}, { subproduct: item.id }, ["supplier"]).then(res => {
-      // console.log(res, "response")
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, { subproduct: item.id, type: "add" }, ["supplier"]).then(res => {
       this.transactionsArray = res.data
-      // console.log(this.transactions, "trasnactions")
       this.openModal(content, item)
     })
   }

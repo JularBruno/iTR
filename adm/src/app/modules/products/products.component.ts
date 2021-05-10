@@ -33,15 +33,14 @@ export class ProductsComponent extends ItemsComponent {
     this.items[index].selected = event
   }
   updatePrice() {
-    if(!this.price) return this.pageService.showError("Ingrese un porcentaje")
+    if (!this.price) return this.pageService.showError("Ingrese un porcentaje")
     let toupdate = this.items.filter(item => (item.selected == true))
-    console.log(toupdate)
     let products = []
     for (let index = 0; index < toupdate.length; index++) {
       const element = toupdate[index];
       products.push(element.id)
     }
-    // let endpoint = this.settings.endPoints.suppliers
+    if (products.length == 0) return this.pageService.showError("Seleccione al menos un producto")
     let method = this.settings.endPointsMethods.updatePrice
     let item = { products: products, amount: this.price }
     this.pageService.httpPost(item, method).then(res => {

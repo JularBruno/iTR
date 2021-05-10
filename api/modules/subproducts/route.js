@@ -57,7 +57,7 @@ module.exports = (module) => {
   * @return {void}
   */
   //receives 
-  //Stock
+  //  Stock
   //  amount
   //  supplier
   //  subproduct
@@ -70,6 +70,34 @@ module.exports = (module) => {
       await module.model.findByIdAndUpdate(response.data.subproduct, updateSubproduct).exec()
       let updateSupplier = {
         $inc: { spent: response.data.price, debt: response.data.price },
+
+      }
+      await global.modules.suppliers.model.findByIdAndUpdate(response.data.supplier, updateSupplier).exec()
+      res.send({})
+    })
+  });
+  /**
+* remove stock Stock and update supplier
+*
+* @param {Object} req - Request
+* @param {Object} res - Response
+* @param {Object} next - Next
+* @return {void}
+*/
+  //receives 
+  //  Stock
+  //  amount
+  //  supplier
+  //  subproduct
+  module.router.post('/substractStock/:id', (req, res, next) => {
+    global.helpers.database.update(req, res, global.modules.transactions.model).then(async response => {
+      console.log(response, "respuesta")
+      let updateSubproduct = {
+        $inc: { stock: -response.data.stock }
+      }
+      await module.model.findByIdAndUpdate(response.data.subproduct, updateSubproduct).exec()
+      let updateSupplier = {
+        $inc: { spent: -response.data.price, debt: -response.data.price },
 
       }
       await global.modules.suppliers.model.findByIdAndUpdate(response.data.supplier, updateSupplier).exec()

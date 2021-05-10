@@ -79,22 +79,22 @@ module.exports = (module) => {
    * @param {Object} next - Next
    * @return {void}
    */
-  module.router.post('/updatePrice',async  (req, res, next) => {
+  module.router.post('/updatePrice', async (req, res, next) => {
 
     const products = req.body.products
     const amount = req.body.amount
-    let percentageToIncrement = 0;
-
-    if(amount > 0) {
-      let pre = '1.' + amount;
-      percentageToIncrement = parseFloat(pre); //// TODO round this number
-    } else {
-      let pre = '0.' + (100 + parseInt(amount));
-      percentageToIncrement = parseFloat(pre);
-    }
+    let subproducts = []
+    let value = 1 + amount / 100
     for (let index = 0; index < products.length; index++) {
       const element = products[index];
-      await global.modules.subproducts.model.updateMany({ product: element }, { $mul: { price: percentageToIncrement } }).exec()
+      subproducts = await global.modules.subproducts.model.find({ product: element })
+      if (products.length == 0) continue
+      for (let index = 0; index < subproducts.length; index++) {
+        const subproduct = subproducts[index];
+        subproduct.price = subproduct.price * value
+        subproduct.price.toFixed(2)
+        await global.modules.subproducts.model.findByIdAndUpdate(subproduct.id, subproduct).exec()
+      }
     }
     res.send({})
   });
