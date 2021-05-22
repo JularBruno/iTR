@@ -75,6 +75,8 @@ import { CustomersComponent } from './modules/customers/customers.component'
 import { CustomerComponent } from './modules/customers/customer.component'
 import { SubproductComponent } from './modules/subproducts/subproduct.component'
 import { SubproductsComponent } from './modules/subproducts/subproducts.component'
+import { SalesComponent } from './modules/sales/sales.component'
+import { SaleComponent } from './modules/sales/sale.component'
 
 @NgModule({
   declarations: [
@@ -96,7 +98,9 @@ import { SubproductsComponent } from './modules/subproducts/subproducts.componen
     CustomersComponent,
     CustomerComponent,
     SubproductsComponent,
-    SubproductComponent
+    SubproductComponent,
+    SalesComponent,
+    SaleComponent
   ],
   imports: [
     BrowserModule,

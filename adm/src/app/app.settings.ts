@@ -129,6 +129,10 @@ export class Settings {
     customer: { path: 'customers/:id', data: { roles: ['administrator'] } },
     products: { path: 'products', data: { roles: ['administrator'] } },
     product: { path: 'products/:id', data: { roles: ['administrator'] } },
+    sale: { path: 'sales/:id', data: { roles: ['administrator'] } },
+    sales: { path: 'sales', data: { roles: ['administrator'] } },
+
+
   };
 
 };

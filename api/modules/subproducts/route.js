@@ -98,7 +98,6 @@ module.exports = (module) => {
       await module.model.findByIdAndUpdate(response.data.subproduct, updateSubproduct).exec()
       let updateSupplier = {
         $inc: { spent: -response.data.price, debt: -response.data.price },
-
       }
       await global.modules.suppliers.model.findByIdAndUpdate(response.data.supplier, updateSupplier).exec()
       res.send({})
