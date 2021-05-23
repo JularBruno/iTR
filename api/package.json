@@ -10,7 +10,7 @@
     "local": "NODE_ENV=development DEBUG=api* nodemon index.js --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Diproach",
+  "author": "Arcoiris",
   "license": "MIT",
   "dependencies": {
     "@google/maps": "^0.5.5",

@@ -12,6 +12,7 @@ export class SubproductsComponent extends ItemsComponent {
   price: any
   supplier: any
   transactionsArray: any = [];
+  
   getFilters() {
     let _filters = {};
     return _filters;

@@ -1,32 +1,305 @@
 <div class="container">
   <nav aria-label="breadcrumb" class="mt-2">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a [routerLink]="['/subproducts']" routerLinkActive="router-link-active">Subproductos</a>
+      <li class="breadcrumb-item"><a [routerLink]="['/subproducts']" routerLinkActive="router-link-active">Ventas</a>
       </li>
-      <li class="breadcrumb-item active" aria-current="page">Detalle del subproducto</li>
+      <li class="breadcrumb-item active" aria-current="page">Nueva venta</li>
     </ol>
   </nav>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row">
-      <div class="col-md-6">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label>Nombre</label>
-            <input type="text" class="form-control" formControlName="name">
-            <small *ngIf="isFieldValid('name')" class="form-text text-danger">
-              {{getFieldError('name')}}
-            </small>
+    <!-- ------ SELECCION DE PRODUCTOS ------  -->
+    <div class="row">
+      <div class="col-md-12 mt-4">
+          <div class="card">
+              <div class="card-header">
+                  <h2>Selección de Productos</h2>
+              </div>
+              <div class="card-body">
+                  <!-- //// SEARCHER -->
+                  <div class="row">
+                      <div class="col-md-8 mt-4">
+                          <label>Buscar producto</label>        
+                          <input style="width: 90%;" class="form-control mr-sm-2" type="text"
+                          placeholder="Buscar por nombre o código" [(ngModel)]="search"
+                          [ngModelOptions]="{standalone: true}" (change)="filterProduct(search)">
+                      </div>
+                      <div class="col-md-4 mt-4">
+                          <label>Categoria</label>
+                          <select class="form-control" placeholder="Categoria" (change)="filterCategory($event.target.value)">
+                              <option value="all">Todo</option>
+                              <option *ngFor="let item of categories" value="{{item.id}}">{{item.name}}</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12 mt-4" class="list">
+                          <!-- //// PRODUCT LIST -->
+                          <table class="table table-striped mt-4">
+                              <thead class="thead-light">
+                                  <tr>
+                                      <th>Imagen</th>
+                                      <th>Nombre</th>
+                                      <th>Código</th>
+                                      <th>Categoria</th>
+                                      <th>Stock</th>
+                                      <th>Precio</th>
+                                      <th></th>
+                                  </tr>
+                              </thead>
+                              <tbody >
+                                  <!-- Cargador -->
+                                  <tr *ngIf="loading" class="text-center">
+                                      <td colspan="7">
+                                          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando productos...
+                                      </td>
+                                  </tr>
+                                  <!-- Texto cuando no hay resultados  -->
+                                  <tr *ngIf="!loading && products.length == 0" class="text-center">
+                                      <td colspan="7">
+                                          <span class="text-muted">
+                                              <i class="fa fa-close" aria-hidden="true"></i>
+                                              No hay productos para mostrar
+                                          </span>
+                                      </td>
+                                  </tr>
+                                  <tr *ngFor="let item of products">
+                                      <td width="20%">
+                                          <img [src]="gethtmlImage(item.images[0])" onerror="this.src='assets/no-product.png';" class="img-thumbnail" style="object-fit: cover;height: 60px;width: 60px;" alt="Card image cap">
+                                      </td>
+                                      <td width="20%">{{item.name}}</td>
+                                      <td width="20%">{{item.code}}</td>
+                                      <td width="20%">{{item.category.name}}</td>
+                                      <td width="10%">{{item.stock}}</td>
+                                      <td width="10%">${{item.salePrice}}</td>
+                                      <td width="10%" class="text-right">
+                                          <!-- <button type="button" class="btn primary btn-sm mr-2" (click)="edit(item)"> -->
+                                          <button type="button" class="btn primary btn-sm mr-2" (click)="previousProduct(item)">
+                                              <i class="fa fa-plus-circle" aria-hidden="true" ></i>
+                                          </button>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                      <div class="col-md-3 mt-4">
+                          <h3>Nombre</h3>
+                      </div>
+                      <div class="col-md-3 mt-4">
+                          <h3>Cantidad</h3>
+                      </div>
+                      <div class="col-md-3 mt-4">
+                          <h3>Precio</h3>
+                      </div>
+                      <div class="col-md-3 mt-4">
+                          <h3></h3>
+                      </div>
+                      <div class="col-md-3 mt-4">
+                          <h5 style="color: gray">{{previousToBuy.name}}</h5>
+                      </div>
+                      <div class="col-md-3 mt-4">
+                          <input type="number" [(ngModel)]="amountToBuy" class="form-control" placeholder="Cantidad">
+                      </div>
+                      <div class="col-md-3 mt-4">
+                          <h5 style="color: gray">${{(previousToBuy.salePrice * amountToBuy).toFixed(2)}}</h5>
+                      </div>
+                      <div class="col-md-3 mt-4">
+                          <button class="btn primary mb-4 mt-4 float-right" type="button" block 
+                              [disabled]="previousToBuy.name == ''" (click)="addProduct()"> 
+                              <i class="fa fa-check " aria-hidden="true"></i> Agregar
+                          </button>
+                      </div>
+                  </div>
+              </div>
           </div>
+      </div>
+  </div>
+  <!-- ------ //// FIN SELECCION DE PRODUCTOS ------  -->
+
+  <!-- ------ LISTA DE COMPRAS ------  -->
+
+  <div class="row">
+    <div class="col-md-12 mt-4" >
+        <div class="card">
+            <div class="card-header">
+              <h2>Lista de compra</h2>
+            </div>
+            <div class="card-body" class="list">
+                <table class="table table-striped mt-4">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Código</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Texto cuando no hay resultados  -->
+                        <tr *ngIf="!loading && productsList.length == 0" class="text-center">
+                            <td colspan="6">
+                                <span class="text-muted">
+                                    <i class="fa fa-close" aria-hidden="true"></i>
+                                    No hay productos en la lista
+                                </span>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of productsList">
+                            <td width="25%">{{item.product.name}}</td>
+                            <td width="25%">{{item.product.code}}</td>
+                            <td width="25%">{{item.amount}}</td>
+                            <td width="25%">{{item.total}}</td>
+                            <td width="25%" class="text-right">
+                                <button type="button" class="btn btn-danger btn-sm" (click)="deleteListItem(item)">
+                                    <i class="fa fa-close" aria-hidden="true" ></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- ------ //// FIN LISTA DE COMPRAS ------  -->
+
+  <!-- ------ CLIENTE ------  -->
+
+  <div class="row">
+    <div class="col-md-12 mt-4">
+        <div class="card">
+            <div class="card-header" style="display: flex; align-items: center;">
+              <h2>Selección de cliente </h2> <p style="margin-left: 1em;">(si no se encuentra cree uno)</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8 mt-4">
+                        <label>Buscar Cliente</label>        
+                        <input style="width: 90%;" class="form-control mr-sm-2" type="text"
+                        placeholder="Buscar por nombre o mail" [(ngModel)]="searchU"
+                        [ngModelOptions]="{standalone: true}" (change)="filterClient(searchU)">
+                    </div>
+                    <div class="col-md-4 mt-4">
+                    </div>
+                    <div class="col-md-12 mt-4" class="list">
+                        <table class="table table-striped mt-4">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>DNI</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Cargador -->
+                                <tr *ngIf="loading" class="text-center">
+                                    <td colspan="4">
+                                        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando clientes...
+                                    </td>
+                                </tr>
+                                <!-- Texto cuando no hay resultados  -->
+                                <tr *ngIf="!loading && clients.length == 0" class="text-center">
+                                    <td colspan="4">
+                                        <span class="text-muted">
+                                            <i class="fa fa-close" aria-hidden="true"></i>
+                                            No hay clientes para mostrar
+                                        </span>
+                                    </td>
+             
+                                    <div class="form-group col-md-4">
+                                      <button class="btn btn-primary float-right mr-5" type="submit" [disabled]="!form.valid">
+                                        <i class="fa fa-check" aria-hidden="true"></i> GUARDAR
+                                      </button>
+                                    </div>                   </tr>
+                                <tr *ngFor="let item of clients">
+                                    <td width="20%">{{item.name}}</td>
+                                    <td width="30%">{{item.mail}}</td>
+                                    <td width="30%">{{item.dni}}</td>
+                                    <td width="20%" class="text-right">
+                                        <button type="button" class="btn primary btn-sm mr-2"  (click)="selectClient(item)">
+                                            <i class="fa fa-check-circle" aria-hidden="true" [ngStyle]="clientSelected === item.id?{'color': 'greenyellow'} : {'color': 'white'}"></i> 
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+	<!-- ------ //// ------  -->
+	
+  <div class="row">
+    <div class="col-md-12 mt-4">
+        <div class="card">
+            <div class="card-header">
+              <h2>Creación de cliente</h2>
+            </div>
+            <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" formControlName="name">
+                    <small *ngIf="isFieldValid('name')" class="form-text text-danger">
+                      {{getFieldError('name')}}
+                    </small>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Correo electrónico</label>
+                    <input type="text" class="form-control" formControlName="name">
+                    <small *ngIf="isFieldValid('name')" class="form-text text-danger">
+                      {{getFieldError('name')}}
+                    </small>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control" formControlName="name">
+                    <small *ngIf="isFieldValid('name')" class="form-text text-danger">
+                      {{getFieldError('name')}}
+                    </small>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- ------ //// FIN CLIENTE ------  -->
+
+  <!-- ------ CIERRE ------  -->
+  <div class="row" style="margin-bottom: 2em;">
+    <div class="col-md-12 mt-4">
+        <div class="card">
+            <div class="card-header">
+                Cierre
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mt-4">
+                        <label>Descuento</label>  
+                        <input type="number" class="form-control" placeholder="Porcentaje" [(ngModel)]="discount">
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <label>Precio de venta:</label>  
+                        <h3 style="color: gray">${{listTotal - discount * listTotal/100}}</h3>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <label></label>
+                        <button class="btn primary mb-4 mt-4 float-right" type="button" block 
+                            (click)="logForm()"><i class="fa fa-check " aria-hidden="true"></i> Realizar venta
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="row mb-5">
-      <div class="col-md-12">
-        <button class="btn btn-primary float-right mr-5" type="submit" [disabled]="!form.valid">
-          <i class="fa fa-check" aria-hidden="true"></i> GUARDAR
-        </button>
-      </div>
-    </div>
-  </form>
+	</div>
+	<!-- ------ //// FIN CIERRE ------  -->
 </div>
