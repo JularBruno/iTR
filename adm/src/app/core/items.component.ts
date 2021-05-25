@@ -106,7 +106,6 @@ export class ItemsComponent implements OnInit {
 
   getItems() {
     this.loading = true;
-    console.log(this.getEndPoint())
     this.pageService.httpGetAll(this.getAllFilters(), this.getSort(), this.getPopulates(), this.getPage(), this.getSortPopulated(), this.getEndPoint())
       .then(result => {
         this.items = result.data;
@@ -114,7 +113,7 @@ export class ItemsComponent implements OnInit {
         this.count = result.count;
         this.itemsPerPage = result.itemsPerPage;
         this.getItemSuccess();
-        console.log(result)
+        console.log(this.items)
       })
       .catch(error => {
         this.pageService.showError(error);

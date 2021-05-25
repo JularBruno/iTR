@@ -13,7 +13,9 @@ export class SalesComponent extends ItemsComponent {
     let _filters = {};
     return _filters;
   }
-
+  getPopulates() {
+    return ["client"]
+  }
   getFiltersSearch(textSearch) {
 
     let filtersSearch: any = {
@@ -25,7 +27,4 @@ export class SalesComponent extends ItemsComponent {
     return filtersSearch;
   }
 
-  getEndPoint() {
-    return this.settings.endPoints.products + this.settings.endPointsMethods.subproducts
-  }
 }

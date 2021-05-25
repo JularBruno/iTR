@@ -12,13 +12,16 @@ export class Settings {
     orderItems: '/orderItems',
     toRider: '/toRider',
     users: '/users',
-
+    customers: '/customers',
 
     suppliers: "/suppliers",
     products: '/products',
-    transactions: "/transactions"
+    transactions: "/transactions",
+    subproducts: "/subproducts",
+
   };
   public static endPointsMethods = {
+    createSale: "/createSale",
     addStock: "/addstock",
     subproducts: "/subproducts",
     updatePrice: "/updatePrice",

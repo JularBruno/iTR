@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { ItemComponent } from '../../core/item.component';
-import { Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PageService } from 'src/app/core/page.service';
+import { mailFormat } from 'src/app/core/forms/validators/mailFormat';
 
 @Component({
   selector: 'app-sale',
@@ -9,7 +13,7 @@ import { Validators } from '@angular/forms';
 })
 export class SaleComponent extends ItemComponent {
 
-   //// COPY PASTED
+  //// COPY PASTED
 
   clients: any = [];
   products: any = [];
@@ -39,190 +43,181 @@ export class SaleComponent extends ItemComponent {
   loading: any;
 
   //// FIN COPY PASTED
-
+  constructor(
+    public formBuilder: FormBuilder,
+    public activatedRoute: ActivatedRoute,
+    public pageService: PageService,
+    public modalService: NgbModal
+  ) {
+    super(formBuilder, activatedRoute, pageService, modalService)
+  }
+  ngOnInit() {
+    this.getCategories()
+    this.getClients()
+    this.getProducts()
+  }
   getFormNew() {
     return this.formBuilder.group({
       id: [null],
       name: [null, Validators.required],
+      phone: [null, Validators.required],
+      emailAddress: [null, Validators.compose([Validators.required, mailFormat()])]
     })
   }
-
   getFormEdit(item) {
     return this.formBuilder.group({
       id: [item.id],
       name: [item.name, Validators.required],
+      phone: [item.phone, Validators.required],
+      emailAddress: [item.emailAddress, Validators.compose([Validators.required, mailFormat()])]
     })
   }
-
   //// COPY PASTED
 
 
   filterCategory(event) {
-    console.log('event ', event)
-    if(event === 'all') {
-      this.categoryFilter = 'all';
-    } else {
-      this.categoryFilter = event;
-    }
-    console.log('this.categoryFilter ', this.categoryFilter)
-    // this.getProducts()
+    this.categoryFilter = event
+    this.getProducts()
   }
 
   filterProduct(search) {
     let filter: any = {};
     if (search == '') {
-      filter = {};
-    } else {
-      filter = {
-        $or: [
-          {
-            name: {
-              $regex: search.trim(),
-              $options: 'ig',
-            },
-          },
-          {
-            code: {
-              $regex: search.trim(),
-              $options: 'ig',
-            },
-          },
-        ],
-      };
+      this.nameFilter = filter;
+      this.getProducts();
+      return
     }
+    filter = {
+      $or: [
+        {
+          name: {
+            $regex: search.trim(),
+            $options: 'ig',
+          },
+        },
+        {
+          code: {
+            $regex: search.trim(),
+            $options: 'ig',
+          },
+        },
+      ],
+    };
+
     this.nameFilter = filter;
-    // this.getProducts();
+    this.getProducts();
   }
 
 
   getClients() {
     this.clients = [];
     let filter = this.clientFilter;
-
-    // this.clientsService.getAll(filter).then( res => {
-    //   this.clients = res;
-    // })
+    let endpoint = this.settings.endPoints.customers
+    this.pageService.httpSimpleGetAll(endpoint, false, {}, filter, []).then(res => {
+      this.clients = res.data
+    })
   }
 
   filterClient(search) {
     let filter: any = {};
     if (search == '') {
-      filter = {};
-    } else {
-      filter = {
-        $or: [
-          {
-            name: {
-              $regex: search.trim(),
-              $options: 'ig',
-            },
-          },
-          {
-            mail: {
-              $regex: search.trim(),
-              $options: 'ig',
-            },
-          },
-        ],
-      };
+      this.clientFilter = {};
+      this.getClients()
+      return
     }
+    filter = {
+      $or: [
+        {
+          name: {
+            $regex: search.trim(),
+            $options: 'ig',
+          },
+        },
+        {
+          emailAddress: {
+            $regex: search.trim(),
+            $options: 'ig',
+          },
+        },
+      ],
+    };
+
     this.clientFilter = filter;
-    // this.getClients();
+    this.getClients();
   }
 
   selectClient(item) {
     this.clientSelected = item.id;
-    console.log('this.clientSelected ', this.clientSelected);
   }
+  onSubmitPerform(item) {
+    let endpoint = this.settings.endPoints.customers
 
-  getCategories() {
-    // this.categoriesService.getAll({}).then( res => {
-    //   this.categories = res;
-    // })
+    this.pageService.httpPost(item, "", endpoint).then(res => {
+      console.log(res, "cliente creado");
+      this.getClients()
+    })
+  }
+  getCategories(filter?) {
+    let endPoint = this.settings.endPoints.products
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, []).then(res => {
+      this.categories = res.data;
+    })
   }
 
   getProducts() {
     this.products = [];
-    let filter = this.nameFilter;
-
-    if(this.categoryFilter !== 'all') {
-      filter.category = this.categoryFilter;
-    } else {
-      delete filter.category;
+    let endPoint = this.settings.endPoints.subproducts
+    let filter: any = {}
+    if (this.nameFilter) {
+      filter = this.nameFilter
     }
-
-    // this.productsService.getAllAndPopulate(filter,['category']).then( res => {
-    //   this.products = res;
-    // })
+    if (this.categoryFilter !== 'all') {
+      filter.product = this.categoryFilter;
+    } else {
+      delete filter.product;
+    }
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["product"]).then(res => {
+      console.log(res, "products")
+      this.products = res.data;
+    })
   }
-  
-  // getFormNew() {
-  //   return this.formBuilder.group({
-  //     id: [null],
-  //     date: [null, Validators.required],
-  //     client: [null, Validators.required],
-  //     total: [null, Validators.required],
-  //     totalPayed: [null, Validators.required],
-  //     products: [null, Validators.required],
-  //   })
-  // }  
-
-  // getFormEdit(item) { ///
-  //   return this.formBuilder.group({
-  //     id: [item.id],
-  //     date: [item.date],
-  //     client: [item.client],
-  //     total: [item.total],
-  //     totalPayed: [item.totalPayed],
-  //     products: [item.products],
-  //   });
-  // }
 
   logForm() {
 
-    let currentDate = new Date(); 
+
+    // let productIdArray = []; // product with all data
+    // let productIncrement = []; // array of id for stock prices change
+    // console.log(this.productsList, "lista de productos")
+    // for (let i of this.productsList) {
+    //   console.log('i ', i)
+    //   productIdArray.push({
+    //     product: i.product.id,
+    //     amount: i.amount,
+    //     price: i.price,
+    //     total: i.total,
+    //   });
+
+    //   productIncrement.push({ id: i.product.id, amount: i.amount * -1 }); // add to array for stock prices change
+    // }
+    if (!this.clientSelected) return this.pageService.showError("Seleccione un cliente")
+    if (this.productsList.length == 0) return this.pageService.showError("Seleccione al menos un producto")
+    if (this.listTotal - this.discount < 0) return this.pageService.showError("El el total no puede ser menor a 0")
+    let currentDate = new Date();
     var datetime = `${("0" + currentDate.getDate()).slice(-2)}/${("0" + (currentDate.getMonth() + 1)).slice(-2)}/${currentDate.getFullYear()}`;
-
-    let productIdArray = []; // product with all data
-    let productIncrement = []; // array of id for stock prices change
-    let isProductNoStock = false; // variable for showing error is an item is lacking of stock
-
-    for(let i of this.productsList) {
-      console.log('i ', i)
-      productIdArray.push({
-        product: i.product.id,
-        amount: i.amount,
-        price: i.price,
-        total: i.total,
-      });
-
-      // if(i.product.stock === 0) {
-      //   isProductNoStock = true;
-      // }
-
-      productIncrement.push({id: i.product.id, amount: i.amount * -1}); // add to array for stock prices change
-    }
-
     let object: any = { // object to save
       date: datetime,
       client: this.clientSelected,
-      total: (this.listTotal - this.discount * this.listTotal/100).toFixed(2),
-      totalPayed: 0,
-      products: productIdArray,
+      total: this.listTotal.toFixed(2),
+      discount: this.discount,
+      products: this.productsList,
     }
 
-    let objectIncrement = { // needed object for incrementMany
-      field: 'stock',
-      updateObject: productIncrement
-    }
-
-    // if(!object.client) {this.baseService.showError('Seleccione un usuario'); return;}
-    // if(object.products.length === 0) {this.baseService.showError('Agregue productos a la compra'); return;}
-    
-    // super.logForm(object);
-
-    console.log('this.discountStock ', this.discountStock);
-    
+    console.log(object, "objeto a guardar")
+    let method = this.settings.endPointsMethods.createSale
+    this.pageService.httpPost(object, method).then(response => {
+      console.log(response)
+      this.pageService.navigate()
+    })
     // this.productsService.incrementMany(objectIncrement); // change stock prices
   }
 
@@ -231,12 +226,11 @@ export class SaleComponent extends ItemComponent {
   }
 
   addProduct() {
-
     let object = {
       product: this.previousToBuy,
       amount: this.amountToBuy,
-      price: this.previousToBuy.salePrice,
-      total: parseFloat((this.previousToBuy.salePrice * this.amountToBuy).toFixed(2)),
+      price: this.previousToBuy.price,
+      total: parseFloat((this.previousToBuy.price * this.amountToBuy).toFixed(2)),
     }
 
     this.productsList.push(object);
@@ -250,7 +244,7 @@ export class SaleComponent extends ItemComponent {
 
   deleteListItem(item) {
     const index = this.productsList.indexOf(item);
-    if (index > -1) {
+    if (index != -1) {
       this.productsList.splice(index, 1);
     }
     this.listTotal -= item.total;

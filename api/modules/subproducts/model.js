@@ -8,11 +8,12 @@ module.exports = (module) => {
 	 */
 	module.schema = new global.database.mongodb.mongoose.Schema({
 		id: { type: String },
-		code: { type: Number },
+		code: { type: String },
 		name: { Type: String },
 		price: { type: Number },
 		stock: { type: Number, default: 0 },
 		product: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'products', required: true },
+		sale: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'sales' },
 	}, { timestamps: true });
 
 };

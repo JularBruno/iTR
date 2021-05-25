@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row section-header">
     <div class="col-sm-3">
-      <h2 class="section-title text-primary">Productos</h2>
+      <h2 class="section-title text-primary">Ventas</h2>
     </div>
     <div class="col-sm-9">
       <button type="button" class="btn btn-info ml-2" (click)="create()">
@@ -25,26 +25,7 @@
           <i class="fa fa-search" aria-hidden="true"></i>
         </button>
       </div>
-      <div *ngIf="showPriceChange" class="form-group ml-4">
-        <label for="labelPrice">Ingrese un porcentaje</label>
-        <input type="text" class="form-control" id="labelPrice" placeholder="Ingrese el porcentaje..." [(ngModel)]="price"
-          [ngModelOptions]="{standalone: true}">
-      </div>
-      <div *ngIf="showPriceChange" class="form-group ml-1">
-        <label class="invisible">.</label>
-        <button class="btn btn-outline-primary btn-block" (click)="updatePrice()">
-          <i class="fa fa-check-square" aria-hidden="true"></i>
-        </button>
-      </div>
     </div>
-    <!-- <div class="col-md-1">
-      <div class="form-group">
-        <label class="invisible">.</label>
-        <button class="btn btn-outline-primary btn-block" (click)="getItems()">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div> -->
   </div>
   <div class="row p-3">
     <div class="table-responsive">
@@ -52,22 +33,23 @@
         <thead class="thead-light">
           <tr>
             <th>
-              <button type="button" class="btn btn-light" (click)="sort('name')">
-                Nombre
-                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.name == 1,'fa-arrow-up': sortField.name == -1}"
-                  aria-hidden="true"></i>
+              <button type="button" class="btn btn-light">
+                Cliente
+                <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
 
             <th class="text-center">
-              <button type="button" class="btn btn-light" (click)="sort('stock')">
-                Stock
-                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.stock == 1,'fa-arrow-up': sortField.stock == -1}"
-                  aria-hidden="true"></i>
+              <button type="button" class="btn btn-light">
+                Fecha
+                <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th *ngIf="showPriceChange" class="px-4 text-center">
-              Seleccione el producto
+            <th class="text-center">
+              <button type="button" class="btn btn-light">
+                Total Gastado
+                <i class="fa" aria-hidden="true"></i>
+              </button>
             </th>
             <th class="text-right">
               {{count}} Resultados
@@ -86,17 +68,21 @@
             <td colspan="6">
               <span class="text-muted">
                 <i class="fa fa-close" aria-hidden="true"></i>
-                No hay productos para mostrar
+                No hay ventas para mostrar
               </span>
             </td>
           </tr>
-          <!-- <tr *ngFor="let item of items">
+          <tr *ngFor="let item of items">
 
             <td class="px-4">
-              {{ item.name }}
+              {{ item.client?.name }}
             </td>
             <td class="px-4 text-center">
-              {{ item.stock }}
+              {{ item.createdAt | date:'dd/MM/yyyy' }}
+
+            </td>
+            <td class="px-4 text-center">
+              {{ item.total }}
 
             </td>
             <td *ngIf="showPriceChange" class="px-4 text-center">
@@ -105,11 +91,11 @@
             </td>
             <td class="text-right">
 
-              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="edit(item)">
-                Editar
+              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(sales, item)">
+                Deuda
               </button>
             </td>
-          </tr> -->
+          </tr>
         </tbody>
       </table>
     </div>
