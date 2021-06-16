@@ -19,6 +19,18 @@
         <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
           placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}">
       </div>
+      <div class="form-group">
+        <label for="textSearch">Ingrese Fecha</label>
+        <!-- <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
+          placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}"> -->
+        <input class="form-control" [(ngModel)]="date" type="date">
+      </div>
+      <div class="form-group">
+        <label for="textSearch">Ingrese Precio</label>
+        <!-- <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
+          placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}"> -->
+        <input class="form-control" placeholder="Ingrese un precio" [(ngModel)]="price" type="number">
+      </div>
       <div class="form-group ml-1">
         <label class="invisible">.</label>
         <button class="btn btn-outline-primary btn-block" (click)="getItems()">
@@ -82,7 +94,7 @@
 
             </td>
             <td class="px-4 text-center">
-              {{ item.total }}
+              ${{ item.total }}
 
             </td>
             <td *ngIf="showPriceChange" class="px-4 text-center">

@@ -64,14 +64,8 @@ export class SaleComponent extends ItemComponent {
       emailAddress: [null, Validators.compose([Validators.required, mailFormat()])]
     })
   }
-  getFormEdit(item) {
-    return this.formBuilder.group({
-      id: [item.id],
-      name: [item.name, Validators.required],
-      phone: [item.phone, Validators.required],
-      emailAddress: [item.emailAddress, Validators.compose([Validators.required, mailFormat()])]
-    })
-  }
+
+
   //// COPY PASTED
 
 
