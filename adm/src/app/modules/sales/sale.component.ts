@@ -51,11 +51,13 @@ export class SaleComponent extends ItemComponent {
   ) {
     super(formBuilder, activatedRoute, pageService, modalService)
   }
+
   ngOnInit() {
     this.getCategories()
     this.getClients()
     this.getProducts()
   }
+
   getFormNew() {
     return this.formBuilder.group({
       id: [null],
@@ -147,8 +149,10 @@ export class SaleComponent extends ItemComponent {
   }
 
   selectClient(item) {
+    console.log('item ', item);
     this.clientSelected = item.id;
   }
+
   onSubmitPerform(item) {
     let endpoint = this.settings.endPoints.customers
 
@@ -199,6 +203,8 @@ export class SaleComponent extends ItemComponent {
 
     //   productIncrement.push({ id: i.product.id, amount: i.amount * -1 }); // add to array for stock prices change
     // }
+    console.log('this.clientSelected ', this.clientSelected);
+    
     if (!this.clientSelected) return this.pageService.showError("Seleccione un cliente")
     if (this.productsList.length == 0) return this.pageService.showError("Seleccione al menos un producto")
     if (this.listTotal - this.discount < 0) return this.pageService.showError("El el total no puede ser menor a 0")

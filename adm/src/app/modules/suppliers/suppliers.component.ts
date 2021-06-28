@@ -24,6 +24,7 @@ export class SuppliersComponent extends ItemsComponent {
 
     return filtersSearch;
   }
+  
   applyDebt() {
     if (!this.price) return this.pageService.showError("Ingrese un monto")
     console.log(-Math.abs(this.price))

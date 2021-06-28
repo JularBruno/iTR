@@ -4,7 +4,8 @@ import { ItemsComponent } from '../../core/items.component';
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
-  styleUrls: ['../../core/items.component.scss']
+  // styleUrls: ['../../core/items.component.scss']
+  styleUrls: ['./sales.component.scss']
 })
 export class SalesComponent extends ItemsComponent {
   showPriceChange: Boolean = false
