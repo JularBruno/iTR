@@ -9,7 +9,7 @@ module.exports = (module) => {
 	module.schema = new global.database.mongodb.mongoose.Schema({
 		id: { type: String },
 		code: { type: String },
-		name: { Type: String },
+		name: { type: String },
 		price: { type: Number },
 		stock: { type: Number, default: 0 },
 		product: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'products', required: true },
