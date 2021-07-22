@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  serverUrl:"http://localhost:8080/api",
-  filesUrl:"http://localhost:8080/files"
+  serverUrl:"http://192.168.1.48:8080/api",
+  filesUrl:"http://192.168.1.48:8080/files"
 
 };
 

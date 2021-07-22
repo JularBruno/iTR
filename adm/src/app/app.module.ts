@@ -77,6 +77,7 @@ import { SubproductComponent } from './modules/subproducts/subproduct.component'
 import { SubproductsComponent } from './modules/subproducts/subproducts.component'
 import { SalesComponent } from './modules/sales/sales.component'
 import { SaleComponent } from './modules/sales/sale.component'
+import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { SaleComponent } from './modules/sales/sale.component'
     SaleComponent
   ],
   imports: [
+    BarcodeScannerLivestreamModule,
     BrowserModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),

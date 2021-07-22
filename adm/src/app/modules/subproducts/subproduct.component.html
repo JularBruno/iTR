@@ -23,12 +23,22 @@
         </div>
 
         <div class="form-row">
-          <div class="form-group col-md-12">
+          <div class="form-group col-md-6">
             <label>Codigo</label>
             <input type="text" class="form-control" formControlName="code">
             <small *ngIf="isFieldValid('code')" class="form-text text-danger">
               {{getFieldError('code')}}
             </small>
+          </div>
+          <div class="form-group col-md-6">
+            <barcode-scanner-livestream type="ean" (valueChanges)="onValueChanges($event)" (started)="(onStarted)">
+            </barcode-scanner-livestream>
+            <div [hidden]="!barcodeValue">
+              {{ barcodeValue }}
+            </div>
+            <button type="button" (click)="scan()" class="btn btn-primary float-right mr-5">
+              <i class="fa fa-check" aria-hidden="true"></i> ESCANEAR
+            </button>
           </div>
         </div>
 
