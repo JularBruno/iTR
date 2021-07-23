@@ -18,6 +18,7 @@ export class Settings {
     products: '/products',
     transactions: "/transactions",
     subproducts: "/subproducts",
+    dolar: '/dolars'
 
   };
   public static endPointsMethods = {
@@ -134,7 +135,7 @@ export class Settings {
     product: { path: 'products/:id', data: { roles: ['administrator'] } },
     sale: { path: 'sales/:id', data: { roles: ['administrator'] } },
     sales: { path: 'sales', data: { roles: ['administrator'] } },
-
+    dolars: { path: 'dolars', data: { roles: ['administrator'] } }
 
   };
 

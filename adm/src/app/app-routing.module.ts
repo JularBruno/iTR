@@ -24,6 +24,7 @@ import { SubproductComponent } from './modules/subproducts/subproduct.component'
 import { SubproductsComponent } from './modules/subproducts/subproducts.component';
 import { SalesComponent } from './modules/sales/sales.component';
 import { SaleComponent } from './modules/sales/sale.component';
+import { DolarsComponent } from './modules/dolars/dolars.component';
 
 
 
@@ -44,7 +45,8 @@ Settings.routes.customer.component = CustomerComponent;
 Settings.routes.subproducts.component = SubproductsComponent;
 Settings.routes.subproduct.component = SubproductComponent;
 Settings.routes.sales.component = SalesComponent;
-Settings.routes.sale.component = SaleComponent
+Settings.routes.sale.component = SaleComponent;
+Settings.routes.dolars.component = DolarsComponent;
 
 let routes: Routes = [];
 for (let routeKey in Settings.routes) {

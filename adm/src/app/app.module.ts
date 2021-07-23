@@ -77,6 +77,7 @@ import { SubproductComponent } from './modules/subproducts/subproduct.component'
 import { SubproductsComponent } from './modules/subproducts/subproducts.component'
 import { SalesComponent } from './modules/sales/sales.component'
 import { SaleComponent } from './modules/sales/sale.component'
+import { DolarsComponent } from './modules/dolars/dolars.component'
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { NgxPrintModule } from 'ngx-print';
@@ -102,7 +103,8 @@ import { NgxPrintModule } from 'ngx-print';
     SubproductsComponent,
     SubproductComponent,
     SalesComponent,
-    SaleComponent
+    SaleComponent,
+    DolarsComponent,
   ],
   imports: [
 

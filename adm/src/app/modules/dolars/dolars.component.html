@@ -1,0 +1,33 @@
+<div class="container">
+  <nav aria-label="breadcrumb" class="mt-2">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="['/dolars']" routerLinkActive="router-link-active">Precio del
+          dolar</a>
+      </li>
+      <!-- <li class="breadcrumb-item active" aria-current="page"></li> -->
+    </ol>
+  </nav>
+
+  <form>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>Precio del dolar</label>
+            <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="dolar">
+            <!-- <small *ngIf="isFieldValid('name')" class="form-text text-danger">
+              {{getFieldError('name')}}
+            </small> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <button class="btn btn-primary float-right mr-5" (click)="updateDolar()" type="button">
+          <i class="fa fa-check" aria-hidden="true"></i> GUARDAR
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
