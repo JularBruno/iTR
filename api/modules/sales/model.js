@@ -13,9 +13,9 @@ module.exports = (module) => {
 		total: { type: Number },
 		discount: { type: Number, default: 0 },
 		client: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'customers', required: true },
-		paidARS: { type: Number },
-		paidUSD: { type: Number },
-		paidPROD: { type: Number },
+		paidARS: { type: Number, default: 0 },
+		paidUSD: { type: Number, default: 0 },
+		paidPROD: { type: Number, default: 0 },
 
 	}, { timestamps: true });
 

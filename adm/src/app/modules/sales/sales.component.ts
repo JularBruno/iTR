@@ -11,6 +11,32 @@ export class SalesComponent extends ItemsComponent {
   showPriceChange: Boolean = false
   price: any
   date: any
+  paidARS: any = 0
+  paidUSD: any = 0
+  showProductInterface: boolean = false;
+  payARS() {
+    let update = {
+      $inc: { paidARS: this.paidARS },
+      id: this.itemSelected.id
+    }
+    this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
+      let item = await this.pageService.httpGetById(this.itemSelected.id, ["client"])
+      this.itemSelected = item.data
+    })
+  }
+  payUSD() {
+    let update = {
+      $inc: { paidUSD: this.paidUSD },
+      id: this.itemSelected.id
+    }
+    this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
+      let item = await this.pageService.httpGetById(this.itemSelected.id, ["client"])
+      this.itemSelected = item.data
+    })
+  }
+  displayProductLoad() {
+    this.showProductInterface = true
+  }
   getFilters() {
     let createdAt: any = {};
     console.log(this.date)
@@ -38,7 +64,6 @@ export class SalesComponent extends ItemsComponent {
         { "name": { "$regex": textSearch, "$options": "i" } },
       ]
     };
-
     return filtersSearch;
   }
 

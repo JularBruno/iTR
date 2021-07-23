@@ -132,7 +132,7 @@
   </div>
 </div>
 
-<ng-template id="history" #history class="modal fade" aria-hidden="true" >
+<ng-template id="history" #history class="modal fade" aria-hidden="true">
 
   <div class="modal-content">
     <div class="modal-header">
@@ -140,74 +140,78 @@
     </div>
     <div class="modal-body" style="padding: 2em">
       <div class="row">
-        <h2><b>SubProductos Vendidos</b></h2>
+        <h2><b>Subproductos Vendidos</b></h2>
         <!-- /////// row table -->
         <div class="col-md-12 mt-4" class="list">
           <!-- //// PRODUCT LIST -->
           <table class="table table-striped mt-4">
-              <thead class="thead-light">
-                  <tr>
-                      <th>Nombre</th>
-                      <th>Código</th>
-                      <th>Categoria</th>
-                      <th>Precio de venta</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <!-- Cargador -->
-                  <!-- <tr *ngIf="!loading && products.length == 0" class="text-center">
+            <thead class="thead-light">
+              <tr>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Categoria</th>
+                <th>Cantidad</th>
+
+                <th>Precio de venta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Cargador -->
+              <!-- <tr *ngIf="!loading && products.length == 0" class="text-center">
                       <td colspan="7">
                           <span class="text-muted">
                               <i class="fa fa-close" aria-hidden="true"></i>
                               No hay productos
                           </span>
                       </td>
-                  </tr>
-                  <tr *ngFor="let item of products">
-                      <td width="25%">{{item.name}}</td>
-                      <td width="25%">{{item.code}}</td>
-                      <td width="25%">{{item.product?.name}}</td>
-                      <td width="25%">${{item.price}}</td>
                   </tr> -->
-                  <!--  -->
+              <tr *ngFor="let item of itemSelected.products">
+                <td width="25%">{{item.product?.name}}</td>
+                <td width="25%">{{item.product?.code}}</td>
+                <td width="25%">{{item.product?.product?.name}}</td>
+                <td width="25%">{{item.amount}}</td>
 
-                  <!-- MAQUETA USAR LO DE ARRIBA -->
-                  <tr>
-                    <td width="25%">MaBuk air</td>
-                    <td width="25%">069</td>
-                    <td width="25%">Zaapatillas</td>
-                    <td width="25%">$420</td>
-                </tr>
-                  <tr>
-                    <td width="25%">MaBuk air</td>
-                    <td width="25%">069</td>
-                    <td width="25%">Zaapatillas</td>
-                    <td width="25%">$420</td>
-                </tr>
-              </tbody>
+                <td width="25%">${{item.price}}</td>
+              </tr>
+
+
+              <!-- MAQUETA USAR LO DE ARRIBA -->
+              <!-- <tr>
+                <td width="25%">MaBuk air</td>
+                <td width="25%">069</td>
+                <td width="25%">Zaapatillas</td>
+                <td width="25%">$420</td>
+              </tr>
+              <tr>
+                <td width="25%">MaBuk air</td>
+                <td width="25%">069</td>
+                <td width="25%">Zaapatillas</td>
+                <td width="25%">$420</td>
+              </tr> -->
+            </tbody>
           </table>
-      </div>
+        </div>
         <!-- /////// end row table -->
       </div>
       <hr>
       <h2><b>Datos de la venta</b></h2>
       <div class="row">
         <div class="col-md-6">
-          <p><b>Cliente:</b> Cliente</p>
-          <p><b>Fecha:</b> 04/20/2021</p>
+          <p><b>Cliente:</b> {{itemSelected?.client?.name}}</p>
+          <p><b>Fecha:</b> {{itemSelected.createdAt | date:'dd/MM/yyyy'}}</p>
         </div>
         <div class="col-md-6">
-          <p><b>Total Gastado:</b> $420</p>
-          <p><b>Descuento:</b> $2</p>
+          <p><b>Total Gastado:</b> {{itemSelected?.total}}</p>
+          <p><b>Descuento:</b> {{itemSelected?.discount}}</p>
         </div>
       </div>
       <hr>
       <div class="row">
         <hr>
         <div class="col-md-12">
-          <p><b>Total pagado en Pesos:</b> $100</p>
-          <p><b>Total pagado en Dólares:</b> $100</p>
-          <p><b>Total pagado en Productos:</b> $220</p>
+          <p><b>Total pagado en Pesos:</b> ${{itemSelected?.paidARS}}</p>
+          <p><b>Total pagado en Dólares:</b> ${{itemSelected?.paidUSD}}</p>
+          <p><b>Total pagado en Productos:</b> ${{itemSelected?.paidProd}}</p>
         </div>
       </div>
       <hr>
@@ -216,7 +220,7 @@
         <div class="col-md-6">
           <div class="form-group ">
             <label>Impactar en pesos</label>
-            <input type="text" class="form-control" >
+            <input type="text" [(ngModel)]="paidARS" class="form-control">
             <!-- <input type="text" class="form-control" formControlName="name"> -->
             <!-- <small *ngIf="isFieldValid('name')" class="form-text text-danger">
                 {{getFieldError('name')}}
@@ -224,7 +228,7 @@
           </div>
         </div>
         <div class="col-md-6 buttonCol">
-          <button (click)="onSubmit()" type="submit" class="btn primary btn-sm mr-2">
+          <button (click)="payARS()" type="submit" class="btn primary btn-sm mr-2">
             Efectuar
           </button>
         </div>
@@ -233,7 +237,7 @@
         <div class="col-md-6">
           <div class="form-group ">
             <label>Impactar en Dólares</label>
-            <input type="text" class="form-control" >
+            <input [(ngModel)]="paidUSD" type="text" class="form-control">
             <!-- <input type="text" class="form-control" formControlName="name"> -->
             <!-- <small *ngIf="isFieldValid('name')" class="form-text text-danger">
                 {{getFieldError('name')}}
@@ -241,7 +245,7 @@
           </div>
         </div>
         <div class="col-md-6 buttonCol">
-          <button (click)="onSubmit()" type="submit" class="btn primary btn-sm mr-2">
+          <button (click)="payUSD()" type="submit" class="btn primary btn-sm mr-2">
             Efectuar
           </button>
         </div>
@@ -250,56 +254,47 @@
         <p>Si de parte de pago se recibió un producto, continuar aquí, se llevará a la pantalla de
           creación de productos, y su precio aparecerá en esta venta.
         </p>
-        <button (click)="onSubmit()" type="submit" class="btn primary btn-sm mr-2">
+        <button (click)="displayProductLoad()" type="submit" class="btn primary btn-sm mr-2">
           Impactar deuda con un producto
         </button>
       </div>
 
       <hr>
-      <h2><b>Productos usados como parte de pago</b></h2>
-      <div class="row">
+      <h2 *ngIf="showProductInterface"><b>Productos usados como parte de pago</b></h2>
+      <div *ngIf="showProductInterface" class="row">
         <!-- /////// row table -->
         <div class="col-md-12 mt-4" class="list">
           <!-- //// PRODUCT LIST -->
           <table class="table table-striped mt-4">
-              <thead class="thead-light">
-                  <tr>
-                      <th>Nombre</th>
-                      <th>Código</th>
-                      <th>Monto</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <!-- Cargador -->
-                  <!-- <tr *ngIf="!loading && products.length == 0" class="text-center">
-                      <td colspan="7">
-                          <span class="text-muted">
-                              <i class="fa fa-close" aria-hidden="true"></i>
-                              No hay productos
-                          </span>
-                      </td>
-                  </tr>
-                  <tr *ngFor="let item of products">
+            <thead class="thead-light">
+              <tr>
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Cargador -->
+
+              <!-- <tr *ngFor="let item of products">
                       <td width="33%">{{item.name}}</td>
                       <td width="33%">{{item.code}}</td>
                       <td width="34%">{{item.product?.name}}</td>
-                  </tr> -->
-                  <!--  -->
+                  </tr>  -->
 
-                  <!-- MAQUETA USAR LO DE ARRIBA -->
-                <tr>
-                  <td width="33%">MaBuk air</td>
-                  <td width="33%">069</td>
-                  <td width="34%">$420</td>
-                </tr>
-                <tr>
-                  <td width="33%">MaBuk air</td>
-                  <td width="33%">069</td>
-                  <td width="34%">$420</td>
-                </tr>
-              </tbody>
+              <!-- <tr>
+                <td width="33%">MaBuk air</td>
+                <td width="33%">069</td>
+                <td width="34%">$420</td>
+              </tr>
+              <tr>
+                <td width="33%">MaBuk air</td>
+                <td width="33%">069</td>
+                <td width="34%">$420</td>
+              </tr> -->
+            </tbody>
           </table>
-      </div>
+        </div>
         <!-- /////// end row table -->
       </div>
 

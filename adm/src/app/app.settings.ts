@@ -13,7 +13,7 @@ export class Settings {
     toRider: '/toRider',
     users: '/users',
     customers: '/customers',
-
+    sales: '/sales',
     suppliers: "/suppliers",
     products: '/products',
     transactions: "/transactions",
