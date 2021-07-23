@@ -14,6 +14,9 @@ export class SalesComponent extends ItemsComponent {
   paidARS: any = 0
   paidUSD: any = 0
   showProductInterface: boolean = false;
+
+  scannerEnabled: boolean = false;
+
   payARS() {
     let update = {
       $inc: { paidARS: this.paidARS },
@@ -65,6 +68,26 @@ export class SalesComponent extends ItemsComponent {
       ]
     };
     return filtersSearch;
+  }
+
+
+  enableScanner() {
+    this.scannerEnabled = !this.scannerEnabled;
+    if(this.scannerEnabled) {
+      // this.form.controls['code'].disable();
+    } else {
+      // this.form.controls['code'].enable();
+    }
+  }
+ 
+  scanSuccessHandler(event) {
+    // this.form.value.code = event;
+  }
+
+  generatePdf(item) {
+    console.log('Item ', item);
+    
+
   }
 
 }
