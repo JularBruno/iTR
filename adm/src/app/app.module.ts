@@ -104,15 +104,11 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     SaleComponent
   ],
   imports: [
-    
+
     BrowserModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     HttpClientModule,
-
-    // NgxMatDatetimePickerModule,
-    // NgxMatTimepickerModule,
-    // NgxMatNativeDateModule,
     MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatSliderModule, MatTableModule, MatDialogModule,
     MatInputModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatCheckboxModule, MatDatepickerModule, MatRadioModule, MatSelectModule,
     MatDatepickerModule,
