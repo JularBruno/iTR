@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
   }
 
   login(item) {
+    console.log('log');
+    
     //item.role = 'administrators'
     const endPoint = '/' + item.role;
     this.pageService.httpPost(item, '/login', endPoint)

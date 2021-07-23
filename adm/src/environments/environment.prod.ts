@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  serverUrl: '/api',
-  filesUrl: '/files'
-  // serverUrl: 'http://vps-1870720-x.dattaweb.com:3121/api',
-  // filesUrl: 'http://vps-1870720-x.dattaweb.com:3121/files',
+  // serverUrl: '/api',
+  // filesUrl: '/files'
+  serverUrl: 'http://192.168.0.30:8080/api',
+  filesUrl: 'http://192.168.0.30:8080/files',
 };

@@ -31,14 +31,11 @@
             </small>
           </div>
           <div class="form-group col-md-6">
-            <barcode-scanner-livestream type="ean" (valueChanges)="onValueChanges($event)" (started)="(onStarted)">
-            </barcode-scanner-livestream>
-            <div [hidden]="!barcodeValue">
-              {{ barcodeValue }}
-            </div>
-            <button type="button" (click)="scan()" class="btn btn-primary float-right mr-5">
+            <zxing-scanner [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']" #scanner (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
+            <!-- <zxing-scanner></zxing-scanner> -->
+            <!-- <button type="button" (click)="scan()" class="btn btn-primary float-right mr-5">
               <i class="fa fa-check" aria-hidden="true"></i> ESCANEAR
-            </button>
+            </button> -->
           </div>
         </div>
 
