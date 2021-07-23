@@ -21,9 +21,11 @@ export class SubproductsComponent extends ItemsComponent {
   getPopulates() {
     return ["product"]
   }
+
   getItemSuccess() {
     this.getSuppliers()
   }
+
   getFiltersSearch(textSearch) {
 
     let filtersSearch: any = {
@@ -34,6 +36,7 @@ export class SubproductsComponent extends ItemsComponent {
 
     return filtersSearch;
   }
+  
   getSuppliers() {
     let endPoint = this.settings.endPoints.suppliers;
     this.pageService.httpSimpleGetAll(endPoint)

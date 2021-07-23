@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { ItemComponent } from '../../core/item.component';
 import { Validators } from '@angular/forms';
-import { BarcodeScannerLivestreamComponent } from "ngx-barcode-scanner";
+// import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 
 @Component({
   selector: 'app-subproduct',
@@ -10,23 +10,21 @@ import { BarcodeScannerLivestreamComponent } from "ngx-barcode-scanner";
 })
 export class SubproductComponent extends ItemComponent implements AfterViewInit {
   products: any = [];
-  @ViewChild(BarcodeScannerLivestreamComponent)
 
-  barcodeScanner: BarcodeScannerLivestreamComponent;
-  barcodeValue: any
   initializePre() {
     this.loadProducts()
-    // this.barcodeScanner.start();
   }
+
   ngAfterViewInit() {
-    this.barcodeScanner.start();
   }
+
   loadProducts() {
     let endPoint = this.settings.endPoints.products;
     this.pageService.httpSimpleGetAll(endPoint)
       .then(res => this.products = res.data)
       .catch(e => this.pageService.showError(e));
   }
+
   getFormNew() {
     return this.formBuilder.group({
       id: [null],
@@ -48,16 +46,28 @@ export class SubproductComponent extends ItemComponent implements AfterViewInit 
 
     })
   }
+
   onValueChanges(result) {
     console.log("CHANGES ON VALUE", result)
     console.log(result.codeResult.code);
   }
+
   onStarted(started) {
     console.log(started, "STARTED");
   }
-  scan() {
-    this.barcodeScanner.start();
-    console.log("Starting scanner")
 
+  // scan() {
+  //   this.barcodeScanner.start();
+  //   console.log("Starting scanner")
+
+  // }
+
+  scanSuccessHandler(event) {
+    console.log('event ', event);
+    console.log('this.form.value ', this.form.value);
+    // this.form.value.code = event;
+    this.form.value.code.setValue(event);
+    console.log('this.form.value.code ', this.form.value.code);
+    
   }
 }
