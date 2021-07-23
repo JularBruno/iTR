@@ -10,6 +10,8 @@
       <a mat-list-item [routerLink]="['/suppliers']" routerLinkActive="router-link-active">Proveedores</a>
       <a mat-list-item [routerLink]="['/customers']" routerLinkActive="router-link-active">Clientes</a>
       <a mat-list-item [routerLink]="['/sales']" routerLinkActive="router-link-active">Ventas</a>
+      <a mat-list-item [routerLink]="['/dolars']" routerLinkActive="router-link-active">Precio del Dolar</a>
+
       <a mat-list-item *ngIf="logged" class="nav-link text-danger" (click)="logout()"><i class="fa fa-sign-out"></i>
         Cerrar Sesión</a>
     </mat-nav-list>
