@@ -11,6 +11,8 @@ import { Validators } from '@angular/forms';
 export class SubproductComponent extends ItemComponent implements AfterViewInit {
   products: any = [];
 
+  scannerEnabled: boolean = false;
+
   initializePre() {
     this.loadProducts()
   }
@@ -56,18 +58,16 @@ export class SubproductComponent extends ItemComponent implements AfterViewInit 
     console.log(started, "STARTED");
   }
 
-  // scan() {
-  //   this.barcodeScanner.start();
-  //   console.log("Starting scanner")
-
-  // }
-
+  enableScanner() {
+    this.scannerEnabled = !this.scannerEnabled;
+    if(this.scannerEnabled) {
+      this.form.controls['code'].disable();
+    } else {
+      this.form.controls['code'].enable();
+    }
+  }
+ 
   scanSuccessHandler(event) {
-    console.log('event ', event);
-    console.log('this.form.value ', this.form.value);
-    // this.form.value.code = event;
-    this.form.value.code.setValue(event);
-    console.log('this.form.value.code ', this.form.value.code);
-    
+    this.form.value.code = event;
   }
 }
