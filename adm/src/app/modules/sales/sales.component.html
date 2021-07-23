@@ -99,10 +99,6 @@
                 (change)="selectProduct(item, $event.target.checked)">
             </td>
             <td class="text-right">
-
-              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="generatePdf(item)">
-                Generar Factura
-              </button>
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(history, item)">
                 Administrar
               </button>
@@ -137,6 +133,10 @@
   <div class="modal-content">
     <div class="modal-header">
       <h1 class="modal-title">Historial de venta</h1>
+
+      <button class="btn btn-primary btn-sm mr-2" type="button" printSectionId="print-section" ngxPrint>
+        Generar Factura
+      </button>
     </div>
     <div class="modal-body" style="padding: 2em">
       <div class="row">
@@ -372,3 +372,68 @@
 
 <!-- ////////////// pdf //////////////// -->
 
+<div id="print-section" style="visibility: hidden;">
+<!-- <div id="pdfTable" #pdfTable > -->
+  <div style="position:absolute;left:50%;margin-left:-297px;top:0px;width:595px;height:841px;border-style:outset;overflow:hidden">
+    <!-- <div style="position:absolute;top:0px;width:21cm;height:29.7cm;border-style:outset;overflow:hidden"> -->
+    <div style="position:absolute;left:0px;top:0px">
+    <img src="../../../assets/pdf/background.jpg" width=595 height=841>
+    </div>
+    <div style='position:absolute;left:267.21px;top:19.00px; font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style="font-family:'DejaVu Sans Condensed',serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none">Original</span></div>
+    <div style='position:absolute;left:283.34px;top:39.73px; font-family:"DejaVu Sans Condensed",serif;font-size:44.5px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:44.5px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>C</span></div>
+    <div style='position:absolute;left:379.21px;top:65.74px; font-family:"DejaVu Sans Condensed",serif;font-size:30.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:30.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Factura</span></div>
+    <div style='position:absolute;left:255.67px;top:91.69px; font-family:"DejaVu Sans Condensed",serif;font-size:24.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:24.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Cod 11</span></div>
+    <div style='position:absolute;left:48.96px;top:142.39px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Whatsapp: 3417193615</span></div>
+    <div style='position:absolute;left:381.60px;top:142.39px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      Id: {{itemSelected?.id}}</span></div>
+    <div style='position:absolute;left:48.61px;top:157.65px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      Instagram: itr.technologicalhouse</span></div>
+    <div style='position:absolute;left:381.25px;top:157.65px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      Fecha de emisión: {{itemSelected?.createdAt | date: 'dd/MM/yyyy' }}</span></div>
+    <div style='position:absolute;left:48.96px;top:194.86px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      Cliente</span></div>
+    <div style='position:absolute;left:48.96px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      Nombre: {{itemSelected?.client?.name}}</span></div>
+    <div style='position:absolute;left:252.17px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      DNI: {{itemSelected?.client?.dni}}</span></div>
+    <div style='position:absolute;left:381.27px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      Teléfono: {{itemSelected?.client?.phone}}</span></div>
+    <div style='position:absolute;left:381.46px;top:231.81px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      Mail: {{itemSelected?.client?.emailAddress}}</span></div>
+    <div style='position:absolute;left:267.21px;top:271.44px; font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Productos</span></div>
+    <div style='position:absolute;left:48.96px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Código</span></div>
+    <div style='position:absolute;left:158.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Nombre</span></div>
+    <div style='position:absolute;left:370.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Cantidad</span></div>
+    <div style='position:absolute;left:456.57px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Total</span></div>
+    <div *ngFor="let item of itemSelected?.products; let i = index;">
+      <!-- top:323px; top:334px -->
+        <div [style.top.px]="getTop(i)" style='position:absolute;left:48.96px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+          {{item.product.code}} {{i*26}}</span></div>
+        <div [style.top.px]="getTop(i)" style='position:absolute;left:158.44px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+          {{item.product.name}}</span></div>
+        <div [style.top.px]="getTop(i)" style='position:absolute;left:370.40px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+          {{item.amount}}</span></div>
+        <div [style.top.px]="getTop(i)" style='position:absolute;left:456.57px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+          ${{item.price}}</span></div>
+        <!-- <hr [style.top.px]="getTopHr(i)" style="position:absolute;left:28px; width: 538px; background: rgb(0,0,0); color: rgb(0,0,0);"> -->
+    </div>
+    <!-- <div>
+        <div style='position:absolute;left:48.96px;top:349px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>00004</span></div>
+        <div style='position:absolute;left:158.44px;top:349px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Nombre del subrproducto</span></div>
+        <div style='position:absolute;left:456.57px;top:349px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>$10000.00</span></div>
+        <hr style="position:absolute;left:28px;top:360px; width: 538px; background: #d0c9c9; color: #d0c9c9;">
+    </div> -->
+    <div style='position:absolute;left:357.38px;top:773.45px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      Subtotal:</span></div>
+    <div style='position:absolute;left:456.57px;top:773.73px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      ${{itemSelected?.total}}</span></div>
+    <div style='position:absolute;left:343.39px;top:793.79px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      Descuento:</span></div>
+    <div style='position:absolute;left:456.57px;top:793.45px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      ${{itemSelected?.discount}}</span></div>
+    <div style='position:absolute;left:382.12px;top:814.49px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      Total:</span></div>
+    <div style='position:absolute;left:456.57px;top:814.00px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      ${{itemSelected?.total - itemSelected?.discount}}</span></div>
+  </div>
+</div>

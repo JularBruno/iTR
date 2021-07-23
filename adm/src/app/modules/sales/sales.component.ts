@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ItemsComponent } from '../../core/items.component';
 import * as moment from "moment"
+
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
@@ -16,6 +17,7 @@ export class SalesComponent extends ItemsComponent {
   showProductInterface: boolean = false;
 
   scannerEnabled: boolean = false;
+  @ViewChild('pdfTable') pdfTable: ElementRef;
 
   payARS() {
     let update = {
@@ -84,10 +86,13 @@ export class SalesComponent extends ItemsComponent {
     // this.form.value.code = event;
   }
 
-  generatePdf(item) {
-    console.log('Item ', item);
-    
-
+  getTop(i) {
+    return 323 + i*26;
   }
+
+  getTopHr(i) {
+    return 334 + i*37;
+  }
+
 
 }

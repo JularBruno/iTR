@@ -33,6 +33,7 @@
     "ng2-date-picker": "^10.0.0",
     "ngx-barcode-scanner": "^0.2.0",
     "ngx-material-timepicker": "^5.5.3",
+    "ngx-print": "^1.2.1",
     "ngx-toastr": "^13.0.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",

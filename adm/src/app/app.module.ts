@@ -79,6 +79,7 @@ import { SalesComponent } from './modules/sales/sales.component'
 import { SaleComponent } from './modules/sales/sale.component'
 
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     FormsModule,
     AppRoutingModule,
     ZXingScannerModule,
+    NgxPrintModule
   ],
   exports: [
     // HttpModule,
