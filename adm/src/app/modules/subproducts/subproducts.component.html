@@ -109,7 +109,8 @@
                 (click)="loadTransactionsOpenModal(transactions, item)">
                 Historial
               </button>
-              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(stock, item)">
+              <button *ngIf="item.isFromSale" class="btn btn-primary btn-sm mr-2" type="button"
+                (click)="openModal(stock, item)">
                 Agregar Stock
               </button>
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="edit(item)">

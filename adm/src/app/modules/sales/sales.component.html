@@ -211,7 +211,7 @@
         <div class="col-md-12">
           <p><b>Total pagado en Pesos:</b> ${{itemSelected?.paidARS}}</p>
           <p><b>Total pagado en Dólares:</b> ${{itemSelected?.paidUSD}}</p>
-          <p><b>Total pagado en Productos:</b> ${{itemSelected?.paidProd}}</p>
+          <p><b>Total pagado en Productos:</b> ${{itemSelected?.paidPROD}}</p>
         </div>
       </div>
       <hr>
@@ -261,64 +261,72 @@
 
       <hr>
       <div *ngIf="showProductInterface">
-        <h2><b>Cargar SubProducto como parte de pago</b></h2>  
+        <h2><b>Cargar SubProducto como parte de pago</b></h2>
 
         <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
-          <div class="form-row">
+        <div class="form-row">
 
-            <div class="col-md-6"> 
-              <label>Producto</label>
-              <select class="form-control custom-select">
-              <!-- <select class="form-control custom-select" formControlName="product"> -->
-                <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-              </select>
-              <!-- <small *ngIf="isFieldValid('product')" class="form-text text-danger">
+          <div class="col-md-6">
+            <label>Producto</label>
+            <select class="form-control custom-select" [(ngModel)]="product">
+              <option *ngFor="let product of products" [value]="product.id">{{ product.name }}
+              </option>
+            </select>
+            <!-- <small *ngIf="isFieldValid('product')" class="form-text text-danger">
                 {{getFieldError('product')}}
               </small> -->
-            </div>
-            <div class="col-md-6">
-              <label>Nombre</label>
-              <input type="text" class="form-control">
-              <!-- <input type="text" class="form-control" formControlName="name"> -->
-              <!-- <small *ngIf="isFieldValid('name')" class="form-text text-danger">
+          </div>
+          <div class="col-md-6">
+            <label>Nombre</label>
+            <input [(ngModel)]="name" type="text" class="form-control">
+            <!-- <input type="text" class="form-control" formControlName="name"> -->
+            <!-- <small *ngIf="isFieldValid('name')" class="form-text text-danger">
                 {{getFieldError('name')}}
               </small> -->
-            </div>
-            <div class="form-group col-md-6">
-              <label>Codigo</label>
-              <input type="text" class="form-control">
-              <!-- <input type="text" class="form-control" formControlName="code"> -->
-              <!-- <small *ngIf="isFieldValid('code')" class="form-text text-danger">
+          </div>
+          <div class="form-group col-md-6">
+            <label>Codigo</label>
+            <input [(ngModel)]="code" type="text" class="form-control">
+
+            <!-- <input type="text" class="form-control" formControlName="code"> -->
+            <!-- <small *ngIf="isFieldValid('code')" class="form-text text-danger">
                 {{getFieldError('code')}}
               </small> -->
-            </div>
+          </div>
 
-            <div class="form-group col-md-6">
-              <zxing-scanner [enable]="scannerEnabled" 
-              [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"
+          <div class="form-group col-md-6">
+            <zxing-scanner [enable]="scannerEnabled" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"
               #scanner (scanSuccess)="scanSuccessHandler($event)">
-              </zxing-scanner>
-              <!-- <h3 *ngIf="scannerEnabled">Código: {{form.value.code}}</h3> -->
-              <button type="button" (click)="enableScanner()" class="btn btn-primary float-right mr-5">
-                <i class="fa fa-check" aria-hidden="true"></i> ESCANEAR
-              </button>
-            </div>
-            <div class="form-group col-md-6">
-              <label>Precio</label>
-              <input type="number" class="form-control">
-              <!-- <input type="number" class="form-control" formControlName="price"> -->
-              <!-- <small *ngIf="isFieldValid('price')" class="form-text text-danger">
+            </zxing-scanner>
+            <!-- <h3 *ngIf="scannerEnabled">Código: {{form.value.code}}</h3> -->
+            <button type="button" (click)="enableScanner()" class="btn btn-primary float-right mr-5">
+              <i class="fa fa-check" aria-hidden="true"></i> ABRIR SCANNER
+            </button>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Precio</label>
+            <input type="number" [(ngModel)]="priceSub" class="form-control">
+            <!-- <input type="number" class="form-control" formControlName="price"> -->
+            <!-- <small *ngIf="isFieldValid('price')" class="form-text text-danger">
                 {{getFieldError('price')}}
               </small> -->
-            </div>
-      
-            <div class="col-md-12" style="margin: 1em;">
-              <!-- <button class="btn btn-primary float-right mr-5" type="submit" [disabled]="!form.valid"> -->
-              <button class="btn btn-primary float-right mr-5" type="submit" >
-                <i class="fa fa-check" aria-hidden="true"></i> CREAR
-              </button>
-            </div>
           </div>
+          <div class="form-group col-md-6">
+            <label>Cantidad</label>
+            <input type="number" [(ngModel)]="stock" class="form-control">
+            <!-- <input type="number" class="form-control" formControlName="price"> -->
+            <!-- <small *ngIf="isFieldValid('price')" class="form-text text-danger">
+                {{getFieldError('price')}}
+              </small> -->
+          </div>
+
+          <div class="col-md-12" style="margin: 1em;">
+            <!-- <button class="btn btn-primary float-right mr-5" type="submit" [disabled]="!form.valid"> -->
+            <button class="btn btn-primary float-right mr-5" type="button" (click)="createSubProduct()">
+              <i class="fa fa-check" aria-hidden="true"></i> CREAR
+            </button>
+          </div>
+        </div>
         <!-- </form> -->
 
         <h2><b>SubProductos usados como parte de pago</b></h2>
@@ -331,18 +339,24 @@
                 <tr>
                   <th>Nombre</th>
                   <th>Código</th>
+                  <th>Cantidad</th>
                   <th>Monto</th>
+                  <th>Monto Total</th>
+
                 </tr>
               </thead>
               <tbody>
                 <!-- Cargador -->
-  
-                <!-- <tr *ngFor="let item of products">
+
+                <tr *ngFor="let item of subproducts">
                         <td width="33%">{{item.name}}</td>
                         <td width="33%">{{item.code}}</td>
-                        <td width="34%">{{item.product?.name}}</td>
-                    </tr>  -->
-  
+                        <td width="34%">{{item.stock}}</td>
+                        <td width="34%">{{item.price}}</td>
+                        <td width="34%">{{item.stock * item.price}}</td>
+
+                    </tr> 
+
                 <!-- <tr>
                   <td width="33%">MaBuk air</td>
                   <td width="33%">069</td>
@@ -373,49 +387,140 @@
 <!-- ////////////// pdf //////////////// -->
 
 <div id="print-section" style="visibility: hidden;">
-<!-- <div id="pdfTable" #pdfTable > -->
-  <div style="position:absolute;left:50%;margin-left:-297px;top:0px;width:595px;height:841px;border-style:outset;overflow:hidden">
+  <!-- <div id="pdfTable" #pdfTable > -->
+  <div
+    style="position:absolute;left:50%;margin-left:-297px;top:0px;width:595px;height:841px;border-style:outset;overflow:hidden">
     <!-- <div style="position:absolute;top:0px;width:21cm;height:29.7cm;border-style:outset;overflow:hidden"> -->
     <div style="position:absolute;left:0px;top:0px">
-    <img src="../../../assets/pdf/background.jpg" width=595 height=841>
+      <img src="../../../assets/pdf/background.jpg" width=595 height=841>
     </div>
-    <div style='position:absolute;left:267.21px;top:19.00px; font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style="font-family:'DejaVu Sans Condensed',serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none">Original</span></div>
-    <div style='position:absolute;left:283.34px;top:39.73px; font-family:"DejaVu Sans Condensed",serif;font-size:44.5px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:44.5px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>C</span></div>
-    <div style='position:absolute;left:379.21px;top:65.74px; font-family:"DejaVu Sans Condensed",serif;font-size:30.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:30.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Factura</span></div>
-    <div style='position:absolute;left:255.67px;top:91.69px; font-family:"DejaVu Sans Condensed",serif;font-size:24.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:24.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Cod 11</span></div>
-    <div style='position:absolute;left:48.96px;top:142.39px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Whatsapp: 3417193615</span></div>
-    <div style='position:absolute;left:381.60px;top:142.39px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      Id: {{itemSelected?.id}}</span></div>
-    <div style='position:absolute;left:48.61px;top:157.65px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      Instagram: itr.technologicalhouse</span></div>
-    <div style='position:absolute;left:381.25px;top:157.65px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      Fecha de emisión: {{itemSelected?.createdAt | date: 'dd/MM/yyyy' }}</span></div>
-    <div style='position:absolute;left:48.96px;top:194.86px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
-      Cliente</span></div>
-    <div style='position:absolute;left:48.96px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      Nombre: {{itemSelected?.client?.name}}</span></div>
-    <div style='position:absolute;left:252.17px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      DNI: {{itemSelected?.client?.dni}}</span></div>
-    <div style='position:absolute;left:381.27px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      Teléfono: {{itemSelected?.client?.phone}}</span></div>
-    <div style='position:absolute;left:381.46px;top:231.81px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      Mail: {{itemSelected?.client?.emailAddress}}</span></div>
-    <div style='position:absolute;left:267.21px;top:271.44px; font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Productos</span></div>
-    <div style='position:absolute;left:48.96px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Código</span></div>
-    <div style='position:absolute;left:158.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Nombre</span></div>
-    <div style='position:absolute;left:370.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Cantidad</span></div>
-    <div style='position:absolute;left:456.57px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Total</span></div>
+    <div
+      style='position:absolute;left:267.21px;top:19.00px; font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style="font-family:'DejaVu Sans Condensed',serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none">Original</span>
+    </div>
+    <div
+      style='position:absolute;left:283.34px;top:39.73px; font-family:"DejaVu Sans Condensed",serif;font-size:44.5px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:44.5px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>C</span>
+    </div>
+    <div
+      style='position:absolute;left:379.21px;top:65.74px; font-family:"DejaVu Sans Condensed",serif;font-size:30.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:30.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Factura</span>
+    </div>
+    <div
+      style='position:absolute;left:255.67px;top:91.69px; font-family:"DejaVu Sans Condensed",serif;font-size:24.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:24.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Cod
+        11</span>
+    </div>
+    <div
+      style='position:absolute;left:48.96px;top:142.39px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Whatsapp:
+        3417193615</span>
+    </div>
+    <div
+      style='position:absolute;left:381.60px;top:142.39px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        Id: {{itemSelected?.id}}</span>
+    </div>
+    <div
+      style='position:absolute;left:48.61px;top:157.65px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        Instagram: itr.technologicalhouse</span>
+    </div>
+    <div
+      style='position:absolute;left:381.25px;top:157.65px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        Fecha de emisión: {{itemSelected?.createdAt | date: 'dd/MM/yyyy' }}</span>
+    </div>
+    <div
+      style='position:absolute;left:48.96px;top:194.86px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+        Cliente</span>
+    </div>
+    <div
+      style='position:absolute;left:48.96px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        Nombre: {{itemSelected?.client?.name}}</span>
+    </div>
+    <div
+      style='position:absolute;left:252.17px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        DNI: {{itemSelected?.client?.dni}}</span>
+    </div>
+    <div
+      style='position:absolute;left:381.27px;top:216.72px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        Teléfono: {{itemSelected?.client?.phone}}</span>
+    </div>
+    <div
+      style='position:absolute;left:381.46px;top:231.81px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        Mail: {{itemSelected?.client?.emailAddress}}</span>
+    </div>
+    <div
+      style='position:absolute;left:267.21px;top:271.44px; font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:15.8px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Productos</span>
+    </div>
+    <div
+      style='position:absolute;left:48.96px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Código</span>
+    </div>
+    <div
+      style='position:absolute;left:158.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Nombre</span>
+    </div>
+    <div
+      style='position:absolute;left:370.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Cantidad</span>
+    </div>
+    <div
+      style='position:absolute;left:456.57px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Total</span>
+    </div>
     <div *ngFor="let item of itemSelected?.products; let i = index;">
       <!-- top:323px; top:334px -->
-        <div [style.top.px]="getTop(i)" style='position:absolute;left:48.96px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          {{item.product.code}} {{i*26}}</span></div>
-        <div [style.top.px]="getTop(i)" style='position:absolute;left:158.44px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          {{item.product.name}}</span></div>
-        <div [style.top.px]="getTop(i)" style='position:absolute;left:370.40px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          {{item.amount}}</span></div>
-        <div [style.top.px]="getTop(i)" style='position:absolute;left:456.57px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          ${{item.price}}</span></div>
-        <!-- <hr [style.top.px]="getTopHr(i)" style="position:absolute;left:28px; width: 538px; background: rgb(0,0,0); color: rgb(0,0,0);"> -->
+      <div [style.top.px]="getTop(i)"
+        style='position:absolute;left:48.96px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        <span
+          style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+          {{item.product.code}} {{i*26}}</span>
+      </div>
+      <div [style.top.px]="getTop(i)"
+        style='position:absolute;left:158.44px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        <span
+          style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+          {{item.product.name}}</span>
+      </div>
+      <div [style.top.px]="getTop(i)"
+        style='position:absolute;left:370.40px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        <span
+          style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+          {{item.amount}}</span>
+      </div>
+      <div [style.top.px]="getTop(i)"
+        style='position:absolute;left:456.57px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        <span
+          style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+          ${{item.price}}</span>
+      </div>
+      <!-- <hr [style.top.px]="getTopHr(i)" style="position:absolute;left:28px; width: 538px; background: rgb(0,0,0); color: rgb(0,0,0);"> -->
     </div>
     <!-- <div>
         <div style='position:absolute;left:48.96px;top:349px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>00004</span></div>
@@ -423,17 +528,41 @@
         <div style='position:absolute;left:456.57px;top:349px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>$10000.00</span></div>
         <hr style="position:absolute;left:28px;top:360px; width: 538px; background: #d0c9c9; color: #d0c9c9;">
     </div> -->
-    <div style='position:absolute;left:357.38px;top:773.45px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
-      Subtotal:</span></div>
-    <div style='position:absolute;left:456.57px;top:773.73px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      ${{itemSelected?.total}}</span></div>
-    <div style='position:absolute;left:343.39px;top:793.79px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
-      Descuento:</span></div>
-    <div style='position:absolute;left:456.57px;top:793.45px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      ${{itemSelected?.discount}}</span></div>
-    <div style='position:absolute;left:382.12px;top:814.49px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
-      Total:</span></div>
-    <div style='position:absolute;left:456.57px;top:814.00px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-      ${{itemSelected?.total - itemSelected?.discount}}</span></div>
+    <div
+      style='position:absolute;left:357.38px;top:773.45px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+        Subtotal:</span>
+    </div>
+    <div
+      style='position:absolute;left:456.57px;top:773.73px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        ${{itemSelected?.total}}</span>
+    </div>
+    <div
+      style='position:absolute;left:343.39px;top:793.79px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+        Descuento:</span>
+    </div>
+    <div
+      style='position:absolute;left:456.57px;top:793.45px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        ${{itemSelected?.discount}}</span>
+    </div>
+    <div
+      style='position:absolute;left:382.12px;top:814.49px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+        Total:</span>
+    </div>
+    <div
+      style='position:absolute;left:456.57px;top:814.00px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+      <span
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        ${{itemSelected?.total - itemSelected?.discount}}</span>
+    </div>
   </div>
 </div>

@@ -179,9 +179,10 @@ export class ItemsComponent implements OnInit {
 
     this.getItems();
   }
-
+  preOpenModal() { }
   openModal(content, item) {
     this.itemSelected = item;
+    this.preOpenModal()
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
