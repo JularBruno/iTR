@@ -34,7 +34,6 @@ export class SalesComponent extends ItemsComponent {
   }
   getSaleSubProducts() {
     this.pageService.httpSimpleGetAll(this.global.settings.endPoints.subproducts, false, {}, { isFromSale: true, sale: this.itemSelected.id }).then(res => {
-      console.log(res.data, "SALE SUBPRODUCTS")
       this.subproducts = res.data
     })
   }
@@ -69,7 +68,6 @@ export class SalesComponent extends ItemsComponent {
   }
   createSubProduct() {
     if (!this.name || !this.code || !this.product || !this.priceSub || !this.stock) return this.pageService.showError("Ingrese todos los datos para cargar el subproducto")
-    console.log(this.name, "this,name", this.code, "this.code", this.product, "this.product", this.priceSub, "this.price", this.stock, "this.stock")
     let subproduct = {
       name: this.name,
       code: this.code,
