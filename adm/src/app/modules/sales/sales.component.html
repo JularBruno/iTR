@@ -91,7 +91,7 @@
 
             </td>
             <td class="px-4 text-center">
-              ${{ item.total }}
+              ${{ item.total - item.discount}}
 
             </td>
             <td *ngIf="showPriceChange" class="px-4 text-center">
@@ -132,8 +132,7 @@
 
   <div class="modal-content">
     <div class="modal-header">
-      <h1 class="modal-title">Historial de venta</h1>
-
+      <h1 class="modal-title"><b>Detalles de la venta</b></h1>
       <button class="btn btn-primary btn-sm mr-2" type="button" printSectionId="print-section" ngxPrint>
         Generar Factura
       </button>
