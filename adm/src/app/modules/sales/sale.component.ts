@@ -63,7 +63,8 @@ export class SaleComponent extends ItemComponent {
       id: [null],
       name: [null, Validators.required],
       phone: [null, Validators.required],
-      emailAddress: [null, Validators.compose([Validators.required, mailFormat()])]
+      emailAddress: [null, Validators.compose([Validators.required, mailFormat()])],
+      dni: [null, Validators.required]
     })
   }
 
@@ -152,9 +153,13 @@ export class SaleComponent extends ItemComponent {
 
     this.pageService.httpPost(item, "", endpoint).then(res => {
       console.log(res, "cliente creado");
+      alert('Cliente creado!')
+      this.form.reset();
       this.getClients()
+      
     })
   }
+
   getCategories(filter?) {
     let endPoint = this.settings.endPoints.products
     this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, []).then(res => {

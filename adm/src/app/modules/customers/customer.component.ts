@@ -17,6 +17,7 @@ export class CustomerComponent extends ItemComponent {
       name: [null, Validators.required],
       phone: [null, Validators.required],
       emailAddress: [null, Validators.compose([Validators.required, Validators.email, mailFormat()])],
+      dni: [null, Validators.required],
 
     })
   }
@@ -27,6 +28,7 @@ export class CustomerComponent extends ItemComponent {
       name: [item.name, Validators.required],
       phone: [item.phone, Validators.required],
       emailAddress: [item.emailAddress, Validators.compose([Validators.required, Validators.email, mailFormat()])],
+      dni: [item.dni, Validators.required],
 
     })
   }

@@ -195,6 +195,7 @@
                                         <th>Nombre</th>
                                         <th>Email</th>
                                         <th>Telefono</th>
+                                        <th>DNI</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -224,8 +225,9 @@
                                     </tr>
                                     <tr *ngFor="let item of clients">
                                         <td width="20%">{{item.name}}</td>
-                                        <td width="30%">{{item.emailAddress}}</td>
-                                        <td width="30%">{{item.phone}}</td>
+                                        <td width="20%">{{item.emailAddress}}</td>
+                                        <td width="20%">{{item.phone}}</td>
+                                        <td width="20%">{{item.dni}}</td>
                                         <td width="20%" class="text-right">
                                             <button type="button" class="btn primary btn-sm mr-2"
                                                 (click)="selectClient(item)">
@@ -254,31 +256,38 @@
                 <div class="card-body">
                     <form [formGroup]="form">
                         <div class="form-row">
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
                                 <label>Nombre</label>
                                 <input type="text" class="form-control" formControlName="name">
                                 <small *ngIf="isFieldValid('name')" class="form-text text-danger">
                                     {{getFieldError('name')}}
                                 </small>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
                                 <label>Correo electrónico</label>
                                 <input type="text" class="form-control" formControlName="emailAddress">
                                 <small *ngIf="isFieldValid('emailAddress')" class="form-text text-danger">
                                     {{getFieldError('emailAddress')}}
                                 </small>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
                                 <label>Teléfono</label>
-                                <input type="text" class="form-control" formControlName="phone">
+                                <input type="number" class="form-control" formControlName="phone">
                                 <small *ngIf="isFieldValid('phone')" class="form-text text-danger">
                                     {{getFieldError('phone')}}
                                 </small>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-6">
+                                <label>DNI</label>
+                                <input type="number" class="form-control" formControlName="dni">
+                                <small *ngIf="isFieldValid('dni')" class="form-text text-danger">
+                                    {{getFieldError('dni')}}
+                                </small>
+                            </div>
+                            <div class="form-group col-md-12" style="text-align: end;">
 
-                                <button (click)="onSubmit()" type="button" class="btn primary btn-sm mr-2">
-                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                <button (click)="onSubmit()" type="button" class="btn primary mr-2">
+                                    <i class="fa fa-check-circle" aria-hidden="true"></i> Crear
                                 </button>
                             </div>
 

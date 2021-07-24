@@ -32,12 +32,12 @@
           </div>
           <div class="form-group col-md-6">
             <zxing-scanner [enable]="scannerEnabled" 
-            [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"
+            [formats]="['QR_CODE', 'EAN_13', 'EAN_8', 'CODE_128', 'DATA_MATRIX']"
             #scanner (scanSuccess)="scanSuccessHandler($event)">
             </zxing-scanner>
             <h3 *ngIf="scannerEnabled">Código: {{form.value.code}}</h3>
             <button type="button" (click)="enableScanner()" class="btn btn-primary float-right mr-5">
-              <i class="fa fa-check" aria-hidden="true"></i> ESCANEAR
+              <i class="fa fa-eye" aria-hidden="true"></i> ESCANEAR
             </button>
           </div>
         </div>

@@ -45,6 +45,13 @@
                   aria-hidden="true"></i>
               </button>
             </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light" (click)="sort('phone')">
+                DNI
+                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.phone == 1,'fa-arrow-up': sortField.phone == -1}"
+                  aria-hidden="true"></i>
+              </button>
+            </th>
 
             <th class="text-center">
               <button type="button" class="btn btn-light" (click)="sort('emailAddress')">
@@ -89,6 +96,9 @@
             </td>
             <td class="px-4 text-center">
               {{ item.phone }}
+            </td>
+            <td class="px-4 text-center">
+              {{ item.dni }}
             </td>
             <td class="px-4 text-center">
               {{ item.emailAddress }}
