@@ -105,11 +105,11 @@
               {{ item.stock }}
             </td>
             <td class="text-right">
-              <button class="btn btn-primary btn-sm mr-2" type="button"
+              <button *ngIf="!item.isFromSale" class="btn btn-primary btn-sm mr-2" type="button"
                 (click)="loadTransactionsOpenModal(transactions, item)">
                 Historial
               </button>
-              <button *ngIf="item.isFromSale" class="btn btn-primary btn-sm mr-2" type="button"
+              <button *ngIf="!item.isFromSale" class="btn btn-primary btn-sm mr-2" type="button"
                 (click)="openModal(stock, item)">
                 Agregar Stock
               </button>
