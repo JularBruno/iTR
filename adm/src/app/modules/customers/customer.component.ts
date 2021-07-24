@@ -17,7 +17,7 @@ export class CustomerComponent extends ItemComponent {
       name: [null, Validators.required],
       phone: [null, Validators.required],
       emailAddress: [null, Validators.compose([Validators.required, Validators.email, mailFormat()])],
-
+      
     })
   }
 

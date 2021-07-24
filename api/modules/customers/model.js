@@ -11,7 +11,8 @@ module.exports = (module) => {
 		name: { type: String, required: true },
 		phone: { type: String, required: true },
 		emailAddress: { type: String, unique: true, required: true },
-		spent: { type: Number, default: 0 }
+		spent: { type: Number, default: 0 },
+		dni: { type: Number, required: true }
 
 	}, { timestamps: true });
 

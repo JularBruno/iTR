@@ -98,8 +98,11 @@
             <td class="px-4 ">
               {{ item.price }}
             </td>
-            <td class="px-4">
+            <td *ngIf="item.product?.name" class="px-4">
               {{ item.product?.name }}
+            </td>
+            <td *ngIf="!item.product?.name" class="px-4" style="color:gray">
+              Producto Eliminado
             </td>
             <td class="px-4">
               {{ item.stock }}
@@ -115,6 +118,9 @@
               </button>
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="edit(item)">
                 Editar
+              </button>
+              <button class="btn btn-danger btn-sm" type="button" (click)="remove(item)">
+                <i class="fa fa-close" aria-hidden="true"></i>
               </button>
             </td>
           </tr>

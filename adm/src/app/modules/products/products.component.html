@@ -27,8 +27,8 @@
       </div>
       <div *ngIf="showPriceChange" class="form-group ml-4">
         <label for="labelPrice">Ingrese un porcentaje</label>
-        <input type="text" class="form-control" id="labelPrice" placeholder="Ingrese el porcentaje..." [(ngModel)]="price"
-          [ngModelOptions]="{standalone: true}">
+        <input type="text" class="form-control" id="labelPrice" placeholder="Ingrese el porcentaje..."
+          [(ngModel)]="price" [ngModelOptions]="{standalone: true}">
       </div>
       <div *ngIf="showPriceChange" class="form-group ml-1">
         <label class="invisible">.</label>
@@ -104,9 +104,11 @@
                 (change)="selectProduct(item, $event.target.checked)">
             </td>
             <td class="text-right">
-
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="edit(item)">
                 Editar
+              </button>
+              <button class="btn btn-danger btn-sm" type="button" (click)="remove(item)">
+                <i class="fa fa-close" aria-hidden="true"></i>
               </button>
             </td>
           </tr>
