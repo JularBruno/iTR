@@ -118,13 +118,13 @@ export class Settings {
   public static routes: any = {
     root: { path: '', redirectTo: '/home', pathMatch: 'full' },
     administrators: { path: 'administrators', data: { roles: ['administrator'] } },
-    administratorChangePassword: { path: 'administrators/:id/changePassword', data: { roles: ['administrator'] } },
+    administratorChangePassword: { path: 'administrators/:id/changePassword', data: { roles: ['administrator', 'manager'] } },
     administrator: { path: 'administrators/:id', data: { roles: ['administrator'] } },
     home: { path: 'home' }, // Change this please...
     login: { path: 'login' },
     users: { path: 'users', data: { roles: ['administrator'] } },
     user: { path: 'users/:id', data: { roles: ['administrator'] } },
-    userChangePassword: { path: 'users/:id/changePassword', data: { roles: ['administrator'] } },
+    // userChangePassword: { path: 'administrator/:id/changePassword', data: { roles: ['administrator'] } },
     subproducts: { path: 'subproducts', data: { roles: ['administrator'] } },
     subproduct: { path: 'subproducts/:id', data: { roles: ['administrator'] } },
     suppliers: { path: 'suppliers', data: { roles: ['administrator'] } },
