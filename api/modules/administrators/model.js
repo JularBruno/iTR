@@ -9,7 +9,7 @@ module.exports = (module) => {
 	module.schema = new global.database.mongodb.mongoose.Schema({
 		id: { type: String },
 		username: { type: String, unique: true },
-		password: { type: String, unique: true },
+		password: { type: String },
 		roles: [{ type: String, allowNull: false }],
 	}, { timestamps: true });
 
