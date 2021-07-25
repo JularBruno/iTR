@@ -27,28 +27,51 @@ export class SalesComponent extends ItemsComponent {
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
   disableCode = false;
+  dolarPrice = 0;
 
   preOpenModal() {
     this.getProducts();
-    this.getSaleSubProducts()
+    this.getSaleSubProducts();
+    this.getDolarPrice();
   }
+
   getSaleSubProducts() {
     this.pageService.httpSimpleGetAll(this.global.settings.endPoints.subproducts, false, {}, { isFromSale: true, sale: this.itemSelected.id }).then(res => {
       this.subproducts = res.data
     })
   }
+
   getProducts() {
     this.pageService.httpSimpleGetAll(this.global.settings.endPoints.products).then(res => {
-      console.log(res)
-      this.products = res.data
+      console.log(res);
+      this.products = res.data;
     })
   }
+
+  getDolarPrice() {
+    this.pageService.httpSimpleGetAll(this.global.settings.endPoints.dolar).then(res => {
+      console.log(res);
+      this.dolarPrice = res.data[0].value;
+    })
+  }
+
   payARS() {
     let update = {
       $inc: { paidARS: this.paidARS },
       id: this.itemSelected.id
     }
     this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
+      await this.getItemSelected()
+    })
+
+    console.log('this.dolarPrice ', this.dolarPrice);
+
+    let updateTotal = {
+      $inc: { paidTOTAL: (this.paidARS / this.dolarPrice) },
+      id: this.itemSelected.id
+    }
+
+    this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
       await this.getItemSelected()
     })
   }
@@ -61,11 +84,22 @@ export class SalesComponent extends ItemsComponent {
     this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
       await this.getItemSelected()
     })
+
+    let updateTotal = {
+      $inc: { paidTOTAL: this.paidUSD },
+      id: this.itemSelected.id
+    }
+    
+    this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
+      await this.getItemSelected()
+    })
   }
+
   async getItemSelected() {
     let item = await this.pageService.httpGetById(this.itemSelected.id, ["client"])
     this.itemSelected = item.data
   }
+
   createSubProduct() {
     if (!this.name || !this.code || !this.product || !this.priceSub || !this.stock) return this.pageService.showError("Ingrese todos los datos para cargar el subproducto")
     let subproduct = {
@@ -82,16 +116,28 @@ export class SalesComponent extends ItemsComponent {
       let sale = {
         id: this.itemSelected.id,
         $inc: { paidPROD: subproduct.price * subproduct.stock }
-
       }
+
       this.pageService.httpUpdate(sale).then(res => {
         this.getItemSelected()
         this.preOpenModal()
         this.name = this.code = this.product = this.stock = this.price = undefined
+
+        let updateTotal = {
+          $inc: { paidTOTAL: subproduct.price * subproduct.stock },
+          id: this.itemSelected.id
+        }
+    
+        this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
+          await this.getItemSelected()
+        })
+
       })
       this.pageService.showSuccess("Se ha agregado el producto a la venta exitosamente")
+
     })
   }
+
   displayProductLoad() {
     this.showProductInterface = true
   }

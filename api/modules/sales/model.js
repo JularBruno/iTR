@@ -16,6 +16,7 @@ module.exports = (module) => {
 		paidARS: { type: Number, default: 0 },
 		paidUSD: { type: Number, default: 0 },
 		paidPROD: { type: Number, default: 0 },
+		paidTOTAL: { type: Number, default: 0 },
 
 	}, { timestamps: true });
 
