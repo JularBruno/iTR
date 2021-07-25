@@ -213,8 +213,11 @@
         <tbody>
           <tr *ngFor="let item of transactionsArray">
 
-            <td class="px-4">
+            <td *ngIf="item.supplier" class="px-4">
               {{ item.supplier.name }}
+            </td>
+            <td style="color: gray;" *ngIf="!item.supplier" class="px-4">
+              Proveedor Eliminado
             </td>
             <td class="px-4">
               {{ item.stock }}

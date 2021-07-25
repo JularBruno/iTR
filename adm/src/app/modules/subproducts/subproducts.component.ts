@@ -12,7 +12,7 @@ export class SubproductsComponent extends ItemsComponent {
   price: any
   supplier: any
   transactionsArray: any = [];
-  
+
   getFilters() {
     let _filters = {};
     return _filters;
@@ -36,7 +36,7 @@ export class SubproductsComponent extends ItemsComponent {
 
     return filtersSearch;
   }
-  
+
   getSuppliers() {
     let endPoint = this.settings.endPoints.suppliers;
     this.pageService.httpSimpleGetAll(endPoint)
@@ -68,6 +68,15 @@ export class SubproductsComponent extends ItemsComponent {
     item.supplier = item.supplier.id
     this.pageService.httpPost(item, method, endPoint).then(res => {
       console.log("done")
+      this.loadTransactions(this.itemSelected.id)
+      this.getItems()
+    })
+  }
+  loadTransactions(item) {
+    let endPoint = this.settings.endPoints.transactions;
+
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, { subproduct: item.id, type: "add" }, ["supplier"]).then(res => {
+      this.transactionsArray = res.data
     })
   }
   loadTransactionsOpenModal(content, item) {

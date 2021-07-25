@@ -83,8 +83,11 @@
           </tr>
           <tr *ngFor="let item of items">
 
-            <td class="px-4">
+            <td *ngIf="item.client" class="px-4">
               {{ item.client?.name }}
+            </td>
+            <td *ngIf="!item.client" style="color:gray" class="px-4">
+              Cliente eliminado
             </td>
             <td class="px-4 text-center">
               {{ item.createdAt | date:'dd/MM/yyyy' }}
@@ -101,6 +104,9 @@
             <td class="text-right">
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(history, item)">
                 Administrar
+              </button>
+              <button class="btn btn-danger btn-sm" type="button" (click)="remove(item)">
+                <i class="fa fa-close" aria-hidden="true"></i>
               </button>
             </td>
           </tr>
@@ -168,7 +174,9 @@
               <tr *ngFor="let item of itemSelected.products">
                 <td width="25%">{{item.product?.name}}</td>
                 <td width="25%">{{item.product?.code}}</td>
-                <td width="25%">{{item.product?.product?.name}}</td>
+                <td *ngIf="item.product?.product?.name" width="25%">{{item.product?.product?.name}}</td>
+                <td *ngIf="!item.product?.product?.name" width="25%" style="color: gray;">Categoria Eliminada</td>
+
                 <td width="25%">{{item.amount}}</td>
 
                 <td width="25%">${{item.price}}</td>
@@ -197,7 +205,9 @@
       <h2><b>Datos de la venta</b></h2>
       <div class="row">
         <div class="col-md-6">
-          <p><b>Cliente:</b> {{itemSelected?.client?.name}}</p>
+          <p *ngIf="itemSelected?.client"><b>Cliente:</b> {{itemSelected?.client?.name}}</p>
+          <p style="color: gray;" *ngIf="!itemSelected?.client"><b>Cliente:</b>Cliente eliminado</p>
+
           <p><b>Fecha:</b> {{itemSelected.createdAt | date:'dd/MM/yyyy'}}</p>
         </div>
         <div class="col-md-6">
@@ -349,13 +359,13 @@
                 <!-- Cargador -->
 
                 <tr *ngFor="let item of subproducts">
-                        <td width="33%">{{item.name}}</td>
-                        <td width="33%">{{item.code}}</td>
-                        <td width="34%">{{item.stock}}</td>
-                        <td width="34%">{{item.price}}</td>
-                        <td width="34%">{{item.stock * item.price}}</td>
+                  <td width="33%">{{item.name}}</td>
+                  <td width="33%">{{item.code}}</td>
+                  <td width="34%">{{item.stock}}</td>
+                  <td width="34%">{{item.price}}</td>
+                  <td width="34%">{{item.stock * item.price}}</td>
 
-                    </tr> 
+                </tr>
 
                 <!-- <tr>
                   <td width="33%">MaBuk air</td>
