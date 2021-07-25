@@ -25,9 +25,8 @@ export class SalesComponent extends ItemsComponent {
   subproducts: any = [];
   code: any
   @ViewChild('pdfTable') pdfTable: ElementRef;
-
   disableCode = false;
-
+  user: any = this.global.getUser()
   preOpenModal() {
     this.getProducts();
     this.getSaleSubProducts()
@@ -97,11 +96,19 @@ export class SalesComponent extends ItemsComponent {
   }
   getFilters() {
     let createdAt: any = {};
-    console.log(this.date)
+    // let user = this.global.getuser()
     let _filters = {};
-    if (this.date) {
+    console.log(this.user.roles, "rolesD")
+    console.log(this.user.roles.includes("manager"))
+    if (this.date && !this.user.roles.includes("manager")) {
       const end = moment(this.date).endOf('day').toDate()
       const start = moment(this.date).startOf('day').toDate()
+      createdAt["$gte"] = start;
+      createdAt["$lte"] = end;
+      _filters['createdAt'] = createdAt;
+    } else if (this.user.roles.includes("manager")) {
+      const end = moment().endOf('day').toDate()
+      const start = moment().startOf('day').toDate()
       createdAt["$gte"] = start;
       createdAt["$lte"] = end;
       _filters['createdAt'] = createdAt;

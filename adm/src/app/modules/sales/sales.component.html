@@ -16,21 +16,15 @@
         <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
           placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}">
       </div> -->
-<<<<<<< HEAD
       <div class="form-group m-3">
-        <label for="textSearch">Ingrese Fecha (mes / día / año)</label>
-=======
-      <div class="form-group">
         <label for="textSearch">Ingrese Fecha</label>
->>>>>>> 68bfaf3937bbe22f504867893863e581ff430132
-        <!-- <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
-          placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}"> -->
-        <input class="form-control" [(ngModel)]="date" type="date">
+
+        <input [disabled]="user.roles.includes('manager')" class="form-control" placeholder="Ingrese una fecha"
+          [(ngModel)]="date" type="date">
       </div>
       <div class="form-group m-3">
         <label for="textSearch">Ingrese Precio</label>
-        <!-- <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
-          placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}"> -->
+
         <input class="form-control" placeholder="Ingrese un precio" [(ngModel)]="price" type="number">
       </div>
       <div class="form-group m-3">

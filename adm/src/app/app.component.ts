@@ -41,7 +41,7 @@ export class AppComponent {
       this.user = this.global.getUser();
       if (!this.logged) {
         this.pageService.navigateRoute("/login");
-      } else this.pageService.navigateRoute("/subproducts"); 
+      } else this.pageService.navigateRoute("/subproducts");
     });
     this.global.checkUser();
 
@@ -49,7 +49,10 @@ export class AppComponent {
 
 
   }
-
+  changePassword() {
+    let user = this.global.getUser()
+    this.pageService.navigateRoute("/administrators/" + user.id + "/changePassword");
+  }
   logout() {
     this.global.removeUser();
   }
