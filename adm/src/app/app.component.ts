@@ -49,10 +49,12 @@ export class AppComponent {
 
 
   }
+
   changePassword() {
     let user = this.global.getUser()
     this.pageService.navigateRoute("/administrators/" + user.id + "/changePassword");
   }
+  
   logout() {
     this.global.removeUser();
   }

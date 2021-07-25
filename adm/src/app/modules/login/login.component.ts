@@ -22,13 +22,13 @@ export class LoginComponent implements OnInit {
       username: [null, Validators.required],
       password: [null, Validators.required],
       role: ['administrators', Validators.required],
-      type: [null, Validators.required]
+      // type: [null, Validators.required]
     });
   }
 
   login(item) {
     console.log('log');
-    
+    item.type = "admin";
     //item.role = 'administrators'
     const endPoint = '/' + item.role;
     this.pageService.httpPost(item, '/login', endPoint)
