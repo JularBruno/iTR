@@ -12,7 +12,7 @@ module.exports = (module) => {
 		phone: { type: String, required: true },
 		emailAddress: { type: String, unique: true, required: true },
 		spent: { type: Number, default: 0 },
-		dni: { type: Number, required: true }
+		dni: { type: Number, default: 0 }
 
 	}, { timestamps: true });
 

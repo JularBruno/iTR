@@ -16,22 +16,27 @@
         <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
           placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}">
       </div> -->
+<<<<<<< HEAD
+      <div class="form-group m-3">
+        <label for="textSearch">Ingrese Fecha (mes / día / año)</label>
+=======
       <div class="form-group">
         <label for="textSearch">Ingrese Fecha</label>
+>>>>>>> 68bfaf3937bbe22f504867893863e581ff430132
         <!-- <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
           placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}"> -->
         <input class="form-control" [(ngModel)]="date" type="date">
       </div>
-      <div class="form-group">
+      <div class="form-group m-3">
         <label for="textSearch">Ingrese Precio</label>
         <!-- <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
           placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}"> -->
         <input class="form-control" placeholder="Ingrese un precio" [(ngModel)]="price" type="number">
       </div>
-      <div class="form-group ml-1">
+      <div class="form-group m-3">
         <label class="invisible">.</label>
         <button class="btn btn-outline-primary btn-block" (click)="getItems()">
-          <i class="fa fa-search" aria-hidden="true"></i>
+          <i class="fa fa-search" aria-hidden="true"></i> Buscar
         </button>
       </div>
     </div>
@@ -94,7 +99,7 @@
 
             </td>
             <td class="px-4 text-center">
-              ${{ item.total }}
+              ${{ item.total - item.discount}}
 
             </td>
             <td *ngIf="showPriceChange" class="px-4 text-center">
@@ -138,10 +143,9 @@
 
   <div class="modal-content">
     <div class="modal-header">
-      <h1 class="modal-title">Historial de venta</h1>
-
+      <h1 class="modal-title"><b>Detalles de la venta</b></h1>
       <button class="btn btn-primary btn-sm mr-2" type="button" printSectionId="print-section" ngxPrint>
-        Generar Factura
+        <i class="fa fa-file" aria-hidden="true"></i> Generar Factura
       </button>
     </div>
     <div class="modal-body" style="padding: 2em">
@@ -295,8 +299,8 @@
               </small> -->
           </div>
           <div class="form-group col-md-6">
-            <label>Codigo</label>
-            <input [(ngModel)]="code" type="text" class="form-control">
+            <label>Código</label>
+            <input [disabled]="disableCode" [(ngModel)]="code" type="text" class="form-control">
 
             <!-- <input type="text" class="form-control" formControlName="code"> -->
             <!-- <small *ngIf="isFieldValid('code')" class="form-text text-danger">
@@ -310,7 +314,7 @@
             </zxing-scanner>
             <!-- <h3 *ngIf="scannerEnabled">Código: {{form.value.code}}</h3> -->
             <button type="button" (click)="enableScanner()" class="btn btn-primary float-right mr-5">
-              <i class="fa fa-check" aria-hidden="true"></i> ABRIR SCANNER
+              <i class="fa fa-eye" aria-hidden="true"></i> ESCANEAR
             </button>
           </div>
           <div class="form-group col-md-6">
@@ -510,7 +514,7 @@
         style='position:absolute;left:48.96px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
         <span
           style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          {{item.product.code}} {{i*26}}</span>
+          {{item.product.code}}</span>
       </div>
       <div [style.top.px]="getTop(i)"
         style='position:absolute;left:158.44px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>

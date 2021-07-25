@@ -9,6 +9,7 @@ import * as moment from "moment"
   styleUrls: ['./sales.component.scss']
 })
 export class SalesComponent extends ItemsComponent {
+
   showPriceChange: Boolean = false
   price: any
   date: any
@@ -24,6 +25,9 @@ export class SalesComponent extends ItemsComponent {
   subproducts: any = [];
   code: any
   @ViewChild('pdfTable') pdfTable: ElementRef;
+
+  disableCode = false;
+
   preOpenModal() {
     this.getProducts();
     this.getSaleSubProducts()
@@ -111,29 +115,25 @@ export class SalesComponent extends ItemsComponent {
   getPopulates() {
     return ["client"]
   }
-  getFiltersSearch(textSearch) {
 
-    let filtersSearch: any = {
-      "$or": [
-        { "name": { "$regex": textSearch, "$options": "i" } },
-      ]
-    };
-    return filtersSearch;
-  }
+  // getFiltersSearch(textSearch) {
+  //   let filtersSearch: any = {
+  //     "$or": [
+  //       { "client.name": { "$regex": textSearch, "$options": "i" } },
+  //     ]
+  //   };
+  //   return filtersSearch;
+  // }
 
 
   enableScanner() {
     this.scannerEnabled = !this.scannerEnabled;
-    if (this.scannerEnabled) {
-      // this.form.controls['code'].disable();
-    } else {
-      // this.form.controls['code'].enable();
-    }
+    this.disableCode = !this.disableCode;
   }
 
   scanSuccessHandler(event) {
     console.log(event, "event scanner")
-    // this.form.value.code = event;
+    this.code = event;
   }
 
   getTop(i) {

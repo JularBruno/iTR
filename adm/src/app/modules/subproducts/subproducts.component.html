@@ -147,50 +147,46 @@
     </div>
   </div>
 </div>
-<ng-template id="stock" #stock class="modal fade" aria-hidden="true">
 
+<ng-template id="stock" #stock class="modal fade" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
-      <h3 class="modal-title">Agregar Stock</h3>
+      <h1 class="modal-title"><b>Agregar Stock</b></h1>
     </div>
     <div class="modal-body">
       <div class="row">
-        <div class="col-sm 4">
-          <label>Proveedor</label>
+        <div class="col-md-8 mb-3">
+          <label>Seleccione proveedor</label>
           <select class="form-control custom-select" [(ngModel)]="supplier">
             <option *ngFor="let item of suppliers" [value]="item.id">{{ item.name }}</option>
           </select>
         </div>
-        <div class="col-sm 3">
+        <div class="col-md-6">
           <label>Cantidad</label>
           <input type="number" [(ngModel)]="amount" class="form-control">
         </div>
-        <div class="col-sm 3">
+        <div class="col-md-6">
           <label>Monto</label>
           <input type="number" [(ngModel)]="price" class="form-control">
         </div>
-        <div class="col-sm 2">
-          <button (click)="addStock()" class="btn btn-primary btn-sm mr-2" type="button">
-            <i class="fa fa-check"></i>
+        <div class="col-md-12 text-right pt-3">
+          <button (click)="addStock()" class="btn btn-primary btn-sm mr-2" style="width: 30%" type="button">
+            <i class="fa fa-check"></i> Agregar!
           </button>
         </div>
-
       </div>
-
     </div>
     <div class="modal-footer">
-
     </div>
   </div>
 </ng-template>
-<ng-template id="transactions" #transactions class="modal fade" aria-hidden="true">
 
+<ng-template id="transactions" #transactions class="modal fade" aria-hidden="true">
   <div class="modal-content">
     <div class="modal-header">
-      <h3 class="modal-title">Historial de Transacciones</h3>
+      <h1 class="modal-title"><b>Historial de Transacciones</b></h1>
     </div>
     <div class="modal-body">
-
       <table class="table table-striped">
         <thead class="thead-light">
           <tr>
@@ -202,12 +198,10 @@
             <th>
               <button type="button" class="btn btn-light">
                 Cantidad
-
               </button>
             </th>
             <th>
             </th>
-
           </tr>
         </thead>
         <tbody>
@@ -222,7 +216,6 @@
             <td class="px-4">
               {{ item.stock }}
             </td>
-
             <td class="text-right">
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="deleteTransaction(item)">
                 <i class="fa fa-trash"></i>

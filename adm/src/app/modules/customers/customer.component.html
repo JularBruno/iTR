@@ -27,7 +27,7 @@
         <div class="form-row">
           <div class="form-group col-md-12">
             <label>Telefono</label>
-            <input type="text" class="form-control" formControlName="phone">
+            <input type="number" class="form-control" formControlName="phone">
             <small *ngIf="isFieldValid('phone')" class="form-text text-danger">
               {{getFieldError('phone')}}
             </small>
@@ -49,6 +49,21 @@
         </div>
       </div>
     </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>DNI</label>
+            <input type="number" class="form-control" formControlName="dni">
+            <small *ngIf="isFieldValid('dni')" class="form-text text-danger">
+              {{getFieldError('dni')}}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row mb-5">
       <div class="col-md-12">
         <button class="btn btn-primary float-right mr-5" type="submit" [disabled]="!form.valid">

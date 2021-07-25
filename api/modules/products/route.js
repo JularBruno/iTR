@@ -84,20 +84,41 @@ module.exports = (module) => {
     const products = req.body.products
     const amount = req.body.amount
     let subproducts = []
-    let value = 1 + amount / 100
     for (let index = 0; index < products.length; index++) {
       const element = products[index];
       subproducts = await global.modules.subproducts.model.find({ product: element })
       if (products.length == 0) continue
       for (let index = 0; index < subproducts.length; index++) {
         const subproduct = subproducts[index];
-        subproduct.price = subproduct.price * value
-        subproduct.price.toFixed(2)
+        let result = subproduct.price + subproduct.price * (amount/100);
+        subproduct.price = result.toFixed(2)
         await global.modules.subproducts.model.findByIdAndUpdate(subproduct.id, subproduct).exec()
       }
     }
     res.send({})
   });
+  // module.router.post('/updatePrice', async (req, res, next) => {
+
+  //   const products = req.body.products
+  //   const amount = req.body.amount
+  //   let subproducts = []
+  //   let value = 1 + amount / 100
+  //   for (let index = 0; index < products.length; index++) {
+  //     const element = products[index];
+  //     subproducts = await global.modules.subproducts.model.find({ product: element })
+  //     if (products.length == 0) continue
+  //     for (let index = 0; index < subproducts.length; index++) {
+  //       const subproduct = subproducts[index];
+  //       console.log('price ', subproduct.price);
+  //       console.log('value ', value);
+  //       subproduct.price = subproduct.price * value
+  //       subproduct.price.toFixed(2)
+  //       console.log('price ', subproduct.price);
+  //       await global.modules.subproducts.model.findByIdAndUpdate(subproduct.id, subproduct).exec()
+  //     }
+  //   }
+  //   res.send({})
+  // });
 
   /**
    * Update

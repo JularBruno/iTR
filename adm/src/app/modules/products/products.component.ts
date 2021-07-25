@@ -28,10 +28,12 @@ export class ProductsComponent extends ItemsComponent {
   showPriceChangeFunct() {
     this.showPriceChange = !this.showPriceChange
   }
+
   selectProduct(product, event) {
     let index = this.items.findIndex((item) => item == product)
     this.items[index].selected = event
   }
+
   updatePrice() {
     if (!this.price) return this.pageService.showError("Ingrese un porcentaje")
     let toupdate = this.items.filter(item => (item.selected == true))
@@ -45,8 +47,10 @@ export class ProductsComponent extends ItemsComponent {
     let item = { products: products, amount: this.price }
     this.pageService.httpPost(item, method).then(res => {
       this.showPriceChange = false
+      alert('Precios actualizados!');
     })
   }
+
   getEndPoint() {
     return this.settings.endPoints.products + this.settings.endPointsMethods.subproducts
   }
