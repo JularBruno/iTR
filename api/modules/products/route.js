@@ -88,13 +88,16 @@ module.exports = (module) => {
       const element = products[index];
       subproducts = await global.modules.subproducts.model.find({ product: element })
       if (products.length == 0) continue
+
       for (let index = 0; index < subproducts.length; index++) {
         const subproduct = subproducts[index];
         let result = subproduct.price + subproduct.price * (amount/100);
         subproduct.price = result.toFixed(2)
-        await global.modules.subproducts.model.findByIdAndUpdate(subproduct.id, subproduct).exec()
+        
+        await global.modules.subproducts.model.findByIdAndUpdate(subproduct._id, subproduct, {useFindAndModify: false}).exec();
       }
     }
+
     res.send({})
   });
   // module.router.post('/updatePrice', async (req, res, next) => {

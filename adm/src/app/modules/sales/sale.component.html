@@ -100,13 +100,13 @@
                             <h3></h3>
                         </div>
                         <div class="col-md-3 mt-4">
-                            <h5 style="color: gray">{{previousToBuy.name}}</h5>
+                            <h1 style="color: gray">{{previousToBuy.name}}</h1>
                         </div>
                         <div class="col-md-3 mt-4">
                             <input type="number" [(ngModel)]="amountToBuy" class="form-control" placeholder="Cantidad">
                         </div>
                         <div class="col-md-3 mt-4">
-                            <h5 style="color: gray">${{(previousToBuy.price * amountToBuy).toFixed(2)}}</h5>
+                            <h1 style="color: gray">${{(previousToBuy.price * amountToBuy).toFixed(2)}}</h1>
                         </div>
                         <div class="col-md-3 mt-4">
                             <button class="btn primary mb-4 mt-4 float-right" type="button" block
