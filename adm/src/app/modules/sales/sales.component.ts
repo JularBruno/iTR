@@ -34,7 +34,9 @@ export class SalesComponent extends ItemsComponent {
     this.getSaleSubProducts();
     this.getDolarPrice();
   }
-
+  sort() {
+    return { createdAt: -1 }
+  }
   getSaleSubProducts() {
     this.pageService.httpSimpleGetAll(this.global.settings.endPoints.subproducts, false, {}, { isFromSale: true, sale: this.itemSelected.id }).then(res => {
       this.subproducts = res.data
@@ -91,7 +93,7 @@ export class SalesComponent extends ItemsComponent {
       $inc: { paidTOTAL: this.paidUSD },
       id: this.itemSelected.id
     }
-    
+
     this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
       await this.getItemSelected()
     })
@@ -129,7 +131,7 @@ export class SalesComponent extends ItemsComponent {
           $inc: { paidTOTAL: subproduct.price * subproduct.stock },
           id: this.itemSelected.id
         }
-    
+
         this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
           await this.getItemSelected()
         })
@@ -147,8 +149,6 @@ export class SalesComponent extends ItemsComponent {
     let createdAt: any = {};
     // let user = this.global.getuser()
     let _filters = {};
-    console.log(this.user.roles, "rolesD")
-    console.log(this.user.roles.includes("manager"))
     if (this.date && !this.user.roles.includes("manager")) {
       const end = moment(this.date).endOf('day').toDate()
       const start = moment(this.date).startOf('day').toDate()

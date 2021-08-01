@@ -152,8 +152,8 @@ export class SaleComponent extends ItemComponent {
     let endpoint = this.settings.endPoints.customers
 
     this.pageService.httpPost(item, "", endpoint).then(res => {
-      console.log(res, "cliente creado");
       this.pageService.showSuccess('Cliente creado!');
+      this.selectClient(res.data)
       this.form.reset();
       this.getClients()
     })
@@ -202,7 +202,7 @@ export class SaleComponent extends ItemComponent {
     //   productIncrement.push({ id: i.product.id, amount: i.amount * -1 }); // add to array for stock prices change
     // }
     console.log('this.clientSelected ', this.clientSelected);
-    
+
     if (!this.clientSelected) return this.pageService.showError("Seleccione un cliente")
     if (this.productsList.length == 0) return this.pageService.showError("Seleccione al menos un producto")
     if (this.listTotal - this.discount < 0) return this.pageService.showError("El el total no puede ser menor a 0")

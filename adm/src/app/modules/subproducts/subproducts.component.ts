@@ -8,11 +8,9 @@ import { ItemsComponent } from '../../core/items.component';
 })
 export class SubproductsComponent extends ItemsComponent {
   suppliers: any = [];
-  amount: any
-  price: any
   supplier: any
   transactionsArray: any = [];
-
+  imei: any
   getFilters() {
     let _filters = {};
     return _filters;
@@ -44,46 +42,40 @@ export class SubproductsComponent extends ItemsComponent {
       .catch(e => this.pageService.showError(e));
   }
   addStock() {
+    if (!this.supplier || !this.imei) return this.pageService.showError("Complete todos los datos.")
     let item = {
       subproduct: this.itemSelected.id,
-      stock: this.amount,
-      price: this.price,
       supplier: this.supplier,
-      type: "add"
+      imei: this.imei
     }
-    console.log(item)
     let endPoint = this.settings.endPoints.subproducts
 
     this.pageService.httpPost(item, this.settings.endPointsMethods.addStock, endPoint).then(res => {
       this.getItems()
-      this.closeModal()
+      this.pageService.showSuccess("Se cargo con exito.")
+      this.imei = null
     }).catch(e => {
       this.pageService.showError("Ha ocurrido un error, intente mas tarde")
     })
   }
+
   deleteTransaction(item) {
     let endPoint = this.settings.endPoints.subproducts;
     let method = this.settings.endPointsMethods.substractStock + "/" + item.id;
-    item.type = "substract"
     item.supplier = item.supplier.id
     this.pageService.httpPost(item, method, endPoint).then(res => {
-      console.log("done")
       this.loadTransactions(this.itemSelected.id)
       this.getItems()
     })
   }
-  loadTransactions(item) {
+  loadTransactions(item, content?) {
     let endPoint = this.settings.endPoints.transactions;
 
-    this.pageService.httpSimpleGetAll(endPoint, false, {}, { subproduct: item.id, type: "add" }, ["supplier"]).then(res => {
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, { subproduct: item.id }, ["supplier"]).then(res => {
       this.transactionsArray = res.data
+      if (content) this.openModal(content, item)
+
     })
   }
-  loadTransactionsOpenModal(content, item) {
-    let endPoint = this.settings.endPoints.transactions;
-    this.pageService.httpSimpleGetAll(endPoint, false, {}, { subproduct: item.id, type: "add" }, ["supplier"]).then(res => {
-      this.transactionsArray = res.data
-      this.openModal(content, item)
-    })
-  }
+
 }

@@ -109,7 +109,7 @@
             </td>
             <td class="text-right">
               <button *ngIf="!item.isFromSale" class="btn btn-primary btn-sm mr-2" type="button"
-                (click)="loadTransactionsOpenModal(transactions, item)">
+                (click)="loadTransactions( item, transactions)">
                 Historial
               </button>
               <button *ngIf="!item.isFromSale" class="btn btn-primary btn-sm mr-2" type="button"
@@ -162,13 +162,10 @@
           </select>
         </div>
         <div class="col-md-6">
-          <label>Cantidad</label>
-          <input type="number" [(ngModel)]="amount" class="form-control">
+          <label>IMEI</label>
+          <input type="text" [(ngModel)]="imei" class="form-control">
         </div>
-        <div class="col-md-6">
-          <label>Monto</label>
-          <input type="number" [(ngModel)]="price" class="form-control">
-        </div>
+
         <div class="col-md-12 text-right pt-3">
           <button (click)="addStock()" class="btn btn-primary btn-sm mr-2" style="width: 30%" type="button">
             <i class="fa fa-check"></i> Agregar!
@@ -197,7 +194,12 @@
             </th>
             <th>
               <button type="button" class="btn btn-light">
-                Cantidad
+                IMEI
+              </button>
+            </th>
+            <th>
+              <button type="button" class="btn btn-light">
+                Estado
               </button>
             </th>
             <th>
@@ -214,7 +216,13 @@
               Proveedor Eliminado
             </td>
             <td class="px-4">
-              {{ item.stock }}
+              {{ item.imei }}
+            </td>
+            <td *ngIf="item.sold" class="px-4">
+              Vendido
+            </td>
+            <td *ngIf="!item.sold" class="px-4">
+              Disponible
             </td>
             <td class="text-right">
               <button class="btn btn-primary btn-sm mr-2" type="button" (click)="deleteTransaction(item)">

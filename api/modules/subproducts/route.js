@@ -63,17 +63,12 @@ module.exports = (module) => {
   //  subproduct
   module.router.post('/addStock', (req, res, next) => {
     global.helpers.database.create(req, res, global.modules.transactions.model).then(async response => {
-      console.log(response, "respuesta")
       let updateSubproduct = {
-        $inc: { stock: response.data.stock }
+        $inc: { stock: 1 }
       }
-      await module.model.findByIdAndUpdate(response.data.subproduct, updateSubproduct).exec()
-      let updateSupplier = {
-        $inc: { spent: response.data.price, debt: response.data.price },
+      let subproduct = await module.model.findByIdAndUpdate(response.data.subproduct, updateSubproduct).exec()
 
-      }
-      await global.modules.suppliers.model.findByIdAndUpdate(response.data.supplier, updateSupplier).exec()
-      res.send({})
+      res.send(subproduct)
     })
   });
   /**
@@ -90,16 +85,12 @@ module.exports = (module) => {
   //  supplier
   //  subproduct
   module.router.post('/substractStock/:id', (req, res, next) => {
-    global.helpers.database.update(req, res, global.modules.transactions.model).then(async response => {
+    global.helpers.database.delete(req, res, global.modules.transactions.model).then(async response => {
       console.log(response, "respuesta")
       let updateSubproduct = {
-        $inc: { stock: -response.data.stock }
+        $inc: { stock: -1 }
       }
       await module.model.findByIdAndUpdate(response.data.subproduct, updateSubproduct).exec()
-      let updateSupplier = {
-        $inc: { spent: -response.data.price, debt: -response.data.price },
-      }
-      await global.modules.suppliers.model.findByIdAndUpdate(response.data.supplier, updateSupplier).exec()
       res.send({})
     })
   });
