@@ -47,7 +47,7 @@ export class ProductsComponent extends ItemsComponent {
     let item = { products: products, amount: this.price }
     this.pageService.httpPost(item, method).then(res => {
       this.showPriceChange = false
-      alert('Precios actualizados!');
+      alert('Costos actualizados!');
     })
   }
 

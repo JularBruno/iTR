@@ -237,6 +237,8 @@ export class SaleComponent extends ItemComponent {
       total: parseFloat((this.previousToBuy.price * this.amountToBuy).toFixed(2)),
     }
 
+    console.log('object ', object);
+
     this.productsList.push(object);
     this.previousToBuy = {
       name: '',

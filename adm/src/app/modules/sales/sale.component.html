@@ -25,8 +25,8 @@
                                 [ngModelOptions]="{standalone: true}" (change)="filterProduct(search)">
                         </div>
                         <div class="col-md-4 mt-4">
-                            <label>Categoria</label>
-                            <select class="form-control" placeholder="Categoria"
+                            <label>Producto</label>
+                            <select class="form-control" placeholder="Producto"
                                 (change)="filterCategory($event.target.value)">
                                 <option value="all">Todo</option>
                                 <option *ngFor="let item of categories" value="{{item.id}}">{{item.name}}</option>
@@ -39,11 +39,11 @@
                             <table class="table table-striped mt-4">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>Nombre</th>
+                                        <th>Producto</th>
+                                        <th>Características</th>
                                         <th>Código</th>
-                                        <th>Categoria</th>
                                         <th>Stock</th>
-                                        <th>Precio</th>
+                                        <th>Costo</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -68,9 +68,9 @@
                                         <!-- <td width="20%">
                                           <img [src]="gethtmlImage(item.images[0])" onerror="this.src='assets/no-product.png';" class="img-thumbnail" style="object-fit: cover;height: 60px;width: 60px;" alt="Card image cap">
                                       </td> -->
+                                        <td width="20%">{{item.product?.name}}</td>
                                         <td width="20%">{{item.name}}</td>
                                         <td width="20%">{{item.code}}</td>
-                                        <td width="20%">{{item.product?.name}}</td>
                                         <td width="10%">{{item.stock}}</td>
                                         <td width="10%">${{item.price}}</td>
                                         <td width="10%" class="text-right">
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-3 mt-4">
                             <h3>Nombre</h3>
                         </div>
@@ -94,7 +94,7 @@
                             <h3>Cantidad</h3>
                         </div>
                         <div class="col-md-3 mt-4">
-                            <h3>Precio</h3>
+                            <h3>Costo</h3>
                         </div>
                         <div class="col-md-3 mt-4">
                             <h3></h3>
@@ -114,12 +114,81 @@
                                 <i class="fa fa-check " aria-hidden="true"></i> Agregar
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
     </div>
     <!-- ------ //// FIN SELECCION DE PRODUCTOS ------  -->
+    <!-- ------ SELECCION DE IMEI ------  -->
+    <div class="row">
+        <div class="col-md-12 mt-4">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Selección de IMEI de: INTEGRAR PRODUCTO SUBPRODUCTO</h2>
+                </div>
+                <div class="card-body">
+                    <!-- //// SEARCHER -->
+                    <div class="row">
+                        <div class="col-md-8 mt-4">
+                            <label>Buscar IMEI</label>
+                            <input style="width: 90%;" class="form-control mr-sm-2" type="search"
+                                placeholder="Buscar código" [(ngModel)]="search"
+                                [ngModelOptions]="{standalone: true}" (change)="filterProduct(search)">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mt-4" class="list">
+                            <!-- //// PRODUCT LIST -->
+                            <table class="table table-striped mt-4">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>IMEI</th>
+                                        <th>Proveedor</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Cargador -->
+                                    <tr *ngIf="loading" class="text-center">
+                                        <td colspan="7">
+                                            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando
+                                            IMEIs...
+                                        </td>
+                                    </tr>
+                                    <!-- Texto cuando no hay resultados  -->
+                                    <tr *ngIf="!loading && products.length == 0" class="text-center">
+                                        <td colspan="7">
+                                            <span class="text-muted">
+                                                <i class="fa fa-close" aria-hidden="true"></i>
+                                                No hay IMEIs para mostrar
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let item of products">
+                                        <!-- <td width="20%">
+                                          <img [src]="gethtmlImage(item.images[0])" onerror="this.src='assets/no-product.png';" class="img-thumbnail" style="object-fit: cover;height: 60px;width: 60px;" alt="Card image cap">
+                                      </td> -->
+                                        <td width="70%">{{IMEI}}</td>
+                                        <td width="20%">{{PROOVEDOR}}</td>
+                                        <td width="10%" class="text-right">
+                                            <!-- <button type="button" class="btn primary btn-sm mr-2" (click)="edit(item)"> -->
+                                            <button type="button" class="btn primary btn-sm mr-2"
+                                                (click)="previousProduct(item)">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ------ //// FIN SELECCION DE IMEI ------  -->
 
     <!-- ------ LISTA DE COMPRAS ------  -->
 
@@ -133,7 +202,8 @@
                     <table class="table table-striped mt-4">
                         <thead class="thead-light">
                             <tr>
-                                <th>Nombre</th>
+                                <th>Producto</th>
+                                <th>Características</th>
                                 <th>Código</th>
                                 <th>Cantidad</th>
                                 <th>Total</th>
@@ -151,11 +221,12 @@
                                 </td>
                             </tr>
                             <tr *ngFor="let item of productsList">
-                                <td width="25%">{{item.product.name}}</td>
-                                <td width="25%">{{item.product.code}}</td>
-                                <td width="25%">{{item.amount}}</td>
-                                <td width="25%">{{item.total}}</td>
-                                <td width="25%" class="text-right">
+                                <td width="20%">{{item.product?.product?.name}}</td>
+                                <td width="22%">{{item.product?.name}}</td>
+                                <td width="10%">{{item.product.code}}</td>
+                                <td width="18%">{{item.amount}}</td>
+                                <td width="12%">{{item.total}}</td>
+                                <td width="10%" class="text-right">
                                     <button type="button" class="btn btn-danger btn-sm" (click)="deleteListItem(item)">
                                         <i class="fa fa-close" aria-hidden="true"></i>
                                     </button>
@@ -315,7 +386,7 @@
                                 [(ngModel)]="discount">
                         </div>
                         <div class="col-md-4 mt-4">
-                            <label>Precio de venta:</label>
+                            <label>Costo de venta:</label>
                             <h3 style="color: gray">${{listTotal - discount}}</h3>
                         </div>
                         <div class="col-md-4 mt-4">

@@ -31,7 +31,7 @@ export class SubproductComponent extends ItemComponent implements AfterViewInit 
     return this.formBuilder.group({
       id: [null],
       name: [null, Validators.required],
-      code: [null, Validators.required],
+      code: [0, Validators.required],
       price: [null, Validators.required],
       product: [null, Validators.required],
 

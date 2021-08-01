@@ -44,7 +44,7 @@
 
         <div class="form-row">
           <div class="form-group col-md-12">
-            <label>Nombre</label>
+            <label>Característica</label>
             <input type="text" class="form-control" formControlName="name">
             <small *ngIf="isFieldValid('name')" class="form-text text-danger">
               {{getFieldError('name')}}
@@ -54,7 +54,7 @@
 
         <div class="form-row">
           <div class="form-group col-md-12">
-            <label>Precio</label>
+            <label>Costo</label>
             <input type="number" class="form-control" formControlName="price">
             <small *ngIf="isFieldValid('price')" class="form-text text-danger">
               {{getFieldError('price')}}
