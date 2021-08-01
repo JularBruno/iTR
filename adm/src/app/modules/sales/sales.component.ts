@@ -99,6 +99,7 @@ export class SalesComponent extends ItemsComponent {
 
   async getItemSelected() {
     let item = await this.pageService.httpGetById(this.itemSelected.id, ["client"])
+    console.log('this.itemSelected ', this.itemSelected);
     this.itemSelected = item.data
   }
 

@@ -9,6 +9,8 @@ import { ItemsComponent } from '../../core/items.component';
 export class SuppliersComponent extends ItemsComponent {
 
   price: any
+  priceB: any
+
   getFilters() {
     let _filters = {};
     return _filters;
@@ -25,13 +27,24 @@ export class SuppliersComponent extends ItemsComponent {
     return filtersSearch;
   }
   
-  applyDebt() {
+  applyDebt(inc) {
     if (!this.price) return this.pageService.showError("Ingrese un monto")
-    console.log(-Math.abs(this.price))
+    console.log(Math.abs(this.price))
+
+    let amount = 0;
+    
+    if(!inc) {
+      amount = Math.abs(this.price);
+    } else {
+      amount = -Math.abs(this.priceB);
+    }    
+    
     let item = {
       id: this.itemSelected.id,
-      $inc: { debt: -Math.abs(this.price) }
+      $inc: { debt: amount }
     }
+
+
     let endpoint = this.settings.endPoints.suppliers
     this.pageService.httpUpdate(item, endpoint).then(res => {
       this.pageService.showSuccess("Se ha impactado con exito")
@@ -39,4 +52,21 @@ export class SuppliersComponent extends ItemsComponent {
       this.closeModal()
     })
   }
+
+  // applyDebt() {
+  //   if (!this.price) return this.pageService.showError("Ingrese un monto")
+  //   console.log(-Math.abs(this.price))
+  //   let item = {
+  //     id: this.itemSelected.id,
+  //     $inc: { debt: -Math.abs(this.price) }
+  //   }
+  //   let endpoint = this.settings.endPoints.suppliers
+  //   this.pageService.httpUpdate(item, endpoint).then(res => {
+  //     this.pageService.showSuccess("Se ha impactado con exito")
+  //     this.getItems()
+  //     this.closeModal()
+  //   })
+  // }
+
+
 }

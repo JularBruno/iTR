@@ -149,14 +149,29 @@
       <h1 class="modal-title"><b>Deuda contra Proveedor</b></h1>
     </div>
     <div class="modal-body">
-      <h2 class="modal-title">Deuda Actual: {{itemSelected?.debt}}</h2>
-      <div class="row">
+      <h1 class="modal-title">Deuda Actual: {{itemSelected?.debt}}</h1>
+      <h2 class="modal-title">Pagar deuda</h2>
+      <div class="row mb-4">
         <div class="col-md-8">
           <label>Monto</label>
           <input type="number" [(ngModel)]="price" class="form-control">
         </div>
         <div class="col-md-4" style="display: grid;align-items: end;padding: 0.3em;">
-          <button (click)="applyDebt()" class="btn btn-primary btn-sm" type="button">
+          <button (click)="applyDebt(false)" class="btn btn-primary btn-sm" type="button">
+            Impactar
+            <i class="fa fa-check"></i>
+          </button>
+        </div>
+      </div>
+
+      <h2 class="modal-title">Agregar deuda</h2>
+      <div class="row ">
+        <div class="col-md-8">
+          <label>Monto</label>
+          <input type="number" [(ngModel)]="priceB" class="form-control">
+        </div>
+        <div class="col-md-4" style="display: grid;align-items: end;padding: 0.3em;">
+          <button (click)="applyDebt(true)" class="btn btn-primary btn-sm" type="button">
             Impactar
             <i class="fa fa-check"></i>
           </button>

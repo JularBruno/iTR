@@ -39,22 +39,22 @@
               </button>
             </th>
             <th>
+              <button disabled type="button" class="btn btn-light">
+                Producto
+                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.price == 1,'fa-arrow-up': sortField.price == -1}"
+                  aria-hidden="true"></i>
+              </button>
+            </th>
+            <th>
               <button type="button" class="btn btn-light" (click)="sort('name')">
-                Nombre
+                Característica
                 <i class="fa" [ngClass]="{'fa-arrow-down': sortField.name == 1,'fa-arrow-up': sortField.name == -1}"
                   aria-hidden="true"></i>
               </button>
             </th>
             <th>
               <button type="button" class="btn btn-light" (click)="sort('price')">
-                Precio
-                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.price == 1,'fa-arrow-up': sortField.price == -1}"
-                  aria-hidden="true"></i>
-              </button>
-            </th>
-            <th>
-              <button disabled type="button" class="btn btn-light">
-                Producto
+                Costo
                 <i class="fa" [ngClass]="{'fa-arrow-down': sortField.price == 1,'fa-arrow-up': sortField.price == -1}"
                   aria-hidden="true"></i>
               </button>
@@ -83,7 +83,7 @@
             <td colspan="6">
               <span class="text-muted">
                 <i class="fa fa-close" aria-hidden="true"></i>
-                No hay productos para mostrar
+                No hay subproductos para mostrar
               </span>
             </td>
           </tr>
@@ -92,17 +92,17 @@
             <td class="px-4">
               {{ item.code }}
             </td>
-            <td class="px-4">
-              {{ item.name }}
-            </td>
-            <td class="px-4 ">
-              {{ item.price }}
-            </td>
             <td *ngIf="item.product?.name" class="px-4">
               {{ item.product?.name }}
             </td>
             <td *ngIf="!item.product?.name" class="px-4" style="color:gray">
               Producto Eliminado
+            </td>
+            <td class="px-4">
+              {{ item.name }}
+            </td>
+            <td class="px-4 ">
+              {{ item.price }}
             </td>
             <td class="px-4">
               {{ item.stock }}
