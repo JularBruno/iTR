@@ -60,7 +60,7 @@ export class SaleComponent extends ItemComponent {
 
   getFormNew() {
     return this.formBuilder.group({
-      id: [null],
+      // id: [null],
       name: [null, Validators.required],
       phone: [null, Validators.required],
       emailAddress: [null, Validators.compose([Validators.required, mailFormat()])],
@@ -153,10 +153,9 @@ export class SaleComponent extends ItemComponent {
 
     this.pageService.httpPost(item, "", endpoint).then(res => {
       console.log(res, "cliente creado");
-      alert('Cliente creado!')
+      this.pageService.showSuccess('Cliente creado!');
       this.form.reset();
       this.getClients()
-      
     })
   }
 

@@ -66,8 +66,10 @@ export class SalesComponent extends ItemsComponent {
 
     console.log('this.dolarPrice ', this.dolarPrice);
 
+    let incrementD = this.paidARS / this.dolarPrice;
+
     let updateTotal = {
-      $inc: { paidTOTAL: (this.paidARS / this.dolarPrice) },
+      $inc: { paidTOTAL: incrementD.toFixed(2) },
       id: this.itemSelected.id
     }
 

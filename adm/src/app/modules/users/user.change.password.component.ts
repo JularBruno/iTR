@@ -26,7 +26,7 @@ export class UserChangePasswordComponent extends ItemComponent {
     this.pageService.httpPut( this.form.value, '/' + this.item.id + '/changePassword' )
     .then( (response) => {
         this.pageService.showSuccess('Se ha actualizado exitosamente!!');
-        this.pageService.navigate();
+        this.pageService.navigateRoute('/subproducts');
     })
     .catch((reason) => {
       this.pageService.showError(reason);

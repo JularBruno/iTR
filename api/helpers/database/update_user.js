@@ -21,7 +21,7 @@ module.exports = (helper) => {
         delete params.password;
 
         model.findOneAndUpdate({_id:id}, params, { new: true })
-        // model.findByIdAndUpdate(id, params, { new: true })
+        // model.findOneAndUpdate(id, params, { new: true })
           .then((result) => {
 
             // Create token

@@ -47,6 +47,7 @@ module.exports = (module) => {
       })
       .catch(next);
   });
+  
   module.router.post('/createSale', (req, res, next) => {
     global.helpers.database.create(req, res, module.model)
       .then(async (result) => {

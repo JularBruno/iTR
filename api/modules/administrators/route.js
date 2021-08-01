@@ -88,6 +88,7 @@ module.exports = (module) => {
    * @return {void}
    */
   module.router.put('/:id/changePassword', global.helpers.security.auth(['administrator']), (req, res, next) => {
+    console.log("changepass");
     global.helpers.database.changePassword(req, res, module.model)
       .then(result => res.send(result))
       .catch(next);
