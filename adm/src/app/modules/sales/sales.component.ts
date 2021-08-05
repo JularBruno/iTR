@@ -29,6 +29,7 @@ export class SalesComponent extends ItemsComponent {
   dolarPrice = 0;
 
   user: any = this.global.getUser()
+
   preOpenModal() {
     this.getProducts();
     this.getSaleSubProducts();
@@ -63,21 +64,20 @@ export class SalesComponent extends ItemsComponent {
       id: this.itemSelected.id
     }
     this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
-      await this.getItemSelected()
+      // await this.getItemSelected()
+      let incrementD = this.paidARS / this.dolarPrice;
+  
+      let updateTotal = {
+        $inc: { paidTOTAL: incrementD.toFixed(2) },
+        id: this.itemSelected.id
+      }
+  
+      this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
+        this.getItems();
+        await this.getItemSelected()
+      })
     })
 
-    console.log('this.dolarPrice ', this.dolarPrice);
-
-    let incrementD = this.paidARS / this.dolarPrice;
-
-    let updateTotal = {
-      $inc: { paidTOTAL: incrementD.toFixed(2) },
-      id: this.itemSelected.id
-    }
-
-    this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
-      await this.getItemSelected()
-    })
   }
 
   payUSD() {
@@ -86,17 +86,18 @@ export class SalesComponent extends ItemsComponent {
       id: this.itemSelected.id
     }
     this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
-      await this.getItemSelected()
+      // await this.getItemSelected()
+      let updateTotal = {
+        $inc: { paidTOTAL: this.paidUSD },
+        id: this.itemSelected.id
+      }
+      
+      this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
+        this.getItems();
+        await this.getItemSelected()
+      })
     })
 
-    let updateTotal = {
-      $inc: { paidTOTAL: this.paidUSD },
-      id: this.itemSelected.id
-    }
-
-    this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
-      await this.getItemSelected()
-    })
   }
 
   async getItemSelected() {
@@ -146,6 +147,7 @@ export class SalesComponent extends ItemsComponent {
   displayProductLoad() {
     this.showProductInterface = true
   }
+
   getFilters() {
     let createdAt: any = {};
     // let user = this.global.getuser()
@@ -169,6 +171,7 @@ export class SalesComponent extends ItemsComponent {
     console.log(_filters, "filter")
     return _filters;
   }
+  
   getPopulates() {
     return ["client"]
   }
@@ -201,5 +204,52 @@ export class SalesComponent extends ItemsComponent {
     return 334 + i * 37;
   }
 
+  restartPrice(type) {
+
+    if(type == 'pesos') {
+
+      let incrementD = (this.itemSelected.paidTOTAL - this.itemSelected.paidUSD - this.itemSelected.paidPROD) * -1; 
+  
+      let updateTotal = {
+        $inc: { paidTOTAL:  incrementD.toFixed(2) },
+        id: this.itemSelected.id
+      }
+  
+      this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
+        await this.getItemSelected()
+        let update = {
+          // $inc: { paidARS: 0 },
+          paidARS: 0,
+          id: this.itemSelected.id
+        }
+        this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
+          this.getItems();
+          await this.getItemSelected()
+        })
+      })
+      
+  
+    } else {
+      
+      let updateTotal = {
+        $inc: { paidTOTAL: - this.itemSelected.paidUSD },
+        id: this.itemSelected.id
+      }
+      
+      this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
+        // await this.getItemSelected()
+        let update = {
+          // $inc: { paidUSD: 0 },
+          paidUSD: 0,
+          id: this.itemSelected.id
+        }
+        this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
+          this.getItems();
+          await this.getItemSelected()
+        })
+      })
+    }
+
+  }
 
 }

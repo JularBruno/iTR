@@ -41,6 +41,7 @@ export class SaleComponent extends ItemComponent {
   search: any;
   searchU: any;
   loading: any;
+  transactions: any = [];
 
   //// FIN COPY PASTED
   constructor(
@@ -60,7 +61,6 @@ export class SaleComponent extends ItemComponent {
 
   getFormNew() {
     return this.formBuilder.group({
-      // id: [null],
       name: [null, Validators.required],
       phone: [null, Validators.required],
       emailAddress: [null, Validators.compose([Validators.required, mailFormat()])],
@@ -106,13 +106,12 @@ export class SaleComponent extends ItemComponent {
   }
 
 
-  getClients() {
+  async getClients() {
     this.clients = [];
     let filter = this.clientFilter;
     let endpoint = this.settings.endPoints.customers
-    this.pageService.httpSimpleGetAll(endpoint, false, {}, filter, []).then(res => {
-      this.clients = res.data
-    })
+    let clients = await this.pageService.httpSimpleGetAll(endpoint, false, {}, filter, [])
+    this.clients = clients.data
   }
 
   filterClient(search) {
@@ -151,11 +150,11 @@ export class SaleComponent extends ItemComponent {
   onSubmitPerform(item) {
     let endpoint = this.settings.endPoints.customers
 
-    this.pageService.httpPost(item, "", endpoint).then(res => {
+    this.pageService.httpPost(item, "", endpoint).then(async res => {
       this.pageService.showSuccess('Cliente creado!');
-      this.selectClient(res.data)
       this.form.reset();
-      this.getClients()
+      await this.getClients()
+      this.selectClient(res.data)
     })
   }
 
@@ -179,28 +178,13 @@ export class SaleComponent extends ItemComponent {
       delete filter.product;
     }
     this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["product"]).then(res => {
-      console.log(res, "products")
+      console.log(res.data, "products")
       this.products = res.data;
     })
   }
 
   logForm() {
 
-
-    // let productIdArray = []; // product with all data
-    // let productIncrement = []; // array of id for stock prices change
-    // console.log(this.productsList, "lista de productos")
-    // for (let i of this.productsList) {
-    //   console.log('i ', i)
-    //   productIdArray.push({
-    //     product: i.product.id,
-    //     amount: i.amount,
-    //     price: i.price,
-    //     total: i.total,
-    //   });
-
-    //   productIncrement.push({ id: i.product.id, amount: i.amount * -1 }); // add to array for stock prices change
-    // }
     console.log('this.clientSelected ', this.clientSelected);
 
     if (!this.clientSelected) return this.pageService.showError("Seleccione un cliente")
@@ -227,6 +211,15 @@ export class SaleComponent extends ItemComponent {
 
   previousProduct(item) {
     this.previousToBuy = item;
+    this.getTransactions(item)
+  }
+  getTransactions(item) {
+    // if (this.filter)
+    let filter: any = { subproduct: item.id, sold: false }
+    let endPoint = this.settings.endPoints.transactions;
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["supplier"]).then(res => {
+      this.transactions = res.data
+    })
   }
 
   addProduct() {
@@ -243,7 +236,7 @@ export class SaleComponent extends ItemComponent {
     this.previousToBuy = {
       name: '',
       salePrice: 0,
-    };;
+    };
     this.amountToBuy = 1;
     this.listTotal += object.total;
   }

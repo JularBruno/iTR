@@ -1,7 +1,7 @@
 <div class="container">
     <nav aria-label="breadcrumb" class="mt-2">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a [routerLink]="['/subproducts']"
+            <li class="breadcrumb-item"><a [routerLink]="['/sales']"
                     routerLinkActive="router-link-active">Ventas</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">Nueva venta</li>
@@ -48,15 +48,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Cargador -->
-                                    <!-- <tr *ngIf="loading" class="text-center">
-                                        <td colspan="7">
-                                            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando
-                                            productos...
-                                        </td>
-                                    </tr> -->
                                     <!-- Texto cuando no hay resultados  -->
-                                    <tr *ngIf="!loading && products.length == 0" class="text-center">
+                                    <tr *ngIf="products.length == 0" class="text-center">
                                         <td colspan="7">
                                             <span class="text-muted">
                                                 <i class="fa fa-close" aria-hidden="true"></i>
@@ -65,16 +58,12 @@
                                         </td>
                                     </tr>
                                     <tr *ngFor="let item of products">
-                                        <!-- <td width="20%">
-                                          <img [src]="gethtmlImage(item.images[0])" onerror="this.src='assets/no-product.png';" class="img-thumbnail" style="object-fit: cover;height: 60px;width: 60px;" alt="Card image cap">
-                                      </td> -->
                                         <td width="20%">{{item.product?.name}}</td>
                                         <td width="20%">{{item.name}}</td>
                                         <td width="20%">{{item.code}}</td>
                                         <td width="10%">{{item.stock}}</td>
                                         <td width="10%">${{item.price}}</td>
                                         <td width="10%" class="text-right">
-                                            <!-- <button type="button" class="btn primary btn-sm mr-2" (click)="edit(item)"> -->
                                             <button type="button" class="btn primary btn-sm mr-2"
                                                 (click)="previousProduct(item)">
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -120,6 +109,7 @@
         </div>
     </div>
     <!-- ------ //// FIN SELECCION DE PRODUCTOS ------  -->
+
     <!-- ------ SELECCION DE IMEI ------  -->
     <div class="row">
         <div class="col-md-12 mt-4">
@@ -133,8 +123,8 @@
                         <div class="col-md-8 mt-4">
                             <label>Buscar IMEI</label>
                             <input style="width: 90%;" class="form-control mr-sm-2" type="search"
-                                placeholder="Buscar código" [(ngModel)]="search"
-                                [ngModelOptions]="{standalone: true}" (change)="filterProduct(search)">
+                                placeholder="Buscar código" [(ngModel)]="search" [ngModelOptions]="{standalone: true}"
+                                (change)="filterProduct(search)">
                         </div>
                     </div>
                     <div class="row">
@@ -157,7 +147,7 @@
                                         </td>
                                     </tr>
                                     <!-- Texto cuando no hay resultados  -->
-                                    <tr *ngIf="!loading && products.length == 0" class="text-center">
+                                    <tr *ngIf="!loading && transactions.length == 0" class="text-center">
                                         <td colspan="7">
                                             <span class="text-muted">
                                                 <i class="fa fa-close" aria-hidden="true"></i>
@@ -165,16 +155,14 @@
                                             </span>
                                         </td>
                                     </tr>
-                                    <tr *ngFor="let item of products">
-                                        <!-- <td width="20%">
-                                          <img [src]="gethtmlImage(item.images[0])" onerror="this.src='assets/no-product.png';" class="img-thumbnail" style="object-fit: cover;height: 60px;width: 60px;" alt="Card image cap">
-                                      </td> -->
-                                        <td width="70%">{{IMEI}}</td>
-                                        <td width="20%">{{PROOVEDOR}}</td>
+                                    <tr *ngFor="let item of transactions">
+                                        <td width="70%">{{item.imei}}</td>
+                                        <td *ngIf="item.supplier" width="20%">{{item.supplier.name}}</td>
+
+                                        <td *ngIf="!item.supplier" width="20%">Proveedor eliminado</td>
                                         <td width="10%" class="text-right">
-                                            <!-- <button type="button" class="btn primary btn-sm mr-2" (click)="edit(item)"> -->
                                             <button type="button" class="btn primary btn-sm mr-2"
-                                                (click)="previousProduct(item)">
+                                                (click)="addImei(item)">
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </button>
                                         </td>
