@@ -41,7 +41,7 @@ export class AppComponent {
       this.user = this.global.getUser();
       if (!this.logged) {
         this.pageService.navigateRoute("/login");
-      } else this.pageService.navigateRoute("/subproducts");
+      } else this.pageService.navigateRoute("/sales");
     });
     this.global.checkUser();
 

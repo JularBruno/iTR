@@ -8,8 +8,8 @@ module.exports = (module) => {
 	 */
 	module.schema = new global.database.mongodb.mongoose.Schema({
 		id: { type: String },
-		products: { type: global.database.mongodb.mongoose.Schema.Types.Mixed },
-		date: { Type: String },
+		products: [{ type: global.database.mongodb.mongoose.Schema.Types.Mixed }],
+		date: { type: String },
 		total: { type: Number },
 		discount: { type: Number, default: 0 },
 		client: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'customers', required: true },

@@ -28,7 +28,7 @@ export class SaleComponent extends ItemComponent {
     name: '',
     salePrice: 0,
   };
-  amountToBuy: number = 1;
+  amountToBuy: number = 0;
   productsList: any = [];
   //// client
   clientSelected: string;
@@ -42,6 +42,8 @@ export class SaleComponent extends ItemComponent {
   searchU: any;
   loading: any;
   transactions: any = [];
+  imeiFilter: any;
+  categorySelected: any;
 
   //// FIN COPY PASTED
   constructor(
@@ -76,7 +78,10 @@ export class SaleComponent extends ItemComponent {
     this.categoryFilter = event
     this.getProducts()
   }
-
+  filterImei(event) {
+    this.imeiFilter = event
+    this.getTransactions(this.categorySelected)
+  }
   filterProduct(search) {
     let filter: any = {};
     if (search == '') {
@@ -143,10 +148,12 @@ export class SaleComponent extends ItemComponent {
   }
 
   selectClient(item) {
-    console.log('item ', item);
     this.clientSelected = item.id;
   }
-
+  selectProduct(item) {
+    this.categorySelected = item;
+    this.getTransactions(item)
+  }
   onSubmitPerform(item) {
     let endpoint = this.settings.endPoints.customers
 
@@ -178,7 +185,6 @@ export class SaleComponent extends ItemComponent {
       delete filter.product;
     }
     this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["product"]).then(res => {
-      console.log(res.data, "products")
       this.products = res.data;
     })
   }
@@ -188,7 +194,7 @@ export class SaleComponent extends ItemComponent {
     console.log('this.clientSelected ', this.clientSelected);
 
     if (!this.clientSelected) return this.pageService.showError("Seleccione un cliente")
-    if (this.productsList.length == 0) return this.pageService.showError("Seleccione al menos un producto")
+    if (this.productsList.length == 0) return this.pageService.showError("Seleccione al menos un imei")
     if (this.listTotal - this.discount < 0) return this.pageService.showError("El el total no puede ser menor a 0")
     let currentDate = new Date();
     var datetime = `${("0" + currentDate.getDate()).slice(-2)}/${("0" + (currentDate.getMonth() + 1)).slice(-2)}/${currentDate.getFullYear()}`;
@@ -200,45 +206,38 @@ export class SaleComponent extends ItemComponent {
       products: this.productsList,
     }
 
-    console.log(object, "objeto a guardar")
     let method = this.settings.endPointsMethods.createSale
     this.pageService.httpPost(object, method).then(response => {
-      console.log(response)
       this.pageService.navigate()
     })
     // this.productsService.incrementMany(objectIncrement); // change stock prices
   }
-
-  previousProduct(item) {
-    this.previousToBuy = item;
-    this.getTransactions(item)
+  existsImei(item) {
+    if (this.productsList.some(a => a.id == item.id)) return true
+    else return false
   }
+
   getTransactions(item) {
-    // if (this.filter)
     let filter: any = { subproduct: item.id, sold: false }
+    if (this.imeiFilter) {
+      filter.imei = {
+        $regex: this.imeiFilter.trim(),
+        $options: 'ig',
+      }
+    }
     let endPoint = this.settings.endPoints.transactions;
-    this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["supplier"]).then(res => {
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["supplier", "subproduct"]).then(res => {
+      if (res.data.length == 0) this.pageService.showError("Este subproducto no tiene imeis para mostrar")
       this.transactions = res.data
     })
   }
-
-  addProduct() {
-    let object = {
-      product: this.previousToBuy,
-      amount: this.amountToBuy,
-      price: this.previousToBuy.price,
-      total: parseFloat((this.previousToBuy.price * this.amountToBuy).toFixed(2)),
-    }
-
-    console.log('object ', object);
-
-    this.productsList.push(object);
-    this.previousToBuy = {
-      name: '',
-      salePrice: 0,
-    };
-    this.amountToBuy = 1;
-    this.listTotal += object.total;
+  addToSale(item) {
+    delete item.sold
+    this.productsList.push(item)
+    this.listTotal += item.subproduct.price
+    this.amountToBuy += 1;
+    console.log(this.productsList)
+    console.log(this.listTotal)
   }
 
   deleteListItem(item) {
@@ -246,7 +245,7 @@ export class SaleComponent extends ItemComponent {
     if (index != -1) {
       this.productsList.splice(index, 1);
     }
-    this.listTotal -= item.total;
+    // this.listTotal -= item.total;
   }
 
 }

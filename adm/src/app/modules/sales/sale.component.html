@@ -1,8 +1,7 @@
 <div class="container">
     <nav aria-label="breadcrumb" class="mt-2">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a [routerLink]="['/sales']"
-                    routerLinkActive="router-link-active">Ventas</a>
+            <li class="breadcrumb-item"><a [routerLink]="['/sales']" routerLinkActive="router-link-active">Ventas</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">Nueva venta</li>
         </ol>
@@ -65,7 +64,7 @@
                                         <td width="10%">${{item.price}}</td>
                                         <td width="10%" class="text-right">
                                             <button type="button" class="btn primary btn-sm mr-2"
-                                                (click)="previousProduct(item)">
+                                                (click)="selectProduct(item)">
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </button>
                                         </td>
@@ -75,35 +74,6 @@
                         </div>
                     </div>
                     <hr>
-                    <!-- <div class="row">
-                        <div class="col-md-3 mt-4">
-                            <h3>Nombre</h3>
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <h3>Cantidad</h3>
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <h3>Costo</h3>
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <h3></h3>
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <h1 style="color: gray">{{previousToBuy.name}}</h1>
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <input type="number" [(ngModel)]="amountToBuy" class="form-control" placeholder="Cantidad">
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <h1 style="color: gray">${{(previousToBuy.price * amountToBuy).toFixed(2)}}</h1>
-                        </div>
-                        <div class="col-md-3 mt-4">
-                            <button class="btn primary mb-4 mt-4 float-right" type="button" block
-                                [disabled]="previousToBuy.name == ''" (click)="addProduct()">
-                                <i class="fa fa-check " aria-hidden="true"></i> Agregar
-                            </button>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -115,16 +85,16 @@
         <div class="col-md-12 mt-4">
             <div class="card">
                 <div class="card-header">
-                    <h2>Selección de IMEI de: INTEGRAR PRODUCTO SUBPRODUCTO</h2>
+                    <h2>Selección de IMEI</h2>
                 </div>
                 <div class="card-body">
                     <!-- //// SEARCHER -->
                     <div class="row">
                         <div class="col-md-8 mt-4">
                             <label>Buscar IMEI</label>
-                            <input style="width: 90%;" class="form-control mr-sm-2" type="search"
-                                placeholder="Buscar código" [(ngModel)]="search" [ngModelOptions]="{standalone: true}"
-                                (change)="filterProduct(search)">
+                            <input [disabled]="!categorySelected" style="width: 90%;" class="form-control mr-sm-2"
+                                type="search" placeholder="Buscar por imei" [(ngModel)]="imeiFilter"
+                                [ngModelOptions]="{standalone: true}" (change)="filterImei(imeiFilter)">
                         </div>
                     </div>
                     <div class="row">
@@ -139,15 +109,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Cargador -->
-                                    <tr *ngIf="loading" class="text-center">
-                                        <td colspan="7">
-                                            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando
-                                            IMEIs...
-                                        </td>
-                                    </tr>
                                     <!-- Texto cuando no hay resultados  -->
-                                    <tr *ngIf="!loading && transactions.length == 0" class="text-center">
+                                    <tr *ngIf="transactions.length == 0" class="text-center">
                                         <td colspan="7">
                                             <span class="text-muted">
                                                 <i class="fa fa-close" aria-hidden="true"></i>
@@ -158,11 +121,10 @@
                                     <tr *ngFor="let item of transactions">
                                         <td width="70%">{{item.imei}}</td>
                                         <td *ngIf="item.supplier" width="20%">{{item.supplier.name}}</td>
-
                                         <td *ngIf="!item.supplier" width="20%">Proveedor eliminado</td>
                                         <td width="10%" class="text-right">
-                                            <button type="button" class="btn primary btn-sm mr-2"
-                                                (click)="addImei(item)">
+                                            <button [disabled]="existsImei(item)" type="button"
+                                                class="btn primary btn-sm mr-2" (click)="addToSale(item)">
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </button>
                                         </td>
@@ -191,16 +153,16 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>Producto</th>
-                                <th>Características</th>
-                                <th>Código</th>
+                                <th>IMEI</th>
+                                <th>Valor</th>
                                 <th>Cantidad</th>
-                                <th>Total</th>
+                                <!-- <th>Total</th> -->
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Texto cuando no hay resultados  -->
-                            <tr *ngIf="!loading && productsList.length == 0" class="text-center">
+                            <tr *ngIf="productsList.length == 0" class="text-center">
                                 <td colspan="6">
                                     <span class="text-muted">
                                         <i class="fa fa-close" aria-hidden="true"></i>
@@ -209,11 +171,11 @@
                                 </td>
                             </tr>
                             <tr *ngFor="let item of productsList">
-                                <td width="20%">{{item.product?.product?.name}}</td>
-                                <td width="22%">{{item.product?.name}}</td>
-                                <td width="10%">{{item.product.code}}</td>
-                                <td width="18%">{{item.amount}}</td>
-                                <td width="12%">{{item.total}}</td>
+                                <td width="20%">{{item.subproduct?.name}}</td>
+                                <td width="22%">{{item.imei}}</td>
+                                <td width="10%">{{item.subproduct.price}}</td>
+                                <td width="18%">1</td>
+                                <!-- <td width="12%">{{item.total}}</td> -->
                                 <td width="10%" class="text-right">
                                     <button type="button" class="btn btn-danger btn-sm" (click)="deleteListItem(item)">
                                         <i class="fa fa-close" aria-hidden="true"></i>

@@ -43,6 +43,7 @@ export class SubproductsComponent extends ItemsComponent {
   }
   addStock() {
     if (!this.supplier || !this.imei) return this.pageService.showError("Complete todos los datos.")
+    console.log(this.itemSelected, "item seleccionado para agregar stock")
     let item = {
       subproduct: this.itemSelected.id,
       supplier: this.supplier,

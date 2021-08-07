@@ -13,8 +13,8 @@ module.exports = (module) => {
 		price: { type: Number },
 		stock: { type: Number, default: 0 },
 		product: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'products', required: true },
-		isFromSale: { type: Boolean, default: false },
-		sale: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'sales' },
+		// isFromSale: { type: Boolean, default: false },
+		// sale: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'sales' },
 	}, { timestamps: true });
 
 };

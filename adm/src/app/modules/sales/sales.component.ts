@@ -66,12 +66,12 @@ export class SalesComponent extends ItemsComponent {
     this.pageService.httpUpdate(update, this.settings.endPoints.sales).then(async res => {
       // await this.getItemSelected()
       let incrementD = this.paidARS / this.dolarPrice;
-  
+
       let updateTotal = {
         $inc: { paidTOTAL: incrementD.toFixed(2) },
         id: this.itemSelected.id
       }
-  
+
       this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
         this.getItems();
         await this.getItemSelected()
@@ -91,7 +91,7 @@ export class SalesComponent extends ItemsComponent {
         $inc: { paidTOTAL: this.paidUSD },
         id: this.itemSelected.id
       }
-      
+
       this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
         this.getItems();
         await this.getItemSelected()
@@ -171,7 +171,7 @@ export class SalesComponent extends ItemsComponent {
     console.log(_filters, "filter")
     return _filters;
   }
-  
+
   getPopulates() {
     return ["client"]
   }
@@ -206,15 +206,15 @@ export class SalesComponent extends ItemsComponent {
 
   restartPrice(type) {
 
-    if(type == 'pesos') {
+    if (type == 'pesos') {
 
-      let incrementD = (this.itemSelected.paidTOTAL - this.itemSelected.paidUSD - this.itemSelected.paidPROD) * -1; 
-  
+      let incrementD = (this.itemSelected.paidTOTAL - this.itemSelected.paidUSD - this.itemSelected.paidPROD) * -1;
+
       let updateTotal = {
-        $inc: { paidTOTAL:  incrementD.toFixed(2) },
+        $inc: { paidTOTAL: incrementD.toFixed(2) },
         id: this.itemSelected.id
       }
-  
+
       this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
         await this.getItemSelected()
         let update = {
@@ -227,15 +227,15 @@ export class SalesComponent extends ItemsComponent {
           await this.getItemSelected()
         })
       })
-      
-  
+
+
     } else {
-      
+
       let updateTotal = {
         $inc: { paidTOTAL: - this.itemSelected.paidUSD },
         id: this.itemSelected.id
       }
-      
+
       this.pageService.httpUpdate(updateTotal, this.settings.endPoints.sales).then(async res => {
         // await this.getItemSelected()
         let update = {

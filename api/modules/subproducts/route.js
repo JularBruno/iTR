@@ -87,6 +87,7 @@ module.exports = (module) => {
   module.router.post('/substractStock/:id', (req, res, next) => {
     global.helpers.database.delete(req, res, global.modules.transactions.model).then(async response => {
       console.log(response, "respuesta")
+      if(response.data.sold == true) return res.send({})
       let updateSubproduct = {
         $inc: { stock: -1 }
       }

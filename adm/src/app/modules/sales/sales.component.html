@@ -25,10 +25,10 @@
         <label for="textSearch">Buscar por costo</label>
         <input class="form-control" placeholder="Ingrese costo" [(ngModel)]="price" type="number">
       </div>
-      <div class="form-group m-3">
+      <!-- <div class="form-group m-3">
         <label for="textSearch">Buscar por Cliente</label>
         <input class="form-control" placeholder="Ingrese costo" [(ngModel)]="price" type="number">
-      </div>
+      </div> -->
       <div class="form-group m-3">
         <label class="invisible">.</label>
         <button class="btn btn-outline-primary btn-block" (click)="getItems()">
@@ -153,9 +153,7 @@
             <thead class="thead-light">
               <tr>
                 <th>Producto</th>
-                <th>Características</th>
-                <th>Código</th>
-                <th>Categoria</th>
+                <th>IMEI</th>
                 <th>Cantidad</th>
                 <th>Costo</th>
               </tr>
@@ -171,15 +169,14 @@
                       </td>
                   </tr> -->
               <tr *ngFor="let item of itemSelected.products">
-                <td width="25%">{{item.product?.product?.name}}</td>
-                <td width="25%">{{item.product?.name}}</td>
-                <td width="25%">{{item.product?.code}}</td>
-                <td *ngIf="item.product?.product?.name" width="25%">{{item.product?.product?.name}}</td>
-                <td *ngIf="!item.product?.product?.name" width="25%" style="color: gray;">Categoria Eliminada</td>
+                <td width="25%">{{item.subproduct?.name}}</td>
+                <td width="25%">{{item.imei}}</td>
+                <td width="25%">1</td>
+                <td width="25%">{{item.subproduct?.price}}</td>
 
-                <td width="25%">{{item.amount}}</td>
+                <!-- <td width="25%">{{item.amount}}</td> -->
 
-                <td width="25%">${{item.price}}</td>
+                <!-- <td width="25%">${{item.price}}</td> -->
               </tr>
             </tbody>
           </table>
@@ -359,14 +356,14 @@
               <tbody>
                 <!-- Cargador -->
 
-                <tr *ngFor="let item of subproducts">
+                <!-- <tr *ngFor="let item of subproducts">
                   <td width="33%">{{item.name}}</td>
                   <td width="33%">{{item.code}}</td>
                   <td width="34%">{{item.stock}}</td>
                   <td width="34%">{{item.price}}</td>
                   <td width="34%">{{item.stock * item.price}}</td>
 
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>
@@ -386,11 +383,9 @@
 
 <!-- ////////////// pdf //////////////// -->
 
-<div id="print-section" style="visibility: hidden;">
-  <!-- <div id="pdfTable" #pdfTable > -->
+<!-- <div id="print-section" style="visibility: hidden;">
   <div
     style="position:absolute;left:50%;margin-left:-297px;top:0px;width:595px;height:841px;border-style:outset;overflow:hidden">
-    <!-- <div style="position:absolute;top:0px;width:21cm;height:29.7cm;border-style:outset;overflow:hidden"> -->
     <div style="position:absolute;left:0px;top:0px">
       <img src="../../../assets/pdf/background.jpg" width=595 height=841>
     </div>
@@ -495,7 +490,6 @@
         style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Total</span>
     </div>
     <div *ngFor="let item of itemSelected?.products; let i = index;">
-      <!-- top:323px; top:334px -->
       <div [style.top.px]="getTop(i)"
         style='position:absolute;left:48.96px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
         <span
@@ -520,14 +514,7 @@
           style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
           ${{item.price}}</span>
       </div>
-      <!-- <hr [style.top.px]="getTopHr(i)" style="position:absolute;left:28px; width: 538px; background: rgb(0,0,0); color: rgb(0,0,0);"> -->
     </div>
-    <!-- <div>
-        <div style='position:absolute;left:48.96px;top:349px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>00004</span></div>
-        <div style='position:absolute;left:158.44px;top:349px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>Nombre del subrproducto</span></div>
-        <div style='position:absolute;left:456.57px;top:349px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'><span style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>$10000.00</span></div>
-        <hr style="position:absolute;left:28px;top:360px; width: 538px; background: #d0c9c9; color: #d0c9c9;">
-    </div> -->
     <div
       style='position:absolute;left:357.38px;top:773.45px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
       <span
@@ -565,4 +552,4 @@
         ${{itemSelected?.total - itemSelected?.discount}}</span>
     </div>
   </div>
-</div>
+</div> -->
