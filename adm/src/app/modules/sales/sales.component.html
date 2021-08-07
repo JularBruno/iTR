@@ -277,7 +277,7 @@
           </button>
         </div>
       </div>
-      <div class="row buttonCol" style="padding: 2em;">
+      <div hidden class="row buttonCol" style="padding: 2em;">
         <p>Si de parte de pago se recibió un producto, complete el formulario de abajo para agregar un subproducto
           cuyo costo se sumará al total pagado de la venta.
         </p>
@@ -287,7 +287,7 @@
       </div>
 
       <hr>
-      <div *ngIf="showProductInterface">
+      <div hidden *ngIf="showProductInterface">
         <h2><b>Cargar SubProducto como parte de pago</b></h2>
 
         <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->

@@ -17,6 +17,14 @@ module.exports = (module) => {
       )
       .catch(next);
   });
+  /**
+   * Find
+   *
+   * @param {Object} req - Request
+   * @param {Object} res - Response
+   * @param {Object} next - Next
+   * @return {void}
+   */
   module.router.get('/totalSales', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
     global.helpers.database.find(req, res, module.model)
       .then(result => {
