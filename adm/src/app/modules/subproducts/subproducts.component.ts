@@ -72,7 +72,7 @@ export class SubproductsComponent extends ItemsComponent {
   loadTransactions(item, content?) {
     let endPoint = this.settings.endPoints.transactions;
 
-    this.pageService.httpSimpleGetAll(endPoint, false, {}, { subproduct: item.id }, ["supplier"]).then(res => {
+    this.pageService.httpSimpleGetAll(endPoint, false, { sold: 1 }, { subproduct: item.id }, ["supplier"]).then(res => {
       this.transactionsArray = res.data
       if (content) this.openModal(content, item)
 
