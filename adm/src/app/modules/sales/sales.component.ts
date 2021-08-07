@@ -33,15 +33,18 @@ export class SalesComponent extends ItemsComponent {
   dateTo: any;
   totalSale: any = 0;
   customers: any = [];
-  customer: any
+  customer: any = ""
   preOpenModal() {
     this.getProducts();
     this.getSaleSubProducts();
     this.getDolarPrice();
   }
   getItemSuccess() {
-    this.getCustomers()
     this.getTotalSales()
+  }
+  initialize() {
+    this.getCustomers()
+
   }
   getCustomers() {
     this.pageService.httpSimpleGetAll(this.global.settings.endPoints.customers).then(res => {
@@ -65,14 +68,12 @@ export class SalesComponent extends ItemsComponent {
 
   getProducts() {
     this.pageService.httpSimpleGetAll(this.global.settings.endPoints.products).then(res => {
-      console.log(res);
       this.products = res.data;
     })
   }
 
   getDolarPrice() {
     this.pageService.httpSimpleGetAll(this.global.settings.endPoints.dolar).then(res => {
-      console.log(res);
       this.dolarPrice = res.data[0].value;
     })
   }
@@ -137,7 +138,6 @@ export class SalesComponent extends ItemsComponent {
       sale: this.itemSelected.id
     }
     this.pageService.httpPost(subproduct, "", this.global.settings.endPoints.subproducts).then(res => {
-      console.log(res, "CREATED SUBPRODUCT")
       let sale = {
         id: this.itemSelected.id,
         $inc: { paidPROD: subproduct.price * subproduct.stock }
@@ -166,7 +166,9 @@ export class SalesComponent extends ItemsComponent {
   displayProductLoad() {
     this.showProductInterface = true
   }
-
+  filterClient(customer) {
+    this.customer = customer
+  }
   getFilters() {
     let createdAt: any = {};
     // let user = this.global.getuser()
@@ -187,7 +189,7 @@ export class SalesComponent extends ItemsComponent {
     if (this.price) {
       _filters["total"] = this.price
     }
-    if (this.customer) {
+    if (this.customer != "") {
       _filters["client"] = this.customer
     }
 
@@ -196,10 +198,6 @@ export class SalesComponent extends ItemsComponent {
   }
 
   getPopulates() {
-    // if (this.customer) {
-    //   console.log("found customer on populates")
-    // return [{ path: "client", match: { name: { $regex: "teta" } } }]
-    // }
     return ["client"]
   }
 

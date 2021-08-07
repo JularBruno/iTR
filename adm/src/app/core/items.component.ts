@@ -30,13 +30,14 @@ export class ItemsComponent implements OnInit {
     public pageService: PageService,
     public modalService: NgbModal,
   ) {
-    this.initialize();
     this.global = this.pageService.global;
     this.settings = this.pageService.global.settings;
   }
 
   ngOnInit() {
     this.getItems();
+    this.initialize();
+
   }
 
   initialize() {
