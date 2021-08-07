@@ -153,8 +153,8 @@
             <thead class="thead-light">
               <tr>
                 <th>Producto</th>
+                <th>Característica</th>
                 <th>IMEI</th>
-                <th>Cantidad</th>
                 <th>Costo</th>
               </tr>
             </thead>
@@ -169,9 +169,10 @@
                       </td>
                   </tr> -->
               <tr *ngFor="let item of itemSelected.products">
+                <td width="25%">{{item.subproduct?.product?.name}}</td>
                 <td width="25%">{{item.subproduct?.name}}</td>
                 <td width="25%">{{item.imei}}</td>
-                <td width="25%">1</td>
+                <!-- <td width="25%">1</td> -->
                 <td width="25%">{{item.subproduct?.price}}</td>
 
                 <!-- <td width="25%">{{item.amount}}</td> -->
@@ -190,11 +191,14 @@
           <p *ngIf="itemSelected?.client"><b>Cliente:</b> {{itemSelected?.client?.name}}</p>
           <p style="color: gray;" *ngIf="!itemSelected?.client"><b>Cliente:</b>Cliente eliminado</p>
 
+          <p *ngIf="itemSelected?.client"><b>Email del Cliente:</b> {{itemSelected?.client?.emailAddress}}</p>
+          <p style="color: gray;" *ngIf="!itemSelected?.client"><b>Cliente:</b>Cliente eliminado</p>
+
           <p><b>Fecha:</b> {{itemSelected.createdAt | date:'dd/MM/yyyy'}}</p>
         </div>
         <div class="col-md-6">
-          <p><b>Total Gastado:</b> {{itemSelected?.total}}</p>
-          <p><b>Descuento:</b> {{itemSelected?.discount}}</p>
+          <p><b>Descuento:</b> ${{itemSelected?.discount}}</p>
+          <p><b>Total Gastado:</b> ${{itemSelected?.total}}</p>
         </div>
       </div>
       <hr>
@@ -383,7 +387,7 @@
 
 <!-- ////////////// pdf //////////////// -->
 
-<!-- <div id="print-section" style="visibility: hidden;">
+<div id="print-section" style="visibility: hidden;">
   <div
     style="position:absolute;left:50%;margin-left:-297px;top:0px;width:595px;height:841px;border-style:outset;overflow:hidden">
     <div style="position:absolute;left:0px;top:0px">
@@ -472,47 +476,47 @@
     <div
       style='position:absolute;left:48.96px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
       <span
-        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Código</span>
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Producto</span>
     </div>
     <div
       style='position:absolute;left:158.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
       <span
-        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Nombre</span>
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Característica</span>
     </div>
     <div
-      style='position:absolute;left:370.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
+      style='position:absolute;left:350.40px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
       <span
-        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Cantidad</span>
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>IMEI</span>
     </div>
     <div
       style='position:absolute;left:456.57px;top:298.15px; font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>
       <span
-        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Total</span>
+        style='font-family:"DejaVu Sans Condensed Bold",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Precio</span>
     </div>
     <div *ngFor="let item of itemSelected?.products; let i = index;">
       <div [style.top.px]="getTop(i)"
         style='position:absolute;left:48.96px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
         <span
           style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          {{item.product.code}}</span>
+          {{item.subproduct?.product?.name}}</span>
       </div>
       <div [style.top.px]="getTop(i)"
         style='position:absolute;left:158.44px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
         <span
           style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          {{item.product.name}}</span>
+          {{item.subproduct?.name}}</span>
       </div>
       <div [style.top.px]="getTop(i)"
-        style='position:absolute;left:370.40px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
+        style='position:absolute;left:350.40px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
         <span
           style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          {{item.amount}}</span>
+          {{item.imei}}</span>
       </div>
       <div [style.top.px]="getTop(i)"
         style='position:absolute;left:456.57px;font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
         <span
           style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-          ${{item.price}}</span>
+          ${{item.subproduct?.price}}</span>
       </div>
     </div>
     <div
@@ -552,4 +556,4 @@
         ${{itemSelected?.total - itemSelected?.discount}}</span>
     </div>
   </div>
-</div> -->
+</div>

@@ -7,10 +7,14 @@ import { ItemsComponent } from '../../core/items.component';
   styleUrls: ['../../core/items.component.scss']
 })
 export class SubproductsComponent extends ItemsComponent {
+  
   suppliers: any = [];
   supplier: any
   transactionsArray: any = [];
   imei: any
+  scannerEnabled: boolean = false;
+  imeiEnable: boolean = false;
+
   getFilters() {
     let _filters = {};
     return _filters;
@@ -79,4 +83,18 @@ export class SubproductsComponent extends ItemsComponent {
     })
   }
 
+
+  enableScanner() {
+    this.scannerEnabled = !this.scannerEnabled;
+    this.imeiEnable = !this.imeiEnable;
+    // if(this.scannerEnabled) {
+    //   this.form.controls['code'].disable();
+    // } else {
+    //   this.form.controls['code'].enable();
+    // }
+  }
+
+  scanSuccessHandler(event) {
+    this.imei = event;
+  }
 }

@@ -163,7 +163,17 @@
         </div>
         <div class="col-md-6">
           <label>IMEI</label>
-          <input type="text" [(ngModel)]="imei" class="form-control">
+          <input type="text" [disabled]="imeiEnable" [(ngModel)]="imei" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+          <zxing-scanner [enable]="scannerEnabled"
+            [formats]="['QR_CODE', 'EAN_13','EAN_8', 'CODE_128', 'DATA_MATRIX']" #scanner
+            (scanSuccess)="scanSuccessHandler($event)">
+          </zxing-scanner>
+          <!-- <h3 *ngIf="scannerEnabled">Código: {{imei}}</h3> -->
+          <button type="button" (click)="enableScanner()" class="btn btn-primary float-right mr-5">
+            <i class="fa fa-eye" aria-hidden="true"></i> ESCANEAR
+          </button>
         </div>
 
         <div class="col-md-12 text-right pt-3">

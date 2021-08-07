@@ -35,6 +35,7 @@ export class SalesComponent extends ItemsComponent {
     this.getSaleSubProducts();
     this.getDolarPrice();
   }
+
   sort() {
     return { createdAt: -1 }
   }

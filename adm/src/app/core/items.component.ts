@@ -180,8 +180,11 @@ export class ItemsComponent implements OnInit {
     this.getItems();
   }
   preOpenModal() { }
+
   openModal(content, item) {
     this.itemSelected = item;
+    console.log('this.itemSelected ', this.itemSelected);
+    
     this.preOpenModal()
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
