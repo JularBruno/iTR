@@ -26,7 +26,8 @@ export class Settings {
     addStock: "/addstock",
     subproducts: "/subproducts",
     updatePrice: "/updatePrice",
-    substractStock: "/substractStock"
+    substractStock: "/substractStock",
+    totalSales: "totalSales"
   };
   public static storage = {
     user: 'user'
