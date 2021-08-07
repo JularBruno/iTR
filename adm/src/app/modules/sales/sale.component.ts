@@ -207,7 +207,7 @@ export class SaleComponent extends ItemComponent {
       discount: this.discount,
       products: this.productsList,
     }
-
+    console.log("logform")
     let method = this.settings.endPointsMethods.createSale
     this.pageService.httpPost(object, method).then(response => {
       this.pageService.navigate()
