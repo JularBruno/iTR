@@ -18,10 +18,10 @@ export class SalesComponent extends ItemsComponent {
   showProductInterface: boolean = false;
   scannerEnabled: boolean = false;
   products: any = [];
-  product: any
-  name: any
-  stock: any
-  priceSub: any
+  product: any;
+  name: any;
+  stock: any;
+  priceSub: any;
   subproducts: any = [];
   code: any
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -29,11 +29,30 @@ export class SalesComponent extends ItemsComponent {
   dolarPrice = 0;
 
   user: any = this.global.getUser()
-
+  dateFrom: any;
+  dateTo: any;
+  totalSale: any = 0;
+  customers: any = [];
+  customer: any
   preOpenModal() {
     this.getProducts();
     this.getSaleSubProducts();
     this.getDolarPrice();
+  }
+  getItemSuccess() {
+    this.getCustomers()
+    this.getTotalSales()
+  }
+  getCustomers() {
+    this.pageService.httpSimpleGetAll(this.global.settings.endPoints.customers).then(res => {
+      this.customers = res.data;
+    })
+  }
+  getTotalSales() {
+    let endpoint = this.global.settings.endPoints.sales + "/" + this.global.settings.endPointsMethods.totalSales
+    this.pageService.httpSimpleGetAll(endpoint, false, {}, this.getFilters(), this.getPopulates()).then(res => {
+      this.totalSale = res.data.totalSales
+    })
   }
   sort() {
     return { createdAt: -1 }
@@ -152,15 +171,15 @@ export class SalesComponent extends ItemsComponent {
     let createdAt: any = {};
     // let user = this.global.getuser()
     let _filters = {};
-    if (this.date && !this.user.roles.includes("manager")) {
-      const end = moment(this.date).endOf('day').toDate()
-      const start = moment(this.date).startOf('day').toDate()
+    if ((this.dateFrom || this.dateTo) && !this.user.roles.includes("manager")) {
+      const start = moment(this.dateFrom).startOf('day').toDate()
+      const end = moment(this.dateTo).endOf('day').toDate()
       createdAt["$gte"] = start;
       createdAt["$lte"] = end;
       _filters['createdAt'] = createdAt;
     } else if (this.user.roles.includes("manager")) {
-      const end = moment().endOf('day').toDate()
       const start = moment().startOf('day').toDate()
+      const end = moment().endOf('day').toDate()
       createdAt["$gte"] = start;
       createdAt["$lte"] = end;
       _filters['createdAt'] = createdAt;
@@ -168,11 +187,19 @@ export class SalesComponent extends ItemsComponent {
     if (this.price) {
       _filters["total"] = this.price
     }
+    if (this.customer) {
+      _filters["client"] = this.customer
+    }
+
     console.log(_filters, "filter")
     return _filters;
   }
 
   getPopulates() {
+    // if (this.customer) {
+    //   console.log("found customer on populates")
+    // return [{ path: "client", match: { name: { $regex: "teta" } } }]
+    // }
     return ["client"]
   }
 

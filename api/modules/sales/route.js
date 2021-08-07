@@ -17,7 +17,18 @@ module.exports = (module) => {
       )
       .catch(next);
   });
-
+  module.router.get('/totalSales', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
+    global.helpers.database.find(req, res, module.model)
+      .then(result => {
+        let count = 0
+        for (let index = 0; index < result.data.length; index++) {
+          const element = result.data[index];
+          count += element.total
+        }
+        res.send({ data: { totalSales: count } })
+      })
+      .catch(next);
+  });
   /**
    * FindById
    *

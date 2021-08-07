@@ -152,6 +152,7 @@ export class SaleComponent extends ItemComponent {
   }
   selectProduct(item) {
     this.categorySelected = item;
+    console.log("cateogryselected", item)
     this.getTransactions(item)
   }
   onSubmitPerform(item) {
@@ -185,6 +186,7 @@ export class SaleComponent extends ItemComponent {
       delete filter.product;
     }
     this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["product"]).then(res => {
+      console.log("subproducts", res.data)
       this.products = res.data;
     })
   }
@@ -226,7 +228,7 @@ export class SaleComponent extends ItemComponent {
       }
     }
     let endPoint = this.settings.endPoints.transactions;
-    this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["supplier", "subproduct"]).then(res => {
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["supplier", "subproduct", { path: 'subproduct', populate: { path: 'product' } }]).then(res => {
       if (res.data.length == 0) this.pageService.showError("Este subproducto no tiene imeis para mostrar")
       this.transactions = res.data
     })
@@ -236,16 +238,14 @@ export class SaleComponent extends ItemComponent {
     this.productsList.push(item)
     this.listTotal += item.subproduct.price
     this.amountToBuy += 1;
-    console.log(this.productsList)
-    console.log(this.listTotal)
   }
 
   deleteListItem(item) {
     const index = this.productsList.indexOf(item);
     if (index != -1) {
       this.productsList.splice(index, 1);
+      this.listTotal -= item.subproduct.price;
     }
-    // this.listTotal -= item.total;
   }
 
 }

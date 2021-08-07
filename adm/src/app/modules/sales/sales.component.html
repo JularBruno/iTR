@@ -10,30 +10,42 @@
     </div>
   </div>
   <div class="row section-filters mt-2">
-    <div class="col-md-8 form-row">
+    <div class="col-md-12 form-row">
       <!-- <div class="form-group">
         <label for="textSearch">Buscar</label>
         <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
           placeholder="Buscar por nombre..." [(ngModel)]="textSearch" [ngModelOptions]="{standalone: true}">
       </div> -->
-      <div class="form-group m-3">
-        <label for="textSearch">Buscar por Fecha</label>
-        <input [disabled]="user.roles.includes('manager')" class="form-control" placeholder="Ingrese una fecha"
-          [(ngModel)]="date" type="date">
+      <div class="form-group m-2">
+        <label for="textSearch">Buscar por Fecha desde</label>
+        <input [disabled]="user.roles.includes('manager')" class="form-control" placeholder="Ingrese una fecha desde"
+          [(ngModel)]="dateFrom" type="date">
       </div>
-      <div class="form-group m-3">
+      <div class="form-group m-2">
+        <label for="textSearch">Buscar por Fecha Hasta</label>
+        <input [disabled]="user.roles.includes('manager')" class="form-control" placeholder="Ingrese una fecha hasta"
+          [(ngModel)]="dateTo" type="date">
+      </div>
+      <div class="form-group m-2">
         <label for="textSearch">Buscar por costo</label>
         <input class="form-control" placeholder="Ingrese costo" [(ngModel)]="price" type="number">
       </div>
-      <!-- <div class="form-group m-3">
+      <div class="form-group m-2">
         <label for="textSearch">Buscar por Cliente</label>
-        <input class="form-control" placeholder="Ingrese costo" [(ngModel)]="price" type="number">
-      </div> -->
-      <div class="form-group m-3">
-        <label class="invisible">.</label>
+        <select class="custom-select" [(ngModel)]="customer">
+          <!-- <option disabled hidden>Seleccione un cliente</option> -->
+          <option *ngFor="let customer of customers" [value]="customer.id">{{customer.name}}</option>
+        </select>
+      </div>
+      <div class="form-group m-2">
+        <label class="invisible">ano</label>
         <button class="btn btn-outline-primary btn-block" (click)="getItems()">
           <i class="fa fa-search" aria-hidden="true"></i> Buscar
         </button>
+      </div>
+      <div class="form-group m-2">
+        <label>Total de ventas:</label>
+        <h1>${{totalSale}}</h1>
       </div>
     </div>
   </div>
@@ -212,10 +224,12 @@
 
       <div class="row">
         <div class="col-md-6">
-          <button type="button" style="background: #eb4848;" class="btn danger btn-sm mr-2" (click)="restartPrice('pesos')">Reiniciar monto en Pesos</button>
+          <button type="button" style="background: #eb4848;" class="btn danger btn-sm mr-2"
+            (click)="restartPrice('pesos')">Reiniciar monto en Pesos</button>
         </div>
         <div class="col-md-6">
-          <button type="button" style="background: #eb4848;"  class="btn danger btn-sm mr-2" (click)="restartPrice('dolares')">Reiniciar monto en Dólares</button>
+          <button type="button" style="background: #eb4848;" class="btn danger btn-sm mr-2"
+            (click)="restartPrice('dolares')">Reiniciar monto en Dólares</button>
         </div>
         <!-- <div class="col-md-4">
           <button>Reiniciar</button>
@@ -259,7 +273,7 @@
         </div>
       </div>
       <div class="row buttonCol" style="padding: 2em;">
-        <p>Si de parte de pago se recibió un producto, complete el formulario de abajo para agregar un subproducto 
+        <p>Si de parte de pago se recibió un producto, complete el formulario de abajo para agregar un subproducto
           cuyo costo se sumará al total pagado de la venta.
         </p>
         <button (click)="displayProductLoad()" type="submit" class="btn primary btn-sm mr-2">
