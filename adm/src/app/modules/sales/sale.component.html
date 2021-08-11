@@ -38,12 +38,12 @@
                             <table class="table table-striped mt-4">
                                 <thead class="thead-light">
                                     <tr>
+                                        <th></th>
                                         <th>Producto</th>
                                         <th>Características</th>
                                         <th>Código</th>
                                         <th>Stock</th>
                                         <th>Costo</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,17 +57,17 @@
                                         </td>
                                     </tr>
                                     <tr *ngFor="let item of products">
-                                        <td width="20%">{{item.product?.name}}</td>
-                                        <td width="20%">{{item.name}}</td>
-                                        <td width="20%">{{item.code}}</td>
-                                        <td width="10%">{{item.stock}}</td>
-                                        <td width="10%">${{item.price}}</td>
-                                        <td width="10%" class="text-right">
+                                        <td width="5%" class="text-right">
                                             <button type="button" class="btn primary btn-sm mr-2"
                                                 (click)="selectProduct(item)">
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </button>
                                         </td>
+                                        <td width="20%">{{item.product?.name}}</td>
+                                        <td width="20%">{{item.name}}</td>
+                                        <td width="20%">{{item.code}}</td>
+                                        <td width="10%">{{item.stock}}</td>
+                                        <td width="15%">${{item.price}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -103,9 +103,9 @@
                             <table class="table table-striped mt-4">
                                 <thead class="thead-light">
                                     <tr>
+                                        <th></th>
                                         <th>IMEI</th>
                                         <th>Proveedor</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -119,15 +119,15 @@
                                         </td>
                                     </tr>
                                     <tr *ngFor="let item of transactions">
-                                        <td width="70%">{{item.imei}}</td>
-                                        <td *ngIf="item.supplier" width="20%">{{item.supplier.name}}</td>
-                                        <td *ngIf="!item.supplier" width="20%">Proveedor eliminado</td>
-                                        <td width="10%" class="text-right">
+                                        <td width="5%" class="text-right">
                                             <button [disabled]="existsImei(item)" type="button"
                                                 class="btn primary btn-sm mr-2" (click)="addToSale(item)">
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </button>
                                         </td>
+                                        <td width="70%">{{item.imei}}</td>
+                                        <td *ngIf="item.supplier" width="20%">{{item.supplier.name}}</td>
+                                        <td *ngIf="!item.supplier" width="20%">Proveedor eliminado</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -152,12 +152,13 @@
                     <table class="table table-striped mt-4">
                         <thead class="thead-light">
                             <tr>
-                                <th>Producto</th>
+                                <th></th>
+                                <!-- <th>Producto</th> -->
+                                <th>Característica</th>
                                 <th>IMEI</th>
                                 <th>Valor</th>
                                 <th>Cantidad</th>
                                 <!-- <th>Total</th> -->
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -171,16 +172,17 @@
                                 </td>
                             </tr>
                             <tr *ngFor="let item of productsList">
-                                <td width="20%">{{item.subproduct?.name}}</td>
-                                <td width="22%">{{item.imei}}</td>
-                                <td width="10%">{{item.subproduct.price}}</td>
-                                <td width="18%">1</td>
-                                <!-- <td width="12%">{{item.total}}</td> -->
-                                <td width="10%" class="text-right">
+                                <td width="5%" class="text-right">
                                     <button type="button" class="btn btn-danger btn-sm" (click)="deleteListItem(item)">
                                         <i class="fa fa-close" aria-hidden="true"></i>
                                     </button>
                                 </td>
+                                <td width="30%">{{item.subproduct?.name}}</td>
+                                <!-- <td width="20%">{{item.name}}</td> -->
+                                <td width="30%">{{item.imei}}</td>
+                                <td width="25%">{{item.subproduct.price}}</td>
+                                <td width="10%">1</td>
+                                <!-- <td width="12%">{{item.total}}</td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -213,11 +215,11 @@
                             <table class="table table-striped mt-4">
                                 <thead class="thead-light">
                                     <tr>
+                                        <th></th>
                                         <th>Nombre</th>
                                         <th>Email</th>
                                         <th>Telefono</th>
                                         <th>DNI</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -245,17 +247,17 @@
                                         </div>
                                     </tr>
                                     <tr *ngFor="let item of clients">
-                                        <td width="20%">{{item.name}}</td>
-                                        <td width="20%">{{item.emailAddress}}</td>
-                                        <td width="20%">{{item.phone}}</td>
-                                        <td width="20%">{{item.dni}}</td>
-                                        <td width="20%" class="text-right">
+                                        <td width="5%" class="text-right">
                                             <button type="button" class="btn primary btn-sm mr-2"
                                                 (click)="selectClient(item)">
                                                 <i class="fa fa-check-circle" aria-hidden="true"
                                                     [ngStyle]="clientSelected === item.id ? {'color': 'greenyellow'} : {'color': 'white'}"></i>
                                             </button>
                                         </td>
+                                        <td width="23%">{{item.name}}</td>
+                                        <td width="24%">{{item.emailAddress}}</td>
+                                        <td width="24%">{{item.phone}}</td>
+                                        <td width="23%">{{item.dni}}</td>
                                     </tr>
                                 </tbody>
                             </table>
