@@ -37,6 +37,7 @@ export class SaleComponent extends ItemComponent {
   discount: number = 0;
   listTotal: number = 0;
   discountStock: boolean = false;
+  totalCost: any = 0;
   ///
   search: any;
   searchU: any;
@@ -44,6 +45,7 @@ export class SaleComponent extends ItemComponent {
   transactions: any = [];
   imeiFilter: any;
   categorySelected: any;
+  dolar: any = 0;
 
   //// FIN COPY PASTED
   constructor(
@@ -59,6 +61,20 @@ export class SaleComponent extends ItemComponent {
     this.getCategories()
     this.getClients()
     this.getProducts()
+    this.getDolarPrice()
+  }
+  getDolarPrice() {
+    let endpoint = this.settings.endPoints.dolar
+    this.pageService.httpSimpleGetAll(endpoint).then(res => {
+      if (!res.data[0]) {
+        this.pageService.showError("Debe tener configurado el precio del dolar para realizar la venta")
+        this.pageService.navigate()
+        return
+
+      }
+      this.dolar = res.data[0].value
+
+    })
   }
 
   getFormNew() {
@@ -194,7 +210,7 @@ export class SaleComponent extends ItemComponent {
   logForm() {
 
     console.log('this.clientSelected ', this.clientSelected);
-
+    console.log(this.totalCost)
     if (!this.clientSelected) return this.pageService.showError("Seleccione un cliente")
     if (this.productsList.length == 0) return this.pageService.showError("Seleccione al menos un imei")
     if (this.listTotal - this.discount < 0) return this.pageService.showError("El el total no puede ser menor a 0")
@@ -204,10 +220,12 @@ export class SaleComponent extends ItemComponent {
       date: datetime,
       client: this.clientSelected,
       total: this.listTotal.toFixed(2),
+      totalCost: this.totalCost,
+      totalDiscount: (this.listTotal - this.discount).toFixed(2),
       discount: this.discount,
       products: this.productsList,
+      dolar: this.dolar
     }
-    console.log("logform")
     let method = this.settings.endPointsMethods.createSale
     this.pageService.httpPost(object, method).then(response => {
       this.pageService.navigate()
@@ -234,9 +252,11 @@ export class SaleComponent extends ItemComponent {
     })
   }
   addToSale(item) {
+    console.log(item.subproduct, "item.subproductAddSale")
     delete item.sold
     this.productsList.push(item)
     this.listTotal += item.subproduct.price
+    this.totalCost += item.subproduct.cost
     this.amountToBuy += 1;
   }
 
@@ -244,6 +264,7 @@ export class SaleComponent extends ItemComponent {
     const index = this.productsList.indexOf(item);
     if (index != -1) {
       this.productsList.splice(index, 1);
+      this.totalCost -= item.subproduct.cost;
       this.listTotal -= item.subproduct.price;
     }
   }

@@ -34,7 +34,7 @@ export class SubproductComponent extends ItemComponent implements AfterViewInit 
       code: [0, Validators.required],
       price: [null, Validators.required],
       product: [null, Validators.required],
-
+      cost: [null, Validators.required],
     })
   }
 
@@ -44,13 +44,14 @@ export class SubproductComponent extends ItemComponent implements AfterViewInit 
       name: [item.name, Validators.required],
       code: [item.code, Validators.required],
       price: [item.price, Validators.required],
+      cost: [item.cost, Validators.required],
+
       product: [item.product, Validators.required],
 
     })
   }
 
   onValueChanges(result) {
-    console.log("CHANGES ON VALUE", result)
     console.log(result.codeResult.code);
   }
 
@@ -60,13 +61,13 @@ export class SubproductComponent extends ItemComponent implements AfterViewInit 
 
   enableScanner() {
     this.scannerEnabled = !this.scannerEnabled;
-    if(this.scannerEnabled) {
+    if (this.scannerEnabled) {
       this.form.controls['code'].disable();
     } else {
       this.form.controls['code'].enable();
     }
   }
- 
+
   scanSuccessHandler(event) {
     this.form.value.code = event;
   }

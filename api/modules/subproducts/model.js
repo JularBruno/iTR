@@ -11,6 +11,7 @@ module.exports = (module) => {
 		code: { type: String },
 		name: { type: String },
 		price: { type: Number },
+		cost: { type: Number },
 		stock: { type: Number, default: 0 },
 		product: { type: global.database.mongodb.mongoose.Schema.Types.ObjectId, ref: 'products', required: true },
 		// isFromSale: { type: Boolean, default: false },
