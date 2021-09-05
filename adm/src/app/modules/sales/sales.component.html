@@ -9,8 +9,8 @@
       </button>
     </div>
   </div>
-  <div class="row section-filters mt-2">
-    <div class="col-md-12 form-row">
+  <div class="row section-filters mt-2" *ngIf="!user.roles.includes('manager')">
+    <div class="col-md-12 form-row" >
       <!-- <div class="form-group">
         <label for="textSearch">Buscar</label>
         <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
@@ -39,15 +39,40 @@
         </select>
       </div>
       <div class="form-group m-2">
-        <label class="invisible">ano</label>
+        <label class="invisible">asi</label>
         <button class="btn btn-outline-primary btn-block" [disabled]="user.roles.includes('manager')" (click)="getItems()">
           <i class="fa fa-search" aria-hidden="true"></i> Buscar
         </button>
       </div>
-      <div [hidden]="user.roles.includes('manager')" class="form-group m-2">
+      <!-- <div [hidden]="user.roles.includes('manager')" class="form-group m-2">
         <label>Total de ventas:</label>
         <h1>${{totalSale}}</h1>
-      </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="row section-filters mt-2 p-2" style="border:1px solid;" *ngIf="!user.roles.includes('manager') && dateFrom != null && dateTo != null">
+    <div class="col-md-2">
+      <h2>Totales del lapso de fechas:</h2>
+    </div>
+    <div class="col-md-2">
+        <label for="textSearch">Pagado en ARS</label>
+        <h2>$100</h2>
+    </div>
+    <div class="col-md-2">
+        <label for="textSearch">Pagado en USD</label>
+        <h2>$100</h2>
+    </div>
+    <div class="col-md-2">
+        <label for="textSearch">Costo total</label>
+        <h2>$100</h2>
+    </div>
+    <div class="col-md-2">
+        <label for="textSearch">Ganancia en ARS</label>
+        <h2>$100</h2>
+    </div>
+    <div class="col-md-2">
+        <label for="textSearch">Ganancia en USD</label>
+        <h2>$100</h2>
     </div>
   </div>
   <div class="row p-3">
@@ -67,31 +92,31 @@
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center">
+            <th class="text-center" >
               <button type="button" class="btn btn-light">
                 Pagado en ARS
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center">
+            <th class="text-center" >
               <button type="button" class="btn btn-light">
                 Pagado en USD
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center">
+            <th class="text-center" >
               <button type="button" class="btn btn-light">
                 Costo total
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center">
+            <th class="text-center" >
               <button type="button" class="btn btn-light">
                 Ganancia en ARS
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center">
+            <th class="text-center" >
               <button type="button" class="btn btn-light">
                 Ganancia en USD
                 <i class="fa" aria-hidden="true"></i>
@@ -105,13 +130,13 @@
         <tbody>
           <!-- Cargador -->
           <tr *ngIf="loading" class="text-center">
-            <td colspan="6">
+            <td colspan="8">
               <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Cargando...
             </td>
           </tr>
           <!-- Texto cuando no hay resultados  -->
           <tr *ngIf="!loading && items.length == 0" class="text-center">
-            <td colspan="6">
+            <td colspan="8">
               <span class="text-muted">
                 <i class="fa fa-close" aria-hidden="true"></i>
                 No hay ventas para mostrar
@@ -128,27 +153,21 @@
             </td>
             <td class="px-4 text-center">
               {{ item.createdAt | date:'dd/MM/yyyy' }}
-
             </td>
-            <td class="px-4 text-center">
+            <td class="px-4 text-center" >
               ${{ item.total - item.discount}}
-
             </td>
-            <td class="px-4 text-center">
+            <td class="px-4 text-center" >
               ${{ item.total - item.discount}}
-
             </td>
-            <td class="px-4 text-center">
+            <td class="px-4 text-center" >
               ${{ item.total - item.discount}}
-
             </td>
-            <td class="px-4 text-center">
+            <td class="px-4 text-center" >
               ${{ item.total - item.discount}}
-
             </td>
-            <td class="px-4 text-center">
+            <td class="px-4 text-center" >
               ${{ item.total - item.discount}}
-
             </td>
             <td *ngIf="showPriceChange" class="px-4 text-center">
               <input class="mr-4" type="checkbox" [(checked)]="item.selected"
@@ -210,6 +229,7 @@
                 <th>Característica</th>
                 <th>IMEI</th>
                 <th>Costo</th>
+                <th>Precio</th>
               </tr>
             </thead>
             <tbody>
@@ -227,6 +247,7 @@
                 <td width="25%">{{item.subproduct?.name}}</td>
                 <td width="25%">{{item.imei}}</td>
                 <!-- <td width="25%">1</td> -->
+                <td width="25%">{{item.subproduct?.cost}}</td>
                 <td width="25%">{{item.subproduct?.price}}</td>
 
                 <!-- <td width="25%">{{item.amount}}</td> -->
@@ -262,24 +283,26 @@
           <p><b>Total pagado en Pesos:</b> ${{itemSelected?.paidARS}}</p>
           <p><b>Total pagado en Dólares:</b> ${{itemSelected?.paidUSD}}</p>
           <p><b>Total pagado en Productos:</b> ${{itemSelected?.paidPROD}}</p>
+          <p><b>Total pagado:</b> ${{itemSelected?.paidTOTAL}}</p>
         </div>
         <div class="col-md-6">
-          <p><b>Total pagado:</b> ${{itemSelected?.paidTOTAL}}</p>
+          <p><b>Costo:</b> ${{itemSelected?.paidTOTAL}}</p>
+          <p><b>Ganancia en Pesos:</b> ${{itemSelected?.paidTOTAL}}</p>
+          <p><b>Ganancia en Dólares:</b> ${{itemSelected?.paidTOTAL}}</p>
         </div>
       </div>
 
+      <hr>
+
       <div class="row">
         <div class="col-md-6">
-          <button type="button" style="background: #eb4848;" class="btn danger btn-sm mr-2"
+          <button type="button" style="background: #eb4848; text-align: center;" class="btn danger btn-sm mr-2"
             (click)="restartPrice('pesos')">Reiniciar monto en Pesos</button>
         </div>
         <div class="col-md-6">
-          <button type="button" style="background: #eb4848;" class="btn danger btn-sm mr-2"
+          <button type="button" style="background: #eb4848; text-align: center;" class="btn danger btn-sm mr-2"
             (click)="restartPrice('dolares')">Reiniciar monto en Dólares</button>
         </div>
-        <!-- <div class="col-md-4">
-          <button>Reiniciar</button>
-        </div> -->
       </div>
 
       <hr>
@@ -318,6 +341,7 @@
           </button>
         </div>
       </div>
+      
       <div hidden class="row buttonCol" style="padding: 2em;">
         <p>Si de parte de pago se recibió un producto, complete el formulario de abajo para agregar un subproducto
           cuyo costo se sumará al total pagado de la venta.

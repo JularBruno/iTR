@@ -232,6 +232,10 @@ export class SalesComponent extends ItemsComponent {
 
   restartPrice(type) {
 
+    if (!confirm('¿Esta seguro que desea reiniciar este monto?')) {
+      return
+    }
+
     if (type == 'pesos') {
 
       let incrementD = (this.itemSelected.paidTOTAL - this.itemSelected.paidUSD - this.itemSelected.paidPROD) * -1;
