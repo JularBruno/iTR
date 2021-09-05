@@ -28,19 +28,27 @@
       </div>
       <div class="form-group m-2">
         <label for="textSearch">Buscar por costo</label>
-        <input class="form-control" [disabled]="user.roles.includes('manager')" placeholder="Ingrese costo" [(ngModel)]="price" type="number">
+        <input class="form-control" [disabled]="user.roles.includes('manager')" placeholder="Ingrese costo"
+          [(ngModel)]="price" type="number">
       </div>
       <div class="form-group m-2">
         <label for="textSearch">Buscar por Cliente</label>
-        <select class="custom-select" [disabled]="user.roles.includes('manager')" (change)="filterClient($event.target.value)" [(ngModel)]="customer">
+        <select class="custom-select" [disabled]="user.roles.includes('manager')"
+          (change)="filterClient($event.target.value)" [(ngModel)]="customer">
           <!-- <option value="null" disabled hidden selected>Seleccione un cliente</option> -->
           <option *ngFor="let client of customers" value="{{client.id}}">
             {{client.name}}</option>
         </select>
       </div>
       <div class="form-group m-2">
+<<<<<<< HEAD
         <label class="invisible">asi</label>
         <button class="btn btn-outline-primary btn-block" [disabled]="user.roles.includes('manager')" (click)="getItems()">
+=======
+        <label class="invisible">ano</label>
+        <button class="btn btn-outline-primary btn-block" [disabled]="user.roles.includes('manager')"
+          (click)="getItems()">
+>>>>>>> e536c17e247cfe40e3bf87ed0279fc68360d831c
           <i class="fa fa-search" aria-hidden="true"></i> Buscar
         </button>
       </div>
@@ -154,27 +162,33 @@
             <td class="px-4 text-center">
               {{ item.createdAt | date:'dd/MM/yyyy' }}
             </td>
-            <td class="px-4 text-center" >
-              ${{ item.total - item.discount}}
+            <td class="px-4 text-center">
+              ${{ item.paidARS}}
+
             </td>
-            <td class="px-4 text-center" >
-              ${{ item.total - item.discount}}
+            <td class="px-4 text-center">
+              ${{ item.paidUSD }}
+
             </td>
-            <td class="px-4 text-center" >
-              ${{ item.total - item.discount}}
+            <td class="px-4 text-center">
+              ${{ item.totalCost }}
+
             </td>
-            <td class="px-4 text-center" >
-              ${{ item.total - item.discount}}
+            <td class="px-4 text-center">
+              ${{ item.earningsARS}}
+
             </td>
-            <td class="px-4 text-center" >
-              ${{ item.total - item.discount}}
+            <td class="px-4 text-center">
+              ${{ item.earningsUSD }}
+
             </td>
             <td *ngIf="showPriceChange" class="px-4 text-center">
               <input class="mr-4" type="checkbox" [(checked)]="item.selected"
                 (change)="selectProduct(item, $event.target.checked)">
             </td>
             <td class="text-right">
-              <button style="width: 100%;" class="btn btn-primary btn-sm" type="button" (click)="openModal(history, item)">
+              <button style="width: 100%;" class="btn btn-primary btn-sm" type="button"
+                (click)="openModal(history, item)">
                 Administrar
               </button>
               <button style="width: 100%;" class="btn btn-danger btn-sm mt-2" type="button" (click)="remove(item)">
@@ -486,7 +500,8 @@
     <div
       style='position:absolute;left:373.21px;top:76.74px; font-family:"DejaVu Sans Condensed",serif;font-size:30.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
       <span
-        style='font-family:"DejaVu Sans Condensed",serif;font-size:18.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Comprobante de pago</span>
+        style='font-family:"DejaVu Sans Condensed",serif;font-size:18.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none'>Comprobante
+        de pago</span>
     </div>
     <div
       style='position:absolute;left:255.67px;top:91.69px; font-family:"DejaVu Sans Condensed",serif;font-size:24.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
@@ -503,7 +518,7 @@
       style='position:absolute;left:381.60px;top:142.39px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
       <span
         style='font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>
-        </span>
+      </span>
     </div>
     <div
       style='position:absolute;left:48.61px;top:157.65px; font-family:"DejaVu Sans Condensed",serif;font-size:12.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none'>

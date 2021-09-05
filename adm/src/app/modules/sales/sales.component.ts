@@ -47,6 +47,7 @@ export class SalesComponent extends ItemsComponent {
     this.getCustomers()
 
   }
+
   getCustomers() {
     this.pageService.httpSimpleGetAll(this.global.settings.endPoints.customers).then(res => {
       this.customers = res.data;
