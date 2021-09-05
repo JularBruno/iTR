@@ -3,6 +3,21 @@
 // Define module
 module.exports = (module) => {
 
+  // /**
+  //  * Find
+  //  *
+  //  * @param {Object} req - Request
+  //  * @param {Object} res - Response
+  //  * @param {Object} next - Next
+  //  * @return {void}
+  //  */
+  // module.router.get('/', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
+  //   global.helpers.database.find(req, res, module.model)
+  //     .then(result => res.send(result)
+  //     )
+  //     .catch(next);
+  // });
+
   /**
    * Find
    *
@@ -13,8 +28,32 @@ module.exports = (module) => {
    */
   module.router.get('/', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
     global.helpers.database.find(req, res, module.model)
-      .then(result => res.send(result)
-      )
+      .then(result => {
+        result = JSON.parse(JSON.stringify(result))
+        if (result.data.length == 0) return res.send(result)
+        for (let index = 0; index < result.data.length; index++) {
+          var element = result.data[index];
+          let earningsUSD = 0
+          let earningsARS = 0
+          let preUSD = element.totalCost - element.paidUSD
+          if (preUSD > 0) {
+            //500 - 300 = 200
+            let costARS = preUSD * element.dolar
+            //200 * 100 = 20000
+            if (element.paidARS > costARS) earningsARS = element.paidARS - costARS
+            //25000 - 20000 = 5000
+          } else if (preUSD <= 0) {
+            // 500 - 600 = -100
+            if (preUSD < 0) earningsUSD = Math.abs(preUSD)
+            earningsARS = element.paidARS
+          }
+          element.earningsARS = earningsARS
+          element.earningsUSD = earningsUSD
+        }
+
+        res.send(result)
+
+      })
       .catch(next);
   });
   /**
