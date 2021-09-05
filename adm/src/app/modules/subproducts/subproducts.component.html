@@ -54,8 +54,15 @@
             </th>
             <th>
               <button type="button" class="btn btn-light" (click)="sort('price')">
-                Costo
+                Precio
                 <i class="fa" [ngClass]="{'fa-arrow-down': sortField.price == 1,'fa-arrow-up': sortField.price == -1}"
+                  aria-hidden="true"></i>
+              </button>
+            </th>
+            <th>
+              <button type="button" class="btn btn-light" (click)="sort('cost')">
+                Costo
+                <i class="fa" [ngClass]="{'fa-arrow-down': sortField.cost == 1,'fa-arrow-up': sortField.cost == -1}"
                   aria-hidden="true"></i>
               </button>
             </th>
@@ -103,6 +110,9 @@
             </td>
             <td class="px-4 ">
               {{ item.price }}
+            </td>
+            <td class="px-4 ">
+              {{ item.cost }}
             </td>
             <td class="px-4">
               {{ item.stock }}
@@ -166,9 +176,8 @@
           <input type="text" [disabled]="imeiEnable" [(ngModel)]="imei" class="form-control">
         </div>
         <div class="form-group col-md-6">
-          <zxing-scanner [enable]="scannerEnabled"
-            [formats]="['QR_CODE', 'EAN_13','EAN_8', 'CODE_128', 'DATA_MATRIX']" #scanner
-            (scanSuccess)="scanSuccessHandler($event)">
+          <zxing-scanner [enable]="scannerEnabled" [formats]="['QR_CODE', 'EAN_13','EAN_8', 'CODE_128', 'DATA_MATRIX']"
+            #scanner (scanSuccess)="scanSuccessHandler($event)">
           </zxing-scanner>
           <!-- <h3 *ngIf="scannerEnabled">Código: {{imei}}</h3> -->
           <button type="button" (click)="enableScanner()" class="btn btn-primary float-right mr-5">

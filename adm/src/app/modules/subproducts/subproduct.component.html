@@ -54,14 +54,22 @@
 
         <div class="form-row">
           <div class="form-group col-md-12">
-            <label>Costo</label>
+            <label>Precio</label>
             <input type="number" class="form-control" formControlName="price">
             <small *ngIf="isFieldValid('price')" class="form-text text-danger">
               {{getFieldError('price')}}
             </small>
           </div>
         </div>
-
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label>Costo</label>
+            <input type="number" class="form-control" formControlName="cost">
+            <small *ngIf="isFieldValid('cost')" class="form-text text-danger">
+              {{getFieldError('cost')}}
+            </small>
+          </div>
+        </div>
 
       </div>
 
