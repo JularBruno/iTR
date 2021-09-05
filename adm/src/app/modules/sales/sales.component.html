@@ -69,7 +69,31 @@
             </th>
             <th class="text-center">
               <button type="button" class="btn btn-light">
-                Total Gastado
+                Pagado en ARS
+                <i class="fa" aria-hidden="true"></i>
+              </button>
+            </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light">
+                Pagado en USD
+                <i class="fa" aria-hidden="true"></i>
+              </button>
+            </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light">
+                Costo total
+                <i class="fa" aria-hidden="true"></i>
+              </button>
+            </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light">
+                Ganancia en ARS
+                <i class="fa" aria-hidden="true"></i>
+              </button>
+            </th>
+            <th class="text-center">
+              <button type="button" class="btn btn-light">
+                Ganancia en USD
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
@@ -110,16 +134,33 @@
               ${{ item.total - item.discount}}
 
             </td>
+            <td class="px-4 text-center">
+              ${{ item.total - item.discount}}
+
+            </td>
+            <td class="px-4 text-center">
+              ${{ item.total - item.discount}}
+
+            </td>
+            <td class="px-4 text-center">
+              ${{ item.total - item.discount}}
+
+            </td>
+            <td class="px-4 text-center">
+              ${{ item.total - item.discount}}
+
+            </td>
             <td *ngIf="showPriceChange" class="px-4 text-center">
               <input class="mr-4" type="checkbox" [(checked)]="item.selected"
                 (change)="selectProduct(item, $event.target.checked)">
             </td>
             <td class="text-right">
-              <button class="btn btn-primary btn-sm mr-2" type="button" (click)="openModal(history, item)">
+              <button style="width: 100%;" class="btn btn-primary btn-sm" type="button" (click)="openModal(history, item)">
                 Administrar
               </button>
-              <button class="btn btn-danger btn-sm" type="button" (click)="remove(item)">
-                <i class="fa fa-close" aria-hidden="true"></i>
+              <button style="width: 100%;" class="btn btn-danger btn-sm mt-2" type="button" (click)="remove(item)">
+                <!-- <i class="fa fa-close" aria-hidden="true"></i> -->
+                Eliminar
               </button>
             </td>
           </tr>
