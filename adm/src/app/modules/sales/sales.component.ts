@@ -34,7 +34,6 @@ export class SalesComponent extends ItemsComponent {
   totalSale: any = 0;
   customers: any = [];
   customer: any = ""
-  
   preOpenModal() {
     this.getProducts();
     this.getSaleSubProducts();
@@ -56,7 +55,8 @@ export class SalesComponent extends ItemsComponent {
   getTotalSales() {
     let endpoint = this.global.settings.endPoints.sales + this.global.settings.endPointsMethods.totalSales
     this.pageService.httpSimpleGetAll(endpoint, false, {}, this.getFilters(), this.getPopulates()).then(res => {
-      this.totalSale = res.data.totalSales
+      console.log(res)
+      this.totalSale = res
     })
   }
   sort() {

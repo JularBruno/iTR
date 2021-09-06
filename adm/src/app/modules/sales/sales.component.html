@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="row section-filters mt-2" *ngIf="!user.roles.includes('manager')">
-    <div class="col-md-12 form-row" >
+    <div class="col-md-12 form-row">
       <!-- <div class="form-group">
         <label for="textSearch">Buscar</label>
         <input type="text" class="form-control" id="textSearch" (keyup.enter)="getItems()"
@@ -42,7 +42,8 @@
       </div>
       <div class="form-group m-2">
         <label class="invisible">asi</label>
-        <button class="btn btn-outline-primary btn-block" [disabled]="user.roles.includes('manager')" (click)="getItems()">
+        <button class="btn btn-outline-primary btn-block" [disabled]="user.roles.includes('manager')"
+          (click)="getItems()">
           <i class="fa fa-search" aria-hidden="true"></i> Buscar
         </button>
       </div>
@@ -52,29 +53,30 @@
       </div> -->
     </div>
   </div>
-  <div class="row section-filters mt-2 p-2" style="border:1px solid;" *ngIf="!user.roles.includes('manager') && dateFrom != null && dateTo != null">
+  <div class="row section-filters mt-2 p-2" style="border:1px solid;"
+    *ngIf="!user.roles.includes('manager')">
     <div class="col-md-2">
       <h2>Totales del lapso de fechas:</h2>
     </div>
     <div class="col-md-2">
-        <label for="textSearch">Pagado en ARS</label>
-        <h2>$100</h2>
+      <label for="textSearch">Pagado en ARS</label>
+      <h2>${{totalSale.paidARS}}</h2>
     </div>
     <div class="col-md-2">
-        <label for="textSearch">Pagado en USD</label>
-        <h2>$100</h2>
+      <label for="textSearch">Pagado en USD</label>
+      <h2>${{totalSale.paidUSD}}</h2>
     </div>
     <div class="col-md-2">
-        <label for="textSearch">Costo total</label>
-        <h2>$100</h2>
+      <label for="textSearch">Costo total</label>
+      <h2>${{totalSale.totalCost}}</h2>
     </div>
     <div class="col-md-2">
-        <label for="textSearch">Ganancia en ARS</label>
-        <h2>$100</h2>
+      <label for="textSearch">Ganancia en ARS</label>
+      <h2>${{totalSale.earnARS}}</h2>
     </div>
     <div class="col-md-2">
-        <label for="textSearch">Ganancia en USD</label>
-        <h2>$100</h2>
+      <label for="textSearch">Ganancia en USD</label>
+      <h2>${{totalSale.earnUSD}}</h2>
     </div>
   </div>
   <div class="row p-3">
@@ -94,31 +96,31 @@
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center" >
+            <th class="text-center">
               <button type="button" class="btn btn-light">
                 Pagado en ARS
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center" >
+            <th class="text-center">
               <button type="button" class="btn btn-light">
                 Pagado en USD
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center" >
+            <th class="text-center">
               <button type="button" class="btn btn-light">
                 Costo total
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center" >
+            <th class="text-center">
               <button type="button" class="btn btn-light">
                 Ganancia en ARS
                 <i class="fa" aria-hidden="true"></i>
               </button>
             </th>
-            <th class="text-center" >
+            <th class="text-center">
               <button type="button" class="btn btn-light">
                 Ganancia en USD
                 <i class="fa" aria-hidden="true"></i>
@@ -349,7 +351,7 @@
           </button>
         </div>
       </div>
-      
+
       <div hidden class="row buttonCol" style="padding: 2em;">
         <p>Si de parte de pago se recibió un producto, complete el formulario de abajo para agregar un subproducto
           cuyo costo se sumará al total pagado de la venta.
