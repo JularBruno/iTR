@@ -67,12 +67,36 @@ module.exports = (module) => {
   module.router.get('/totalSales', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
     global.helpers.database.find(req, res, module.model)
       .then(result => {
-        let count = 0
+        let paidARS = 0
+        let paidUSD = 0
+        let earnUSD = 0
+        let earnARS = 0
+        let earningsARS = 0
+        let earningsUSD = 0
+        let totalCost = 0
+        if (result.data.length == 0) return res.send(result)
         for (let index = 0; index < result.data.length; index++) {
-          const element = result.data[index];
-          count += element.total
+          console.log("recorrrido ", index)
+          var element = result.data[index];
+          let preUSD = element.totalCost - element.paidUSD
+          if (preUSD > 0) {
+            //500 - 300 = 200
+            let costARS = preUSD * element.dolar
+            //200 * 100 = 20000
+            if (element.paidARS > costARS) earningsARS = element.paidARS - costARS
+            //25000 - 20000 = 5000
+          } else if (preUSD <= 0) {
+            // 500 - 600 = -100
+            if (preUSD < 0) earningsUSD = Math.abs(preUSD)
+            earningsARS = element.paidARS
+          }
+          earnARS += earningsARS
+          earnUSD += earningsUSD
+          paidUSD += element.paidUSD
+          paidARS += element.paidARS
+          totalCost += element.totalCost
         }
-        res.send({ data: { totalSales: count } })
+        res.send({ paidARS, paidUSD, earnARS, earnUSD, totalCost })
       })
       .catch(next);
   });
