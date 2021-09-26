@@ -98,6 +98,7 @@ export class SaleComponent extends ItemComponent {
     this.imeiFilter = event
     this.getTransactions(this.categorySelected)
   }
+
   filterProduct(search) {
     let filter: any = {};
     if (search == '') {
@@ -105,6 +106,7 @@ export class SaleComponent extends ItemComponent {
       this.getProducts();
       return
     }
+    //andalcon
     filter = {
       $or: [
         {
