@@ -5,7 +5,7 @@ import { ItemsComponent } from '../../core/items.component';
   selector: 'app-subproducts',
   templateUrl: './subproducts.component.html',
   // styleUrls: ['../../core/items.component.scss']
-  styleUrls: ['../../core/items.component.scss', './subproducts.component.scss']
+  styleUrls: ['./subproducts.component.scss', '../../core/items.component.scss']
 })
 export class SubproductsComponent extends ItemsComponent {
   
