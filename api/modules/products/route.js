@@ -1,5 +1,7 @@
 'use strict';
 
+const { query } = require("express");
+
 // Define module
 module.exports = (module) => {
 
@@ -25,6 +27,13 @@ module.exports = (module) => {
    * @return {void}
    */
   module.router.get('/subproducts', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
+    const urlParts = global.utils.lib.url.parse(req.url, true);
+    const queryParams = urlParts.query
+    let stock
+    if (queryParams._sort) {
+      sort = JSON.parse(queryParams._sort);
+      if (sort.stock) stock = sort.stock
+    }
     global.helpers.database.find(req, res, module.model)
       .then(async result => {
 
@@ -36,6 +45,8 @@ module.exports = (module) => {
             element.stock = element.stock + subproduct.stock
           }
         }
+        if (stock) result.sort((a, b) => (a.stock > b.stock) ? stock : ((b.stock > a.last_nom) ? -stock : 0))
+
         console.log(result, "rsultado")
         res.send(result)
       })
