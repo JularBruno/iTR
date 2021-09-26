@@ -63,13 +63,13 @@ export class SubproductsComponent extends ItemsComponent {
       supplier: this.supplier.id,
       imei: this.imei
     }
+
     let endPoint = this.settings.endPoints.subproducts
 
     this.pageService.httpPost(item, this.settings.endPointsMethods.addStock, endPoint).then(res => {
       this.getItems()
       this.pageService.showSuccess("Se cargo con exito.")
-
-      // this.supplier = item.supplier;
+      // this.getSuppliers();
       // this.setSuppliers(this.supplier);
 
       console.log('this.supplier ', this.supplier);

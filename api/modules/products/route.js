@@ -29,6 +29,7 @@ module.exports = (module) => {
   module.router.get('/subproducts', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
     const urlParts = global.helpers.lib.url.parse(req.url, true);
     const queryParams = urlParts.query
+
     let stock
     if (queryParams._sort) {
       sort = JSON.parse(queryParams._sort);
