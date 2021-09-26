@@ -27,7 +27,7 @@ module.exports = (module) => {
    * @return {void}
    */
   module.router.get('/subproducts', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
-    const urlParts = global.utils.lib.url.parse(req.url, true);
+    const urlParts = global.helpers.lib.url.parse(req.url, true);
     const queryParams = urlParts.query
     let stock
     if (queryParams._sort) {
@@ -107,8 +107,8 @@ module.exports = (module) => {
 
         subproduct.price = parseInt(subproduct.price) + parseInt(amount);
         subproduct.cost = parseInt(subproduct.cost) + parseInt(amount);
-        
-        await global.modules.subproducts.model.findByIdAndUpdate(subproduct._id, subproduct, {useFindAndModify: false}).exec();
+
+        await global.modules.subproducts.model.findByIdAndUpdate(subproduct._id, subproduct, { useFindAndModify: false }).exec();
       }
     }
 
