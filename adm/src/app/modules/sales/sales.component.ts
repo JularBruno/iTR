@@ -6,7 +6,7 @@ import * as moment from "moment"
   selector: 'app-sales',
   templateUrl: './sales.component.html',
   // styleUrls: ['../../core/items.component.scss']
-  styleUrls: ['./sales.component.scss']
+  styleUrls: ['../../core/items.component.scss', './sales.component.scss']
 })
 export class SalesComponent extends ItemsComponent {
 
@@ -33,7 +33,8 @@ export class SalesComponent extends ItemsComponent {
   dateTo: any;
   totalSale: any = 0;
   customers: any = [];
-  customer: any = ""
+  customer: any = '';
+
   preOpenModal() {
     this.getProducts();
     this.getSaleSubProducts();
@@ -168,9 +169,13 @@ export class SalesComponent extends ItemsComponent {
   displayProductLoad() {
     this.showProductInterface = true
   }
+
   filterClient(customer) {
     this.customer = customer
+    console.log('this.customer ', this.customer);
+    
   }
+
   getFilters() {
     let createdAt: any = {};
     // let user = this.global.getuser()

@@ -4,7 +4,8 @@ import { ItemsComponent } from '../../core/items.component';
 @Component({
   selector: 'app-subproducts',
   templateUrl: './subproducts.component.html',
-  styleUrls: ['../../core/items.component.scss']
+  // styleUrls: ['../../core/items.component.scss']
+  styleUrls: ['../../core/items.component.scss', './subproducts.component.scss']
 })
 export class SubproductsComponent extends ItemsComponent {
   
@@ -14,6 +15,11 @@ export class SubproductsComponent extends ItemsComponent {
   imei: any
   scannerEnabled: boolean = false;
   imeiEnable: boolean = false;
+
+  ngOnInit() {
+    this.sortField.createdAt = 1
+    this.getItems();
+  }
 
   getFilters() {
     let _filters = {};
@@ -45,12 +51,16 @@ export class SubproductsComponent extends ItemsComponent {
       .then(res => this.suppliers = res.data)
       .catch(e => this.pageService.showError(e));
   }
+  
   addStock() {
     if (!this.supplier || !this.imei) return this.pageService.showError("Complete todos los datos.")
     console.log(this.itemSelected, "item seleccionado para agregar stock")
+
+    console.log('this.supplier ', this.supplier);
+    
     let item = {
       subproduct: this.itemSelected.id,
-      supplier: this.supplier,
+      supplier: this.supplier.id,
       imei: this.imei
     }
     let endPoint = this.settings.endPoints.subproducts
@@ -58,7 +68,13 @@ export class SubproductsComponent extends ItemsComponent {
     this.pageService.httpPost(item, this.settings.endPointsMethods.addStock, endPoint).then(res => {
       this.getItems()
       this.pageService.showSuccess("Se cargo con exito.")
-      this.imei = null
+
+      // this.supplier = item.supplier;
+      // this.setSuppliers(this.supplier);
+
+      console.log('this.supplier ', this.supplier);
+      
+      this.imei = null;
     }).catch(e => {
       this.pageService.showError("Ha ocurrido un error, intente mas tarde")
     })
@@ -69,14 +85,15 @@ export class SubproductsComponent extends ItemsComponent {
     let method = this.settings.endPointsMethods.substractStock + "/" + item.id;
     item.supplier = item.supplier.id
     this.pageService.httpPost(item, method, endPoint).then(res => {
-      this.loadTransactions(this.itemSelected.id)
+      this.loadTransactions(this.itemSelected)
       this.getItems()
     })
   }
+
   loadTransactions(item, content?) {
     let endPoint = this.settings.endPoints.transactions;
 
-    this.pageService.httpSimpleGetAll(endPoint, false, { sold: 1 }, { subproduct: item.id }, ["supplier"]).then(res => {
+    this.pageService.httpSimpleGetAll(endPoint, false, { sold: 1, createdAt: -1 }, { subproduct: item.id }, ["supplier"]).then(res => {
       this.transactionsArray = res.data
       if (content) this.openModal(content, item)
 
@@ -96,5 +113,11 @@ export class SubproductsComponent extends ItemsComponent {
 
   scanSuccessHandler(event) {
     this.imei = event;
+  }
+
+  setSuppliers(item) {
+    console.log('item ', item );
+    
+    this.supplier = item;
   }
 }

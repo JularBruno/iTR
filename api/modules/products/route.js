@@ -91,8 +91,11 @@ module.exports = (module) => {
 
       for (let index = 0; index < subproducts.length; index++) {
         const subproduct = subproducts[index];
-        let result = subproduct.price + subproduct.price * (amount/100);
-        subproduct.price = result.toFixed(2)
+        // let result = subproduct.price + subproduct.price * (amount/100);
+        // subproduct.price = result.toFixed(2)
+
+        subproduct.price = parseInt(subproduct.price) + parseInt(amount);
+        subproduct.cost = parseInt(subproduct.cost) + parseInt(amount);
         
         await global.modules.subproducts.model.findByIdAndUpdate(subproduct._id, subproduct, {useFindAndModify: false}).exec();
       }
