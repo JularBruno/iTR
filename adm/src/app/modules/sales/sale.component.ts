@@ -109,20 +109,20 @@ export class SaleComponent extends ItemComponent {
       $or: [
         {
           name: {
-            $regex: search.trim(),
-            $options: 'igx',
+            $regex: ".*"+search.trim()+".*",
+            $options: 'ig',
           },
         },
         {
           code: {
             $regex: search.trim(),
-            $options: 'igx',
+            $options: 'ig',
           },
         },
       ],
     };
-
     this.nameFilter = filter;
+    console.log(this.nameFilter, "filter on search")
     this.getProducts();
   }
 
