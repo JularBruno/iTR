@@ -110,13 +110,13 @@ export class SaleComponent extends ItemComponent {
         {
           name: {
             $regex: search.trim(),
-            $options: 'ig',
+            $options: 'igx',
           },
         },
         {
           code: {
             $regex: search.trim(),
-            $options: 'ig',
+            $options: 'igx',
           },
         },
       ],
