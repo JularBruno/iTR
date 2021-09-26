@@ -7,28 +7,70 @@
     </ol>
   </nav>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" > 
+
     <div class="form-row">
-      <div class="col-md-6">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <label>Producto</label>
-            <select class="form-control custom-select" formControlName="product">
-              <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-            </select>
-            <small *ngIf="isFieldValid('product')" class="form-text text-danger">
-              {{getFieldError('product')}}
-            </small>
-            
-            <!-- <div class="card">
-              <div class="card-header">
-                  <h2>Selección de Productos</h2>
+      <div class="form-group col-md-12">
+        <!-- <label>Producto</label>
+        <select class="form-control custom-select" formControlName="product">
+          <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+        </select>
+        <small *ngIf="isFieldValid('product')" class="form-text text-danger">
+          {{getFieldError('product')}}
+        </small> -->
+        
+        <div class="card">
+          <div class="card-header">
+              <h2>Selección de Producto</h2>
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-md-8 mt-4">
+                  <label>Buscar producto</label>
+                  <input style="width: 90%;" class="form-control mr-sm-2" type="search"
+                      placeholder="Buscar por nombre o código" [(ngModel)]="search" 
+                      [ngModelOptions]="{standalone: true}" (change)="filterProduct(search)">
               </div>
-              <div class="card-body">
-              </div>
-            </div> -->
+            </div>
+
+            <div class="list" style="max-height: 20em;">
+              <table class="table table-striped mt-4">
+                <thead class="thead-light">
+                    <tr>
+                        <th></th>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>             
+                  <!-- Texto cuando no hay resultados  -->
+                  <tr *ngIf="products.length == 0" class="text-center">
+                      <td colspan="7">
+                          <span class="text-muted">
+                              <i class="fa fa-close" aria-hidden="true"></i>
+                              No hay productos para mostrar
+                          </span>
+                      </td>
+                  </tr>
+                  <tr *ngFor="let item of products" >
+                      <td width="5%" class="text-right">
+                          <button type="button"  class="btn primary btn-sm mr-2"
+                              (click)="setProduct(item)" 
+                              [ngStyle]="product === item ? {'color': 'greenyellow'} : {'color': 'white'}">
+                              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                          </button>
+                      </td>
+                      <td width="95%">{{item.name}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-6">
 
         <div class="form-row">
           <div class="form-group col-md-6">

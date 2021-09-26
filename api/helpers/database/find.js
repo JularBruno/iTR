@@ -12,7 +12,7 @@ module.exports = (helper) => {
    * @return {Promise}
    */
   return (req, res, model) => {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       try {
 
         const urlParts = helper.lib.url.parse(req.url, true);
@@ -23,7 +23,7 @@ module.exports = (helper) => {
         let projection = {};
         let select = '';
         let populates = [];
-        let page = queryParams._page || 0;
+        let page = queryParams._page || 0;
 
         if (queryParams._sort) {
           sort = JSON.parse(queryParams._sort);
@@ -57,9 +57,9 @@ module.exports = (helper) => {
           query.lastName = new RegExp(query.lastName, 'i');
         }
 
-
-        if(query.emailAddress && query.dni){
-          let or = { 
+        console.log("FIND HELPER FILTER", JSON.stringify(query))
+        if (query.emailAddress && query.dni) {
+          let or = {
             $or: [
               { emailAddress: new RegExp(query.emailAddress, 'i') },
               { dni: new RegExp(query.dni, 'i') }
@@ -67,13 +67,13 @@ module.exports = (helper) => {
           };
           query['$and'] = [];
           query.$and.push(or);
-          if(query.$or){
-            let or2 = {$or:query.$or}
+          if (query.$or) {
+            let or2 = { $or: query.$or }
             query.$and.push(or2)
           }
           delete query.emailAddress;
           delete query.dni;
-          delete query.$or; 
+          delete query.$or;
         }
 
         if (queryParams._populates) {
@@ -84,7 +84,7 @@ module.exports = (helper) => {
           select = queryParams._select;
         }
 
-        if(req.body.selectExtra) {
+        if (req.body.selectExtra) {
           select += " " + req.body.selectExtra;
         }
 
@@ -100,7 +100,7 @@ module.exports = (helper) => {
             reject(helper.lib.httpError(404, error.message || 'Ocurrio un error inesperado'));
           });
 
-      } catch(error) {
+      } catch (error) {
         console.error('Helper "database.find" response error');
         reject(error);
       }

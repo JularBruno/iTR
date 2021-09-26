@@ -6,26 +6,80 @@ import { Validators } from '@angular/forms';
 @Component({
   selector: 'app-subproduct',
   templateUrl: './subproduct.component.html',
-  styleUrls: ['../../core/item.component.scss']
+  styleUrls: ['./subproduct.component.scss' ,'../../core/item.component.scss']
 })
 export class SubproductComponent extends ItemComponent implements AfterViewInit {
   products: any = [];
 
+  product: any;
+
   scannerEnabled: boolean = false;
 
+  categoryFilter: any;
+  nameFilter: any = {};
+  search: any;
+
   initializePre() {
-    this.loadProducts()
+    // this.loadProducts()
+    this.getProducts()
   }
 
   ngAfterViewInit() {
   }
 
-  loadProducts() {
-    let endPoint = this.settings.endPoints.products;
-    this.pageService.httpSimpleGetAll(endPoint)
-      .then(res => this.products = res.data)
-      .catch(e => this.pageService.showError(e));
+  setProduct(item) {
+    this.product = item;
+    this.form.patchValue({product: this.product.id});
   }
+
+  filterProduct(search) {
+
+    let filter: any = {};
+    if (search == '') {
+      this.nameFilter = filter;
+      this.getProducts();
+      return
+    }
+    filter = {
+      $or: [
+        {
+          name: {
+            $regex: ".*"+search.trim()+".*",
+            $options: 'ig',
+          },
+        },
+        {
+          code: {
+            $regex: search.trim(),
+            $options: 'ig',
+          },
+        },
+      ],
+    };
+    this.nameFilter = filter;
+    console.log(this.nameFilter, "filter on search")
+    this.getProducts();
+  }
+
+
+  getProducts() {
+    this.products = [];
+    let endPoint = this.settings.endPoints.products
+    let filter: any = {}
+    if (this.nameFilter) {
+      filter = this.nameFilter
+    }
+    if (this.categoryFilter !== 'all') {
+      filter.product = this.categoryFilter;
+    } else {
+      delete filter.product;
+    }
+    this.pageService.httpSimpleGetAll(endPoint, false, {}, filter, ["product"]).then(res => {
+      console.log("subproducts", res.data)
+      this.products = res.data;
+    })
+  }
+
 
   getFormNew() {
     return this.formBuilder.group({
@@ -39,15 +93,16 @@ export class SubproductComponent extends ItemComponent implements AfterViewInit 
   }
 
   getFormEdit(item) {
+    this.product = item.product;
+    this.getProducts()
+    
     return this.formBuilder.group({
       id: [item.id],
       name: [item.name, Validators.required],
       code: [item.code, Validators.required],
       price: [item.price, Validators.required],
       cost: [item.cost, Validators.required],
-
       product: [item.product, Validators.required],
-
     })
   }
 

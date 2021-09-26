@@ -27,10 +27,10 @@ module.exports = (module) => {
    * @return {void}
    */
   module.router.get('/subproducts', global.helpers.security.auth(['administrator', 'user']), (req, res, next) => {
-    const urlParts = global.helpers.lib.url.parse(req.url, true);
-    const queryParams = urlParts.query
-
+    const urlParts = module.lib.url.parse(req.url, true);
+    const queryParams = urlParts.query;
     let stock
+    let sort = {}
     if (queryParams._sort) {
       sort = JSON.parse(queryParams._sort);
       if (sort.stock) stock = sort.stock
@@ -46,7 +46,7 @@ module.exports = (module) => {
             element.stock = element.stock + subproduct.stock
           }
         }
-        if (stock) result.sort((a, b) => (a.stock > b.stock) ? stock : ((b.stock > a.last_nom) ? -stock : 0))
+        if (stock) result.data.sort((a, b) => (a.stock > b.stock) ? stock : ((b.stock > a.last_nom) ? -stock : 0))
 
         console.log(result, "rsultado")
         res.send(result)
